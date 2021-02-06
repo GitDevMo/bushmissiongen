@@ -8,19 +8,19 @@ Eclipse 2020-12 is the prefered IDE for developing BMG.
 
 ### Eclipse configuration and program start
 
-Right-click on the Starter.java file and select "Run As --> Run Configurations...".<br/>
-Set the working directory to "${workspace_loc:BushMissonGen/run}".
-Run the application.
+* Right-click on the Starter.java file and select "Run As --> Run Configurations...".<br/>
+* Set the working directory to "${workspace_loc:BushMissonGen/run}".
+* Run the application.
 
 ### Create JAR file
 
-Right click on build.xml and select "Run As --> Ant Build...".<br/>
-Under "Environment", add an entry with name = "ECLIPSE_HOME" and value = "{the path to your Eclipse folder}".<br/>
-Run build.xml and make sure BushMissionGen.jar is created in the 'run' folder.
-Launch the JAR file.
+* Right click on build.xml and select "Run As --> Ant Build...".<br/>
+* Under "Environment", add an entry with name = "ECLIPSE_HOME" and value = "{the path to your Eclipse folder}".<br/>
+* Run build.xml and make sure BushMissionGen.jar is created in the 'run' folder.
+* Launch the JAR file.
 
 # TO-DO
 
-- What is the Overview.htm file used for in landing challenges?<br/>
-- Leaderboards for landing challenges? Possible for 3rd party missions?<br/>
-- Is there the possibility of setting the flight departure at the parking area instead of on the runway (leg 2-X)?
+* What is the Overview.htm file used for in landing challenges?<br/>
+* Leaderboards for landing challenges? Possible for 3rd party missions?<br/>
+* Is there the possibility of setting the flight departure at the parking area instead of on the runway (leg 2-X)?
