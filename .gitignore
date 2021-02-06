@@ -1,4 +1,8 @@
 bin/
+run/*.ini
+run/*.txt
+run/*.xlsx
+run/*.pln
 
 # Compiled class file
 *.class
