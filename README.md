@@ -4,7 +4,8 @@ The tool generates all the directories and files needed, including default singl
 
 # Development
 
-Eclipse 2020-12 is the prefered IDE for developing BMG.
+Eclipse 2020-12 is the prefered IDE for developing BMG.<br><br>
+Download: https://www.eclipse.org/downloads/packages/release/2020-12/r/eclipse-ide-rcp-and-rap-developers
 
 ### Eclipse configuration and program start
 
@@ -14,6 +15,7 @@ Eclipse 2020-12 is the prefered IDE for developing BMG.
 
 ### Create JAR file
 
+* Extract jar-in-jar-loader.zip from eclipse_install_dir/plugins/org.eclipse.jdt.ui_XXXXXXX.jar and place it next to the build script.
 * Right click on build.xml and select "Run As --> Ant Build...".<br/>
 * Under "Environment", add an entry with name = "ECLIPSE_HOME" and value = "{the path to your Eclipse folder}".<br/>
 * Run build.xml and make sure BushMissionGen.jar is created in the 'run' folder.
