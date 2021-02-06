@@ -6,7 +6,7 @@
     <property name="dir.buildfile" value="."/>
     <property name="dir.workspace" value="C:/Users/mlund/eclipse-workspace3"/>
     <property name="dir.jarfile" value="C:/Server/git-repo/bushmissiongen/run"/>
-	<property name="dir.copyfile" value="C:/Server/Nytt/BushMissionGen"/>
+	<property name="dir.copyDir" value="C:/Server/Nytt/BushMissionGen"/>
     <target name="create_run_jar">
         <jar destfile="${dir.jarfile}/BushMissionGen.jar">
             <manifest>
@@ -27,7 +27,7 @@
             <zipfileset dir="C:/Users/mlund/eclipse/eclipse/plugins" includes="org.junit_4.13.0.v20200204-1500.jar"/>
             <zipfileset dir="C:/Server/git-repo/bushmissiongen/lib" includes="jsoup-1.13.1.jar"/>
         </jar>
-		
-		<copy file="${dir.jarfile}/BushMissionGen.jar" tofile="${dir.copyfile}/BushMissionGen.jar"/>
+		<copy file="${dir.jarfile}/BushMissionGen.jar" tofile="${dir.copyDir}/BushMissionGen.jar"/>
+		<copy file="${dir.jarfile}/README.txt" tofile="${dir.copyDir}/README.txt"/>
     </target>
 </project>
