@@ -6,13 +6,13 @@ The tool generates all the directories and files needed, including default singl
 
 Eclipse 2020-12 is the prefered IDE for developing BMG.
 
-## Eclipse configuration and program start
+### Eclipse configuration and program start
 
 Right-click on the Starter.java file and select "Run As --> Run Configurations...".
 Set the working directory to "${workspace_loc:BushMissonGen/run}".
 Run the application.
 
-## Create JAR file
+### Create JAR file
 
 Right click on build.xml and select "Run As --> Ant Build...".
 Under "Environment", add an entry with name = "ECLIPSE_HOM"E and value = "{the path to your Eclipse folder}".
