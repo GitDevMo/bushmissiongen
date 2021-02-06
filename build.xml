@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project BushMissonGen with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR file Export Wizard-->
+    <!--ANT 1.7 is required-->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="C:/Users/mlund/eclipse-workspace3"/>
+    <property name="dir.jarfile" value="C:/Server/git-repo/bushmissiongen/run"/>
+	<property name="dir.copyfile" value="C:/Server/Nytt/BushMissionGen"/>
+    <target name="create_run_jar">
+        <jar destfile="${dir.jarfile}/BushMissionGen.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="bushmissiongen.Starter"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ poi-4.1.2.jar poi-ooxml-4.1.2.jar poi-ooxml-schemas-4.1.2.jar xmlbeans-3.1.0.jar commons-collections4-4.4.jar commons-compress-1.19.jar org.junit_4.13.0.v20200204-1500.jar jsoup-1.13.1.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="C:/Server/git-repo/bushmissiongen/bin"/>
+            <fileset dir="C:/Server/git-repo/bushmissiongen/res"/>
+            <zipfileset dir="C:/Server/git-repo/bushmissiongen/lib" includes="poi-4.1.2.jar"/>
+            <zipfileset dir="C:/Server/git-repo/bushmissiongen/lib" includes="poi-ooxml-4.1.2.jar"/>
+            <zipfileset dir="C:/Server/git-repo/bushmissiongen/lib" includes="poi-ooxml-schemas-4.1.2.jar"/>
+            <zipfileset dir="C:/Server/git-repo/bushmissiongen/lib" includes="xmlbeans-3.1.0.jar"/>
+            <zipfileset dir="C:/Server/git-repo/bushmissiongen/lib" includes="commons-collections4-4.4.jar"/>
+            <zipfileset dir="C:/Server/git-repo/bushmissiongen/lib" includes="commons-compress-1.19.jar"/>
+            <zipfileset dir="C:/Users/mlund/eclipse/eclipse/plugins" includes="org.junit_4.13.0.v20200204-1500.jar"/>
+            <zipfileset dir="C:/Server/git-repo/bushmissiongen/lib" includes="jsoup-1.13.1.jar"/>
+        </jar>
+		
+		<copy file="${dir.jarfile}/BushMissionGen.jar" tofile="${dir.copyfile}/BushMissionGen.jar"/>
+    </target>
+</project>
