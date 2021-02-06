@@ -1,0 +1,5 @@
+    <SimMission.DialogAction InstanceId="{##REF_ID_DIALOG##}">
+      ##TEXT_DIALOG##
+      <Descr>##DESCR_DIALOG##</Descr>
+      <DelaySeconds>##DELAY_DIALOG##</DelaySeconds>
+    </SimMission.DialogAction>

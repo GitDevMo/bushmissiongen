@@ -1,0 +1,7 @@
+        <Leg>
+          <Descr>##LEG_DESCR##</Descr>
+          <AirportLandingTriggerEnd UniqueRefId="{##REF_ID##}" />
+          <SubLegs>
+##SUBLEGS##
+          </SubLegs>
+        </Leg>

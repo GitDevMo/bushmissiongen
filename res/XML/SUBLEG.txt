@@ -1,0 +1,7 @@
+            <SubLeg>
+              <Descr>##SUBLEG_DESCR##</Descr>##IMAGEPATH##
+              <ATCWaypointStart id="##FROM_ID##">##FROM_REGION##
+              </ATCWaypointStart>
+              <ATCWaypointEnd id="##TO_ID##">##TO_REGION##
+              </ATCWaypointEnd>
+            </SubLeg>

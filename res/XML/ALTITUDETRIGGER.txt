@@ -1,0 +1,24 @@
+##ACTION##
+    <SimMission.PropertyTrigger InstanceId="{##REF_ID_TRIGGER##}">
+      <Descr>##DESCR_TRIGGER##</Descr>
+      <DefaultActivated>True</DefaultActivated>
+      <OneShot>##ONESHOT_TRIGGER##</OneShot>
+      <Actions>
+        <ObjectReference id="##DESCR_ACTION##" InstanceId="{##REF_ID_ACTION##}"/>
+      </Actions>
+      <Condition>
+        <GreaterThan>
+          <LHS>
+            <Property>
+              <Name>Simvar.Altitude##ALTITUDEMODE##</Name>
+              <Units>feet</Units>
+            </Property>
+          </LHS>
+          <RHS>
+            <Constant>
+              <Double>##HEIGHT_TRIGGER##</Double>
+            </Constant>
+          </RHS>
+        </GreaterThan>
+      </Condition>
+    </SimMission.PropertyTrigger>

@@ -1,0 +1,43 @@
+    <SimMission.DialogAction InstanceId="{##REF_ID_DIALOG##}">
+      ##TEXT_DIALOG##
+      <Descr>##DESCR_DIALOG##</Descr>
+      <DelaySeconds>0.000</DelaySeconds>
+    </SimMission.DialogAction>
+	<SimMission.TimerTrigger InstanceId="{##REF_ID_TIMERTRIGGER##}">
+	  <Descr>##DESCR_TIMERTRIGGER##</Descr>
+	  <Activated>False</Activated>
+	  <StartTime>##DELAY_TIMERTRIGGER##</StartTime>
+	  <Actions>
+	   <ObjectReference id="##DESCR_DIALOG##" InstanceId="{##REF_ID_DIALOG##}"/>
+	  </Actions>
+	</SimMission.TimerTrigger>
+	<SimMission.ObjectActivationAction InstanceId="{##REF_ID_ACTIVATION##}">
+	  <Descr>##DESCR_ACTIVATION##</Descr>
+	  <ObjectReferenceList>
+	    <ObjectReference id="##DESCR_TIMERTRIGGER##" InstanceId="{##REF_ID_TIMERTRIGGER##}"/>
+	  </ObjectReferenceList>
+    </SimMission.ObjectActivationAction>
+    <SimMission.ProximityTrigger InstanceId="{##REF_ID_TRIGGER##}">
+      <Descr>##DESCR_TRIGGER##</Descr>
+      <DefaultActivated>True</DefaultActivated>
+      <OneShot>##ONESHOT_TRIGGER##</OneShot>
+      <OnEnterActions>
+      </OnEnterActions>
+      <Areas>
+        <ObjectReference id="##DESCR_AREA##" InstanceId="{##REF_ID_AREA##}"/>
+      </Areas>
+      <OnExitActions>
+        <ObjectReference id="##DESCR_ACTIVATION##" InstanceId="{##REF_ID_ACTIVATION##}"/>
+      </OnExitActions>
+    </SimMission.ProximityTrigger>
+    <SimMission.RectangleArea InstanceId="{##REF_ID_AREA##}">
+      <Length>##LENGTH_AREA##</Length>
+      <Width>##WIDTH_AREA##</Width>
+      <Height>##HEIGHT_AREA##</Height>
+      <Orientation>0.000,0.000,##HEADING_AREA##</Orientation>
+      <Descr>##DESCR_AREA##</Descr>
+      <AttachedWorldPosition>
+        <WorldPosition>##LLA_AREA##</WorldPosition>
+        <AltitudeIsAGL>##USE_AGL##</AltitudeIsAGL>
+      </AttachedWorldPosition>
+    </SimMission.RectangleArea>

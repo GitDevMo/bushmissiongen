@@ -1,0 +1,6 @@
+    <SimMission.FailureAction InstanceId="{##REF_ID_FAILURE##}">
+      <Descr>##DESCR_FAILURE##</Descr>
+      <HealthPercent>##HEALTH_FAILURE##</HealthPercent>
+      <System>##SYSTEM_FAILURE##</System>
+      <SystemIndex>##SYSTEMINDEX_FAILURE##</SystemIndex>
+    </SimMission.FailureAction>

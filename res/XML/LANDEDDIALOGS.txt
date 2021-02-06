@@ -1,0 +1,19 @@
+    <SimMission.DialogAction InstanceId="{##REF_ID_DIALOG##}">
+      ##TEXT_DIALOG##
+      <Descr>##DESCR_DIALOG##</Descr>
+    </SimMission.DialogAction>
+    <SimMission.TimerTrigger InstanceId="{##REF_ID_DIALOGTRIGGER##}">    
+      <Descr>##DESCR_DIALOGTRIGGER##</Descr>
+      <Activated>false</Activated>
+      <StartTime>##DELAY_DIALOGTRIGGER##</StartTime>
+      <Actions>
+        <WorldBase.ObjectReference id="##DESCR_DIALOG##" InstanceId="{##REF_ID_DIALOG##}" />
+      </Actions>
+    </SimMission.TimerTrigger>
+    <SimMission.ObjectActivationAction InstanceId="{##REF_ID_DIALOGACTION##}">
+        <Descr>##DESCR_DIALOGACTION##</Descr>
+        <NewObjectState>true</NewObjectState>
+        <ObjectReferenceList>
+            <ObjectReference id="##DESCR_DIALOGTRIGGER##" InstanceId="{##REF_ID_DIALOGTRIGGER##}" />
+        </ObjectReferenceList>
+    </SimMission.ObjectActivationAction>

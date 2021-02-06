@@ -1,0 +1,30 @@
+    <SimMission.FailureAction InstanceId="{##REF_ID_FAILURE##}">
+      <Descr>##DESCR_FAILURE##</Descr>
+      <HealthPercent>##HEALTH_FAILURE##</HealthPercent>
+      <System>##SYSTEM_FAILURE##</System>
+      <SystemIndex>##SYSTEMINDEX_FAILURE##</SystemIndex>
+    </SimMission.FailureAction>
+    <SimMission.ProximityTrigger InstanceId="{##REF_ID_TRIGGER##}">
+      <Descr>##DESCR_TRIGGER##</Descr>
+      <DefaultActivated>True</DefaultActivated>
+      <OneShot>##ONESHOT_TRIGGER##</OneShot>
+      <OnEnterActions>
+      </OnEnterActions>
+      <Areas>
+        <ObjectReference id="##DESCR_AREA##" InstanceId="{##REF_ID_AREA##}"/>
+      </Areas>
+      <OnExitActions>
+        <ObjectReference id="##DESCR_FAILURE##" InstanceId="{##REF_ID_FAILURE##}"/>
+      </OnExitActions>
+    </SimMission.ProximityTrigger>
+    <SimMission.RectangleArea InstanceId="{##REF_ID_AREA##}">
+      <Length>##LENGTH_AREA##</Length>
+      <Width>##WIDTH_AREA##</Width>
+      <Height>##HEIGHT_AREA##</Height>
+      <Orientation>0.000,0.000,##HEADING_AREA##</Orientation>
+      <Descr>##DESCR_AREA##</Descr>
+      <AttachedWorldPosition>
+        <WorldPosition>##LLA_AREA##</WorldPosition>
+        <AltitudeIsAGL>##USE_AGL##</AltitudeIsAGL>
+      </AttachedWorldPosition>
+    </SimMission.RectangleArea>

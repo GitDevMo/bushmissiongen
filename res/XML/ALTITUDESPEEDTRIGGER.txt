@@ -1,0 +1,39 @@
+##ACTION##
+    <SimMission.PropertyTrigger InstanceId="{##REF_ID_TRIGGER##}">
+      <Descr>##DESCR_TRIGGER##</Descr>
+      <DefaultActivated>True</DefaultActivated>
+      <OneShot>##ONESHOT_TRIGGER##</OneShot>
+      <Actions>
+        <ObjectReference id="##DESCR_ACTION##" InstanceId="{##REF_ID_ACTION##}"/>
+      </Actions>
+      <Condition>
+        <And>
+          <GreaterThan>
+            <LHS>
+              <Property>
+                <Name>Simvar.Altitude##ALTITUDEMODE##</Name>
+                <Units>feet</Units>
+              </Property>
+            </LHS>
+            <RHS>
+              <Constant>
+                <Double>##HEIGHT_TRIGGER##</Double>
+              </Constant>
+            </RHS>
+          </GreaterThan>
+          <GreaterThan>
+            <LHS>
+              <Property>
+                <Name>Simvar.IndicatedAirSpeed</Name>
+                <Units>knots</Units>
+              </Property>
+            </LHS>
+            <RHS>
+              <Constant>
+                <Double>##SPEED_TRIGGER##</Double>
+              </Constant>
+            </RHS>
+          </GreaterThan>
+        </And>
+      </Condition>
+    </SimMission.PropertyTrigger>

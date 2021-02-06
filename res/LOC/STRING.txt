@@ -1,0 +1,12 @@
+      "##META_PROJECT##.Mission.##STRING_COUNT##": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568##STRING_COUNT_3PADDED##",
+        "LastModifiedBy": "##META_AUTHOR##",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+##LANGUAGES##
+        }
+      }

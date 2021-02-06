@@ -1,0 +1,4 @@
+        <ATCWaypoint id="##WP_ID##">
+            <ATCWaypointType>##WP_TYPE##</ATCWaypointType>
+            <WorldPosition>##WP_LATLON##,##WP_ALT##</WorldPosition>
+        </ATCWaypoint>
