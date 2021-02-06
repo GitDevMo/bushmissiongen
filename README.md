@@ -17,19 +17,19 @@ https://www.oracle.com/se/java/technologies/javase-jdk11-downloads.html<br
 * Extract the Eclipse zip package to your home folder.
 * Extract the JDK into the Eclipse folder created above.
 * Edit the file eclipse.ini and add this ABOVE -vmargs:<br>
-`-vm<br>
-{The path to the Eclipse folder}\eclipse\jdk-11.0.8\bin\`
+<code>-vm<br>
+{The path to the Eclipse folder}\eclipse\jdk-11.0.8\bin\</code>
 
 ### Eclipse configuration and program start
 
-* Right-click on the Starter.java file and select "Run As --> Run Configurations...".
+* Right-click on the Starter.java file and select <b>Run As --> Run Configurations...</b>.
 * Set the working directory to "${workspace_loc:BushMissonGen/run}".
 * Run the application.
 
 ### Create JAR file
 
 * Extract jar-in-jar-loader.zip from eclipse_install_dir/plugins/org.eclipse.jdt.ui_XXXXXXX.jar and place it next to the build script.
-* Right click on build.xml and select "Run As --> Ant Build...".
+* Right click on build.xml and select <b>Run As --> Ant Build...</b>.
 * Under "Environment", add an entry with name = "ECLIPSE_HOME" and value = "{the path to your Eclipse folder}".
 * Run build.xml and make sure BushMissionGen.jar is created in the 'run' folder.
 * Launch the JAR file.
