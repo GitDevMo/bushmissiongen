@@ -17,8 +17,10 @@ https://www.oracle.com/se/java/technologies/javase-jdk11-downloads.html<br
 * Extract the Eclipse zip package to your home folder.
 * Extract the JDK into the Eclipse folder created above.
 * Edit the file eclipse.ini and add this ABOVE -vmargs:<br>
-```    -vm
-    {The path to the Eclipse folder}\eclipse\jdk-11.0.8\bin\```
+```
+    -vm
+    {The path to the Eclipse folder}\eclipse\jdk-11.0.8\bin\
+```
 
 ### Eclipse configuration and program start
 
