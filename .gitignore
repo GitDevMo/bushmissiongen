@@ -3,6 +3,7 @@ run/*.ini
 run/*.txt
 run/*.xlsx
 run/*.pln
+run/output/
 
 # Compiled class file
 *.class
