@@ -1,0 +1,31 @@
+<AssetPackage Name="##META_PROJECT##" Version="##META_VERSION##">
+	<ItemSettings>
+		<ContentType>MISSION</ContentType>
+		<Title>##META_TITLE##</Title>
+		<Manufacturer>##META_AUTHOR##</Manufacturer>
+		<Creator>##META_AUTHOR##</Creator>
+	</ItemSettings>
+	<Flags>
+		<VisibleInStore>false</VisibleInStore>
+		<CanBeReferenced>false</CanBeReferenced>
+	</Flags>
+	<AssetGroups>
+		<AssetGroup Name="ContentInfo">
+			<Type>ContentInfo</Type>
+			<Flags>
+				<FSXCompatibility>false</FSXCompatibility>
+			</Flags>
+			<AssetDir>PackageDefinitions\ContentInfo</AssetDir>
+			<OutputDir>ContentInfo\##META_PROJECT##</OutputDir>
+		</AssetGroup>
+		<AssetGroup Name="##META_PROJECT##">
+			<Type>Mission</Type>
+			<Flags>
+				<FSXCompatibility>false</FSXCompatibility>
+			</Flags>
+			<AssetDir>source</AssetDir>
+			<OutputDir>Missions\##META_PROJECT##Dir</OutputDir>
+		</AssetGroup>
+	</AssetGroups>
+</AssetPackage>
+

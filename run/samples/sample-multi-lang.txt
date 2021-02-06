@@ -1,0 +1,88 @@
+author=f99mlu
+project=f99mlu-bushtrip-scania
+version=1.0.0
+location=Scania
+title=Scania Bush Trip
+description=A bush mission around Scania in Sweden
+loadingTip=Scania is beautiful!
+loadingTip=The whole of Sweden is beautiful!!
+intro=Welcome to the most southern part of Sweden called Scania. Here you will find beautiful coastlines surrounding rich farmland and woods.
+plane=Asobo Savage Cub
+tailNumber=VH-MSF
+airlineCallSign=SAS
+flightNumber=1234
+latitude=N56°11'10.2"
+longitude=E12°34'45.2"
+altitude=+21.00
+pitch=0
+bank=0
+heading=240
+weather=custom
+season=Summer
+year=2018
+day=167
+hours=9
+minutes=35
+seconds=0
+
+#icao rw    name        type            LL                   alt             WpInfo                legtext               sublegtext
+ESMH|24|Hoganas Airport|A|N56° 11' 05.1",E12° 34' 29.9"|+000028.00|58, 0, 47, 0, 0, 28.0, 0.0, 0.0|ESMH-ESML|-
+||Helsingor harbour|U|N56° 02' 37.9",E12° 41' 32.6"|+000000.00|60, 0, 182, 0, 0, 0.0, 0.0, 0.0||Enjoy the coastline! One could call this a smorrebrod trip. Follow the shores down to Helsingborg and do not forget to peek over towards Elsinore. It is the city closest to the Swedish border in this area.
+||Ven|U|N55° 55' 05.8",E12° 41' 04.6"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||Visit the island of Ven where the famous astronomer Tycho Brahe once lived.
+ESML||Landskrona Airport|A|N55° 56' 46.9",E12° 52' 09.4"|+001000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0|ESML-ESMR|Now fly to the east and head for Enoch Thulins Airport. It lies 3.5 miles from the Oresund between highway 20 and a small river.
+||Barseback|U|N55° 44' 38.7",E12° 55' 15.7"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||Radio activity... beep beep beep! This is the old nuclear plant Barseback and is currently not in operation.
+||Limhamn|U|N55° 34' 03.3",E12° 55' 49.2"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||The limestone quarry in Limhamn is 65 meters deep and 150 years old.
+||Falsterbo|U|N55° 24' 20.0",E12° 51' 07.7"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||Falsterbonaset. This is a peninsula you just cannot miss if you fly over Scania and Oresund.
+ESMR||Trelleborg Airport|A|N55° 23' 28.7",E13° 01' 19.6"|+001000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0|ESMR-ESMS|Land at Trelleborg/Maglarp airstrip, if you manage to find it! There is a number printed on the runway.
+||Trelleborg harbour|U|N55° 22' 15.8",E13° 09' 02.7"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||Have a look at the harbour in Trelleborg. From here the ferries go to and from Germany and Poland.
+||Havgardssjon|U|N55° 28' 59.8",E13° 21' 30.4"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||A small lake before reaching the airport.
+ESMS||Malmo Airport|A|N55° 32' 10.7",E13° 22' 34.3"|+001000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0|ESMS-ESTO|Land at Sturup, also known as Malmo Airport. The largest airport in Scania.
+||Four lakes|U|N55° 31' 44.2",E13° 44' 01.5"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||Start at Sturup for a nice trip to the southeastern parts of Scania called Osterlen.
+ESTO||Tomelilla Airport|A|N55° 32' 32.7",E13° 59' 56.2"|+001000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0|ESTO-ESMK|We pass over the four lakes Krageholm, Ellestad, Snogeholm and Sovde before landing in Tomelilla. The airstrip runs parallel to road 11 east of the village and is quite close to a go-kart track.
+||Djupadal|U|N55° 36' 43.2",E14° 16' 45.1"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||Djupadal is known for the golf course and the surrounding apple orchards. Nearby lies another golf court called Lilla Vik.
+||Stenshuvud|U|N55° 39' 43.9",E14° 16' 30.7"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||Stenshuvud is a national park with a 97 m peak. Some say it looks like the head of a dolphin. What do you think?
+||Gropahalet|U|N55° 51' 30.0",E14° 14' 02.3"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||Gropahalet, another national park, where Helge river flows into the Baltic Sea. This is where you should leave the coast and look for the airport surrounded by trees and farmland.
+ESMK||Kristianstad-Everod Airport|A|N55° 55' 20.3",E14° 05' 08.3"|+001000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0|ESMK-ESFI|Land at Kristianstad-Everod Airport. Road 19 runs parallel to the airport.
+||Hammarsjon|U|N55° 59' 51.4",E14° 11' 22.3"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||Here you will notice a change of scenery with more woods and lakes. Fly over the lake and pass west of the city of Kristianstad.
+||Araslovsjon|U|N56° 03' 35.2",E14° 07' 07.0"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||Lake Araslov is the next thing to look out for.
+ESFI||Knislinge Airport|A|N56° 11' 38.0",E14° 07' 41.6"|+001000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0|ESFI-ESMF|Follow the small river until it makes a longer turn to the west. Land at Knislinge Airport.
+||Vittsjon|U|N56° 20' 51.8",E13° 40' 22.6"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||Vittsjon, one of the hundreds of lakes up here. Keep looking at all those lakes to find the right one to aim for.
+ESMF||Fagerhult Airport|A|N56° 23' 17.7",E13° 28' 15.5"|+001000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0|ESMF-ESTL|Land at Fagerhult Airport on the west side of the small lake Fedlingsjon.
+||Finjasjon|U|N56° 08' 06.6",E13° 41' 59.8"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||Lake Finja! Navigate by recognizing the shape of the small seas below you. The rivers are also quite useful to not get completely lost.
+ESTL||Ljungbyhed Airport|A|N56° 05' 00.4",E13° 11' 36.8"|+001000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0|ESTL-ESTA|Land at the military airport of Ljungbyhed. This has several runways so choose the one you feel comfortable with. I recommend the largest one.
+||Kvidinge|U|N56° 08' 06.0",E13° 02' 44.8"|+000000.00|126, 0, 304, 0, 0, 0.0, 0.0, 0.0||Follow the rivers north west until you see the beautiful shoreline again.
+ESTA||Angelholm Airport|A|N56° 17' 28.7",E12° 51' 19.4"|+000062.00|54, 0, 0, 0, 0, 0.0, 0.5, 0.0|-|Land at Angelholm-Helsingborg Airport. Thank you for flying around Scania! I hope you enjoyed the flight.
+
+meta|zh-CN||location|translated location
+meta|zh-CN||title|translated title
+meta|zh-CN||description|translated description
+meta|zh-CN||intro|translated intro
+meta|zh-CN||loadingTip|translated loading tip #1
+meta|zh-CN||loadingTip|translated loading tip #2
+
+ESMH|zh-CN|translated airport name|ESMH-ESML|-
+POI|zh-CN|translated POI name||translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+ESML|zh-CN|translated airport name|ESML-ESMR|translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+ESMR|zh-CN|translated airport name|ESMR-ESMS|translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+ESMS|zh-CN|translated airport name|ESMS-ESTO|translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+ESTO|zh-CN|translated airport name|ESTO-ESMK|translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+ESMK|zh-CN|translated airport name|ESMK-ESFI|translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+ESFI|zh-CN|translated airport name|ESFI-ESMF|translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+ESMF|zh-CN|translated airport name|ESMF-ESTL|translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+ESTL|zh-CN|translated airport name|ESTL-ESTA|translated subleg text
+POI|zh-CN|translated POI name||translated subleg text
+ESTA|zh-CN|translated airport name|-|translated subleg text

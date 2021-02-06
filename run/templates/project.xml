@@ -1,0 +1,8 @@
+<Project Version="2" Name="##META_PROJECT##project" FolderName="Packages">
+	<OutputDirectory>.</OutputDirectory>
+	<TemporaryOutputDirectory>_PackageInt</TemporaryOutputDirectory>
+	<Packages>
+		<Package>PackageDefinitions\##META_PROJECT##.xml</Package>
+	</Packages>
+</Project>
+

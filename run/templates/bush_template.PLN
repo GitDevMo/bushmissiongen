@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimBase.Document Type="AceXML" version="1,0">
+    <Descr>AceXML Document</Descr>
+       <FlightPlan.FlightPlan>
+        <Title>##START_ICAO## to ##STOP_ICAO##</Title>
+        <FPType>VFR</FPType>
+        <CruisingAlt>1000</CruisingAlt>
+        <DepartureID>##START_ICAO##</DepartureID>
+        <DepartureLLA>##START_LLA##</DepartureLLA>
+        <DestinationID>##STOP_ICAO##</DestinationID>
+        <DestinationLLA>##STOP_LLA##</DestinationLLA>
+        <Descr>##START_ICAO##, ##STOP_ICAO##</Descr>
+        <DeparturePosition></DeparturePosition>
+        <DepartureName></DepartureName>
+        <DestinationName></DestinationName>
+        <AppVersion>
+            <AppVersionMajor>10</AppVersionMajor>
+            <AppVersionBuild>61472</AppVersionBuild>
+        </AppVersion>
+##ATCWAYPOINTS##
+    </FlightPlan.FlightPlan>
+</SimBase.Document>

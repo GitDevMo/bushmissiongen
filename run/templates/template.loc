@@ -1,0 +1,19 @@
+{
+  "LocalisationFile": {
+    "Version": 2,
+    "UUID": "e7f9380a-a43e-4a3f-b82e-135f45f8ce39",
+    "Languages": [
+      "en-US",
+      "fr-FR",
+      "es-ES",
+      "de-DE",
+      "it-IT",
+      "pl-PL",
+      "pt-BR",
+      "ru-RU",
+      "zh-CN"
+    ],
+    "Strings": {##STRINGS##
+    }
+  }
+}

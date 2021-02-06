@@ -1,0 +1,43 @@
+# Input file for BushMissonGen
+#
+# Written by f99mlu in 2020.
+
+author=f99mlu
+project=f99mlu-landing-scania
+version=1.0.0
+location=Scania
+title=Scania Landing Challenge
+description=A landing challenge near Trelleborg.
+loadingTip=Scania is beautiful! But not when it is raining.
+intro=Prove your skills in this challenging landing scenario.
+plane=Asobo Savage Cub
+tailNumber=
+airlineCallSign=
+flightNumber=
+latitude=55°24'33.9"N
+longitude=13°01'35.1"E
+altitude=+300.00
+pitch=0
+bank=0
+heading=180
+fuelPercentage=30
+weather=.\WeatherPresets\Rain.WPR
+season=Summer
+year=2018
+day=167
+hours=9
+minutes=35
+seconds=0
+
+# Landing challenge extras
+missionType=landing
+challengeType=Epic
+velocity=100
+flapsHandle=050.00
+leftFlap=050.00
+rightFlap=050.00
+elevatorTrim=050.00
+
+#icao rw    name        type            LL                   alt
+||CUST0|U|55°24'33.9"N 13°01'35.1"E|+000300.00
+ESMR|21|Trelleborg Airport|A|N55° 23' 28.7",E13° 01' 19.6"|+000000.00
