@@ -13,9 +13,12 @@ Eclipse 2020-12 is the preferred IDE for developing BMG.
 
 https://www.eclipse.org/downloads/packages/release/2020-12/r/eclipse-ide-rcp-and-rap-developers<br>
 https://www.oracle.com/java/technologies/javase-jdk15-downloads.html<br>
+https://maven.apache.org/download.cgi<br>
+
 
 * Extract the Eclipse zip package to your home folder or any other good place.
 * Uninstall any existing version of Java on your computer and install JDK 15 instead.
+* Install Maven.
 
 ### Eclipse configuration and program start
 
@@ -25,8 +28,4 @@ https://www.oracle.com/java/technologies/javase-jdk15-downloads.html<br>
 
 ### Create JAR file
 
-* Extract jar-in-jar-loader.zip from <b>{the path to your Eclipse folder}/plugins/org.eclipse.jdt.ui_3.22.0.v20201121-1451.jar</b> and place it next to the build script (build.xml).
-* Right-click on build.xml and select <b>Run As --> Ant Build...</b>.
-* Under "Environment", add an entry with name = "ECLIPSE_HOME" and value = "${eclipse_home}".
-* Run build.xml and make sure BushMissionGen.jar is created in the 'BushMissionGen' folder.
-* Launch the JAR file.
+* Right-click on pom.xml and select <b>Run As --> Maven install</b>.
