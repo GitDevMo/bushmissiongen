@@ -1,0 +1,17 @@
+    <SimMission.Goal InstanceId="{##REF_ID_GOAL##}">
+      <Descr>End of mission</Descr>
+      <Activated>false</Activated>
+    </SimMission.Goal>
+    <SimMission.GoalResolutionAction InstanceId="{##REF_ID_GOALPASSACTION##}">
+      <Descr>Resolve Goal End of mission</Descr>
+      <Goals>
+        <WorldBase.ObjectReference id="Mission END" InstanceId="{##REF_ID_GOAL##}" />
+      </Goals>
+    </SimMission.GoalResolutionAction>
+    <SimMission.GoalResolutionAction InstanceId="{##REF_ID_GOALFAILACTION##}">
+      <Descr>Failure</Descr>
+      <GoalResolution>failed</GoalResolution>
+      <Goals>
+        <WorldBase.ObjectReference id="Mission END" InstanceId="{##REF_ID_GOAL##}" />
+      </Goals>
+    </SimMission.GoalResolutionAction>

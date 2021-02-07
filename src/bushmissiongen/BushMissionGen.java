@@ -42,8 +42,8 @@ import bushmissiongen.messages.ErrorMessage;
 import bushmissiongen.messages.InfoMessage;
 import bushmissiongen.messages.Message;
 import bushmissiongen.misc.DelayedText;
+import bushmissiongen.misc.GeoJSON;
 import bushmissiongen.misc.Localization;
-import bushmissiongen.misc.MyGeoPoint;
 import bushmissiongen.misc.SimData;
 
 /**
@@ -83,8 +83,7 @@ public class BushMissionGen {
 	public String mSavedPreviewFile = null;
 	public boolean mMultipleSameAirports = false;
 	public Integer mPOIs = null;
-	public StringBuffer mGeoJSON;
-	public int mGeoJSONcount;
+	public GeoJSON mGeoJSON = new GeoJSON();
 	public List<String> mSounds = null;
 	public FileHandling mFileHandling = new FileHandling();
 	public ImageHandling mImageHandling = new ImageHandling();
@@ -1138,11 +1137,8 @@ public class BushMissionGen {
 		mDoc.head().appendElement("br");
 		mDoc.body().appendElement("div");
 
-		mGeoJSONcount = 0;
-		mGeoJSON = new StringBuffer();
-		mGeoJSON.append("{").append(System.lineSeparator());
-		mGeoJSON.append("\"type\": \"FeatureCollection\",").append(System.lineSeparator());
-		mGeoJSON.append("\"features\": [").append(System.lineSeparator());
+		// JSON
+		mGeoJSON.reset();
 
 		// Reset POI images count
 		mPOIs = 0;
@@ -1176,8 +1172,7 @@ public class BushMissionGen {
 			mSavedPreviewFile = outFilePreview;
 
 			// JSON
-			mGeoJSON.append("]").append(System.lineSeparator());
-			mGeoJSON.append("}").append(System.lineSeparator());
+			mGeoJSON.finish();
 			Message msgJSON = mFileHandling.writeStringToFile(outFileJSON, mGeoJSON.toString(), cs);
 			if (msgJSON != null) {
 				return msgJSON;
@@ -1338,20 +1333,7 @@ public class BushMissionGen {
 					sb.append(System.lineSeparator());
 
 					// JSON
-					mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-					mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-					mGeoJSON.append("\"properties\": {},").append(System.lineSeparator());
-					mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-					mGeoJSON.append("\"type\": \"LineString\",").append(System.lineSeparator());
-					mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-					double[] coord1 = MissionEntry.convertCoordinate(lastEntry.latlon);
-					double[] coord2 = MissionEntry.convertCoordinate(entry.latlon);
-					mGeoJSON.append("[" + coord1[0] + "," + coord1[1] + "],").append(System.lineSeparator());
-					mGeoJSON.append("[" + coord2[0] + "," + coord2[1] + "]").append(System.lineSeparator());
-					mGeoJSON.append("]").append(System.lineSeparator());
-					mGeoJSON.append("}").append(System.lineSeparator());
-					mGeoJSON.append("}").append(System.lineSeparator());
-					mGeoJSONcount++;
+					mGeoJSON.appendLine(lastEntry.latlon, entry.latlon);
 
 					string_CURRENTLEG = "";
 					list_subLegs.clear();
@@ -1553,22 +1535,7 @@ public class BushMissionGen {
 				}
 
 				// JSON
-				mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-				mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"marker-color\": \"#ff0000\",").append(System.lineSeparator());
-				mGeoJSON.append("\"marker-size\": \"medium\",").append(System.lineSeparator());
-				mGeoJSON.append("\"marker-symbol\": \"\"").append(System.lineSeparator());
-				mGeoJSON.append("},").append(System.lineSeparator());
-				mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Point\",").append(System.lineSeparator());
-				mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-				double[] coord = MissionEntry.convertCoordinate(entry.latlon);
-				mGeoJSON.append(coord[0] + "," + coord[1]).append(System.lineSeparator());
-				mGeoJSON.append("]").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSONcount++;
+				mGeoJSON.appendPoint(entry.latlon, "#ff0000");
 
 				lastRefId = refId;
 				count_AIRPORT++;
@@ -1626,43 +1593,8 @@ public class BushMissionGen {
 				poiBefore = true;
 
 				// JSON
-				mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-				mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"marker-color\": \"#000000\",").append(System.lineSeparator());
-				mGeoJSON.append("\"marker-size\": \"medium\",").append(System.lineSeparator());
-				mGeoJSON.append("\"marker-symbol\": \"\"").append(System.lineSeparator());
-				mGeoJSON.append("},").append(System.lineSeparator());
-				mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Point\",").append(System.lineSeparator());
-				mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-				double[] coord = MissionEntry.convertCoordinate(entry.latlon);
-
-				if (coord == null || coord.length < 2) {
-					System.out.println("HEJ!");
-				}
-
-				mGeoJSON.append(coord[0] + "," + coord[1]).append(System.lineSeparator());
-				mGeoJSON.append("]").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSONcount++;
-
-				// JSON
-				mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-				mGeoJSON.append("\"properties\": {},").append(System.lineSeparator());
-				mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"LineString\",").append(System.lineSeparator());
-				mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-				double[] coord1 = MissionEntry.convertCoordinate(lastEntry.latlon);
-				double[] coord2 = MissionEntry.convertCoordinate(entry.latlon);
-				mGeoJSON.append("[" + coord1[0] + "," + coord1[1] + "],").append(System.lineSeparator());
-				mGeoJSON.append("[" + coord2[0] + "," + coord2[1] + "]").append(System.lineSeparator());
-				mGeoJSON.append("]").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSONcount++;
+				mGeoJSON.appendPoint(entry.latlon, "#000000");
+				mGeoJSON.appendLine(lastEntry.latlon, entry.latlon);
 			}
 			count_ENTRY++;
 			lastEntry = entry;			
@@ -1724,30 +1656,7 @@ public class BushMissionGen {
 					ss = ss.replace("##USE_AGL##", de.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : de.agl);
 
 					// JSON
-					mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-					mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-					mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-					mGeoJSON.append("\"stroke\": \"#555555\",").append(System.lineSeparator());
-					mGeoJSON.append("\"stroke-width\": 2,").append(System.lineSeparator());
-					mGeoJSON.append("\"stroke-opacity\": 1,").append(System.lineSeparator());
-					mGeoJSON.append("\"fill\": \"#007700\",").append(System.lineSeparator());
-					mGeoJSON.append("\"fill-opacity\": 0.5").append(System.lineSeparator());
-					mGeoJSON.append("},").append(System.lineSeparator());
-					mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-					mGeoJSON.append("\"type\": \"Polygon\",").append(System.lineSeparator());
-					mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-					mGeoJSON.append("[").append(System.lineSeparator());
-					double[] coord = MissionEntry.convertCoordinate(me.latlon);
-					MyGeoPoint[] box = MissionEntry.getBoundingBox(coord, Double.parseDouble(boxSideSize), Double.parseDouble(boxSideSize), Double.parseDouble(de.heading));
-					mGeoJSON.append("[" + box[0].longitude + "," + box[0].latitude + "],").append(System.lineSeparator());
-					mGeoJSON.append("[" + box[1].longitude + "," + box[1].latitude + "],").append(System.lineSeparator());
-					mGeoJSON.append("[" + box[2].longitude + "," + box[2].latitude + "],").append(System.lineSeparator());
-					mGeoJSON.append("[" + box[3].longitude + "," + box[3].latitude + "]").append(System.lineSeparator());
-					mGeoJSON.append("]").append(System.lineSeparator());
-					mGeoJSON.append("]").append(System.lineSeparator());
-					mGeoJSON.append("}").append(System.lineSeparator());
-					mGeoJSON.append("}").append(System.lineSeparator());
-					mGeoJSONcount++;
+					mGeoJSON.appendPolygon(de.latlon, boxSideSize, boxSideSize, de.heading, "#555555", "#007700");
 
 					sb_DIALOGS.append(ss);
 					sb_DIALOGS.append(System.lineSeparator());
@@ -1806,30 +1715,7 @@ public class BushMissionGen {
 						ss = ss.replace("##HEIGHT_AREA##", de.height);
 
 						// JSON
-						mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-						mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-						mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-						mGeoJSON.append("\"stroke\": \"#555555\",").append(System.lineSeparator());
-						mGeoJSON.append("\"stroke-width\": 2,").append(System.lineSeparator());
-						mGeoJSON.append("\"stroke-opacity\": 1,").append(System.lineSeparator());
-						mGeoJSON.append("\"fill\": \"#00ff00\",").append(System.lineSeparator());
-						mGeoJSON.append("\"fill-opacity\": 0.5").append(System.lineSeparator());
-						mGeoJSON.append("},").append(System.lineSeparator());
-						mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-						mGeoJSON.append("\"type\": \"Polygon\",").append(System.lineSeparator());
-						mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-						mGeoJSON.append("[").append(System.lineSeparator());
-						double[] coord = MissionEntry.convertCoordinate(prevMe.latlon);
-						MyGeoPoint[] box = MissionEntry.getBoundingBox(coord, Double.parseDouble(boxSideSize), Double.parseDouble(boxSideSize), Double.parseDouble(de.heading));
-						mGeoJSON.append("[" + box[0].longitude + "," + box[0].latitude + "],").append(System.lineSeparator());
-						mGeoJSON.append("[" + box[1].longitude + "," + box[1].latitude + "],").append(System.lineSeparator());
-						mGeoJSON.append("[" + box[2].longitude + "," + box[2].latitude + "],").append(System.lineSeparator());
-						mGeoJSON.append("[" + box[3].longitude + "," + box[3].latitude + "]").append(System.lineSeparator());
-						mGeoJSON.append("]").append(System.lineSeparator());
-						mGeoJSON.append("]").append(System.lineSeparator());
-						mGeoJSON.append("}").append(System.lineSeparator());
-						mGeoJSON.append("}").append(System.lineSeparator());
-						mGeoJSONcount++;
+						mGeoJSON.appendPolygon(prevMe.latlon, boxSideSize, boxSideSize, de.heading, "#555555", "#00ff00");
 					} else {
 						String boxSideSize = de.width;
 						if (!metaEntry.standardEnterAreaSideLength.isEmpty()) {
@@ -1841,30 +1727,7 @@ public class BushMissionGen {
 						ss = ss.replace("##HEIGHT_AREA##", de.height);
 
 						// JSON
-						mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-						mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-						mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-						mGeoJSON.append("\"stroke\": \"#555555\",").append(System.lineSeparator());
-						mGeoJSON.append("\"stroke-width\": 2,").append(System.lineSeparator());
-						mGeoJSON.append("\"stroke-opacity\": 1,").append(System.lineSeparator());
-						mGeoJSON.append("\"fill\": \"#007700\",").append(System.lineSeparator());
-						mGeoJSON.append("\"fill-opacity\": 0.5").append(System.lineSeparator());
-						mGeoJSON.append("},").append(System.lineSeparator());
-						mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-						mGeoJSON.append("\"type\": \"Polygon\",").append(System.lineSeparator());
-						mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-						mGeoJSON.append("[").append(System.lineSeparator());
-						double[] coord = MissionEntry.convertCoordinate(prevMe.latlon);
-						MyGeoPoint[] box = MissionEntry.getBoundingBox(coord, Double.parseDouble(boxSideSize), Double.parseDouble(boxSideSize), Double.parseDouble(de.heading));
-						mGeoJSON.append("[" + box[0].longitude + "," + box[0].latitude + "],").append(System.lineSeparator());
-						mGeoJSON.append("[" + box[1].longitude + "," + box[1].latitude + "],").append(System.lineSeparator());
-						mGeoJSON.append("[" + box[2].longitude + "," + box[2].latitude + "],").append(System.lineSeparator());
-						mGeoJSON.append("[" + box[3].longitude + "," + box[3].latitude + "]").append(System.lineSeparator());
-						mGeoJSON.append("]").append(System.lineSeparator());
-						mGeoJSON.append("]").append(System.lineSeparator());
-						mGeoJSON.append("}").append(System.lineSeparator());
-						mGeoJSON.append("}").append(System.lineSeparator());
-						mGeoJSONcount++;
+						mGeoJSON.appendPolygon(prevMe.latlon, boxSideSize, boxSideSize, de.heading, "#555555", "#007700");
 					}
 					ss = ss.replace("##HEADING_AREA##", de.heading);
 					ss = ss.replace("##LLA_AREA##", prevMe.latlon + ",-000200.00");
@@ -1946,34 +1809,7 @@ public class BushMissionGen {
 				ss = ss.replace("##USE_AGL##", de.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : de.agl);
 
 				// JSON
-				mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-				mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"stroke\": \"#555555\",").append(System.lineSeparator());
-				mGeoJSON.append("\"stroke-width\": 2,").append(System.lineSeparator());
-				mGeoJSON.append("\"stroke-opacity\": 1,").append(System.lineSeparator());
-				if (de.exit) {
-					mGeoJSON.append("\"fill\": \"#0000ff\",").append(System.lineSeparator());
-				} else {
-					mGeoJSON.append("\"fill\": \"#000077\",").append(System.lineSeparator());
-				}
-				mGeoJSON.append("\"fill-opacity\": 0.5").append(System.lineSeparator());
-				mGeoJSON.append("},").append(System.lineSeparator());
-				mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Polygon\",").append(System.lineSeparator());
-				mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-				mGeoJSON.append("[").append(System.lineSeparator());
-				double[] coord = MissionEntry.convertCoordinate(de.latlon);
-				MyGeoPoint[] box = MissionEntry.getBoundingBox(coord, Double.parseDouble(de.width), Double.parseDouble(de.length), Double.parseDouble(de.heading));
-				mGeoJSON.append("[" + box[0].longitude + "," + box[0].latitude + "],").append(System.lineSeparator());
-				mGeoJSON.append("[" + box[1].longitude + "," + box[1].latitude + "],").append(System.lineSeparator());
-				mGeoJSON.append("[" + box[2].longitude + "," + box[2].latitude + "],").append(System.lineSeparator());
-				mGeoJSON.append("[" + box[3].longitude + "," + box[3].latitude + "]").append(System.lineSeparator());
-				mGeoJSON.append("]").append(System.lineSeparator());
-				mGeoJSON.append("]").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSONcount++;
+				mGeoJSON.appendPolygon(de.latlon, de.width, de.length, de.heading, "#555555", de.exit ? "#0000ff" : "#000077");
 
 				sb_DIALOGS.append(ss);
 				sb_DIALOGS.append(System.lineSeparator());
@@ -2186,31 +2022,7 @@ public class BushMissionGen {
 					ss = ss.replace("##USE_AGL##", fe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : fe.agl);
 
 					// JSON
-					mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-					mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-					mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-					mGeoJSON.append("\"stroke\": \"#555555\",").append(System.lineSeparator());
-					mGeoJSON.append("\"stroke-width\": 2,").append(System.lineSeparator());
-					mGeoJSON.append("\"stroke-opacity\": 1,").append(System.lineSeparator());
-					mGeoJSON.append("\"fill\": \"#ff0000\",").append(System.lineSeparator());
-					mGeoJSON.append("\"fill-opacity\": 0.5").append(System.lineSeparator());
-					mGeoJSON.append("},").append(System.lineSeparator());
-					mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-					mGeoJSON.append("\"type\": \"Polygon\",").append(System.lineSeparator());
-					mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-					mGeoJSON.append("[").append(System.lineSeparator());
-					double[] coord = MissionEntry.convertCoordinate(fe.latlon);
-
-					MyGeoPoint[] box = MissionEntry.getBoundingBox(coord, Double.parseDouble(fe.width), Double.parseDouble(fe.length), Double.parseDouble(fe.heading));
-					mGeoJSON.append("[" + box[0].longitude + "," + box[0].latitude + "],").append(System.lineSeparator());
-					mGeoJSON.append("[" + box[1].longitude + "," + box[1].latitude + "],").append(System.lineSeparator());
-					mGeoJSON.append("[" + box[2].longitude + "," + box[2].latitude + "],").append(System.lineSeparator());
-					mGeoJSON.append("[" + box[3].longitude + "," + box[3].latitude + "]").append(System.lineSeparator());
-					mGeoJSON.append("]").append(System.lineSeparator());
-					mGeoJSON.append("]").append(System.lineSeparator());
-					mGeoJSON.append("}").append(System.lineSeparator());
-					mGeoJSON.append("}").append(System.lineSeparator());
-					mGeoJSONcount++;
+					mGeoJSON.appendPolygon(fe.latlon, fe.width, fe.length, fe.heading, "#555555", "#ff0000");
 				}
 
 				sb_FAILURES.append(ss);
@@ -2262,30 +2074,7 @@ public class BushMissionGen {
 				ss = ss.replace("##DELAY_TRIGGER##", is.delay);
 
 				// JSON
-				mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-				mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"stroke\": \"#555555\",").append(System.lineSeparator());
-				mGeoJSON.append("\"stroke-width\": 2,").append(System.lineSeparator());
-				mGeoJSON.append("\"stroke-opacity\": 1,").append(System.lineSeparator());
-				mGeoJSON.append("\"fill\": \"#00ffff\",").append(System.lineSeparator());
-				mGeoJSON.append("\"fill-opacity\": 0.5").append(System.lineSeparator());
-				mGeoJSON.append("},").append(System.lineSeparator());
-				mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Polygon\",").append(System.lineSeparator());
-				mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-				mGeoJSON.append("[").append(System.lineSeparator());
-				double[] coord = MissionEntry.convertCoordinate(entries.get(0).latlon);
-				MyGeoPoint[] box = MissionEntry.getBoundingBox(coord, Double.parseDouble("150.000"), Double.parseDouble("150.000"), Double.parseDouble("0.000"));
-				mGeoJSON.append("[" + box[0].longitude + "," + box[0].latitude + "],").append(System.lineSeparator());
-				mGeoJSON.append("[" + box[1].longitude + "," + box[1].latitude + "],").append(System.lineSeparator());
-				mGeoJSON.append("[" + box[2].longitude + "," + box[2].latitude + "],").append(System.lineSeparator());
-				mGeoJSON.append("[" + box[3].longitude + "," + box[3].latitude + "]").append(System.lineSeparator());
-				mGeoJSON.append("]").append(System.lineSeparator());
-				mGeoJSON.append("]").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSONcount++;
+				mGeoJSON.appendPolygon(entries.get(0).latlon, "150.000", "150.000", "0.000", "#555555", "#00ffff");
 
 				sb_INTRODIALOG.append(System.lineSeparator());
 				sb_INTRODIALOG.append(System.lineSeparator());
@@ -2438,6 +2227,8 @@ public class BushMissionGen {
 		StringBuffer sb_FINISHEDACTIONS = new StringBuffer();
 		if (!metaEntry.missionFailures.isEmpty()) {
 			int count_MISSIONFAILURES = 0;
+			String XML_OBJECTIVE = mFileHandling.readUrlToString("XML/OBJECTIVE.txt", cs);
+			String XML_GOAL = mFileHandling.readUrlToString("XML/GOAL.txt", cs);
 
 			for (MissionFailureEntry mfe : metaEntry.missionFailures) {
 				count_MISSIONFAILURES++;
@@ -2485,32 +2276,20 @@ public class BushMissionGen {
 					sb_ACTIONS.append(ss);
 
 					// OBJECTIVES
+					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
-					sb_OBJECTIVES.append("        <Objective UniqueRefId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <Descr>End mission</Descr>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <FailureText>ILLEGAL AREA!</FailureText>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("        </Objective>");
+					st = st.replace("##REF_ID_GOAL##", refId2);
+					st = st.replace("##FAILURETEXT_GOAL##", "ILLEGAL AREA!");
+					sb_OBJECTIVES.append(st);
 
 					// GOALS
 					sb_GOALS.append(System.lineSeparator());
 					sb_GOALS.append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.Goal InstanceId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Activated>false</Activated>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.Goal>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId4 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Resolve Goal End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId3 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Failure</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <GoalResolution>failed</GoalResolution>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>");
+					String su = XML_GOAL;
+					su = su.replace("##REF_ID_GOAL##", refId2);
+					su = su.replace("##REF_ID_GOALPASSACTION##", refId4);
+					su = su.replace("##REF_ID_GOALFAILACTION##", refId3);
+					sb_GOALS.append(su);
 
 					// Finished actions
 					sb_FINISHEDACTIONS.append(System.lineSeparator());
@@ -2544,32 +2323,20 @@ public class BushMissionGen {
 					sb_ACTIONS.append(ss);
 
 					// OBJECTIVES
+					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
-					sb_OBJECTIVES.append("        <Objective UniqueRefId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <Descr>End mission</Descr>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <FailureText>TOO HIGH UP!</FailureText>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("        </Objective>");
+					st = st.replace("##REF_ID_GOAL##", refId2);
+					st = st.replace("##FAILURETEXT_GOAL##", "TOO HIGH UP!");
+					sb_OBJECTIVES.append(st);
 
 					// GOALS
 					sb_GOALS.append(System.lineSeparator());
 					sb_GOALS.append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.Goal InstanceId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Activated>false</Activated>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.Goal>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId4 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Resolve Goal End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId3 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Failure</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <GoalResolution>failed</GoalResolution>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>");
+					String su = XML_GOAL;
+					su = su.replace("##REF_ID_GOAL##", refId2);
+					su = su.replace("##REF_ID_GOALPASSACTION##", refId4);
+					su = su.replace("##REF_ID_GOALFAILACTION##", refId3);
+					sb_GOALS.append(su);
 
 					// Finished actions
 					sb_FINISHEDACTIONS.append(System.lineSeparator());
@@ -2602,32 +2369,20 @@ public class BushMissionGen {
 					sb_ACTIONS.append(ss);
 
 					// OBJECTIVES
+					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
-					sb_OBJECTIVES.append("        <Objective UniqueRefId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <Descr>End mission</Descr>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <FailureText>TOO FAST!</FailureText>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("        </Objective>");
+					st = st.replace("##REF_ID_GOAL##", refId2);
+					st = st.replace("##FAILURETEXT_GOAL##", "TOO FAST!");
+					sb_OBJECTIVES.append(st);
 
 					// GOALS
 					sb_GOALS.append(System.lineSeparator());
 					sb_GOALS.append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.Goal InstanceId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Activated>false</Activated>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.Goal>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId4 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Resolve Goal End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId3 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Failure</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <GoalResolution>failed</GoalResolution>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>");
+					String su = XML_GOAL;
+					su = su.replace("##REF_ID_GOAL##", refId2);
+					su = su.replace("##REF_ID_GOALPASSACTION##", refId4);
+					su = su.replace("##REF_ID_GOALFAILACTION##", refId3);
+					sb_GOALS.append(su);
 
 					// Finished actions
 					sb_FINISHEDACTIONS.append(System.lineSeparator());
@@ -2662,32 +2417,20 @@ public class BushMissionGen {
 					sb_ACTIONS.append(ss);
 
 					// OBJECTIVES
+					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
-					sb_OBJECTIVES.append("        <Objective UniqueRefId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <Descr>End mission</Descr>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <FailureText>TOO HIGH UP AND TOO FAST!</FailureText>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("        </Objective>");
+					st = st.replace("##REF_ID_GOAL##", refId2);
+					st = st.replace("##FAILURETEXT_GOAL##", "TOO HIGH UP AND TOO FAST!");
+					sb_OBJECTIVES.append(st);
 
 					// GOALS
 					sb_GOALS.append(System.lineSeparator());
 					sb_GOALS.append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.Goal InstanceId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Activated>false</Activated>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.Goal>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId4 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Resolve Goal End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId3 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Failure</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <GoalResolution>failed</GoalResolution>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>");
+					String su = XML_GOAL;
+					su = su.replace("##REF_ID_GOAL##", refId2);
+					su = su.replace("##REF_ID_GOALPASSACTION##", refId4);
+					su = su.replace("##REF_ID_GOALFAILACTION##", refId3);
+					sb_GOALS.append(su);
 
 					// Finished actions
 					sb_FINISHEDACTIONS.append(System.lineSeparator());
@@ -2696,6 +2439,7 @@ public class BushMissionGen {
 
 				if (mfe.currentMode == MissionFailureEntryMode.TIME) {
 					String XML_TIMERTRIGGER = mFileHandling.readUrlToString("XML/TIMERTRIGGER.txt", cs);
+					String XML_RESETACTION = mFileHandling.readUrlToString("XML/RESETACTION.txt", cs);
 
 					String ss = XML_TIMERTRIGGER;
 					ss = ss.replace("##ACTION##", "");
@@ -2722,42 +2466,30 @@ public class BushMissionGen {
 					sb_ACTIONS.append(ss);
 
 					// OBJECTIVES
+					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
-					sb_OBJECTIVES.append("        <Objective UniqueRefId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <Descr>End mission</Descr>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <FailureText>TIME OUT!</FailureText>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("        </Objective>");
+					st = st.replace("##REF_ID_GOAL##", refId2);
+					st = st.replace("##FAILURETEXT_GOAL##", "TIME OUT!");
+					sb_OBJECTIVES.append(st);
 
 					// GOALS
 					sb_GOALS.append(System.lineSeparator());
 					sb_GOALS.append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.Goal InstanceId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Activated>false</Activated>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.Goal>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId4 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Resolve Goal End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId3 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Failure</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <GoalResolution>failed</GoalResolution>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>");
+					String su = XML_GOAL;
+					su = su.replace("##REF_ID_GOAL##", refId2);
+					su = su.replace("##REF_ID_GOALPASSACTION##", refId4);
+					su = su.replace("##REF_ID_GOALFAILACTION##", refId3);
+					sb_GOALS.append(su);
 
 					// Reset action!
 					sb_GOALS.append(System.lineSeparator());
 					sb_GOALS.append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.ResetTimerAction InstanceId=\"{" + refId5 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>ResetTimerAction" + count_MISSIONFAILURES + "</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Triggers>").append(System.lineSeparator());
-					sb_GOALS.append("        <ObjectReference id=\"TimerTriggerLimit" + count_MISSIONFAILURES + "\" InstanceId=\"{" + refId1 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Triggers>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.ResetTimerAction>");
+					String sv = XML_RESETACTION;
+					sv = sv.replace("##REF_ID_RESET##", refId5);
+					sv = sv.replace("##DESCR_RESET##", "ResetTimerAction" + count_MISSIONFAILURES);
+					sv = sv.replace("##DESCR_TRIGGER##", "TimerTriggerLimit" + count_MISSIONFAILURES);
+					sv = sv.replace("##REF_ID_TRIGGER##", refId1);
+					sb_GOALS.append(sv);
 
 					// Finished actions
 					sb_FINISHEDACTIONS.append(System.lineSeparator());
@@ -2790,36 +2522,24 @@ public class BushMissionGen {
 					sb_ACTIONS.append(ss);
 
 					// OBJECTIVES
+					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
-					sb_OBJECTIVES.append("        <Objective UniqueRefId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <Descr>End mission</Descr>").append(System.lineSeparator());
+					st = st.replace("##REF_ID_GOAL##", refId2);
 					if (!mfe.value2.isEmpty()) {
-						sb_OBJECTIVES.append("          <FailureText>" + mfe.value2 + "</FailureText>").append(System.lineSeparator());
+						st = st.replace("##FAILURETEXT_GOAL##", mfe.value2);
 					} else {
-						sb_OBJECTIVES.append("          <FailureText>Formula triggered!</FailureText>").append(System.lineSeparator());
+						st = st.replace("##FAILURETEXT_GOAL##", "Formula triggered!");
 					}
-					sb_OBJECTIVES.append("        </Objective>");
+					sb_OBJECTIVES.append(st);
 
 					// GOALS
 					sb_GOALS.append(System.lineSeparator());
 					sb_GOALS.append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.Goal InstanceId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Activated>false</Activated>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.Goal>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId4 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Resolve Goal End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId3 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Failure</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <GoalResolution>failed</GoalResolution>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>");
+					String su = XML_GOAL;
+					su = su.replace("##REF_ID_GOAL##", refId2);
+					su = su.replace("##REF_ID_GOALPASSACTION##", refId4);
+					su = su.replace("##REF_ID_GOALFAILACTION##", refId3);
+					sb_GOALS.append(su);
 
 					// Finished actions
 					sb_FINISHEDACTIONS.append(System.lineSeparator());

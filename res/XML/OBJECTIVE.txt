@@ -1,0 +1,4 @@
+        <Objective UniqueRefId="{##REF_ID_GOAL##}">
+          <Descr>End mission</Descr>
+          <FailureText>##FAILURETEXT_GOAL##</FailureText>
+        </Objective>

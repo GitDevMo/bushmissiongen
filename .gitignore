@@ -1,9 +1,9 @@
 bin/
-run/*.ini
-run/*.txt
-run/*.xlsx
-run/*.pln
-run/output/
+BushMissionGen/*.ini
+BushMissionGen/*.txt
+BushMissionGen/*.xlsx
+BushMissionGen/*.pln
+BushMissionGen/output/
 
 # Compiled class file
 *.class
