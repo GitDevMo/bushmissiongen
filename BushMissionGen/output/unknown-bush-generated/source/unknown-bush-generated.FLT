@@ -1,0 +1,513 @@
+
+[Main]
+MissionType=BushTrip
+MissionLocation=TT:unknown-bush-generated.Mission.2
+Title=TT:unknown-bush-generated.Mission.3
+Description=TT:unknown-bush-generated.Mission.4
+AppVersion=10.0.282174
+FlightVersion=1
+
+[Briefing]
+BriefingText=TT:unknown-bush-generated.Mission.1
+BriefingImage0="./Images/ESML.jpg"
+BriefingImage1="./Images/ESMR.jpg"
+BriefingImage2="./Images/ESMS.jpg"
+BriefingImage3="./Images/ESTO.jpg"
+BriefingImage4="./Images/ESMK.jpg"
+BriefingImage5="./Images/ESFI.jpg"
+BriefingImage6="./Images/ESMF.jpg"
+BriefingImage7="./Images/ESTL.jpg"
+BriefingImage8="./Images/ESTA.jpg"
+
+[Options]
+Sound=True
+Pause=True
+Moonlight=True
+Save=True
+SaveOriginalFlightPlan=True
+TextDisplayPage=0
+SlewDisplayPage=1
+AxisIndicator=Off
+Titles=False
+
+[Sim.0]
+Sim=Asobo Savage Cub
+SimFile=runway.FLT
+TailNumber=
+AirlineCallSign=
+FlightNumber=
+AppendHeavy=False
+Pilot=Pilot_Female
+Copilot.0=Pilot_Female
+Copilot.1=Pilot_Male
+
+
+[ResourcePath]
+Path=unknown-bush-generated
+
+[ObjectFile]
+File=unknown-bush-generated
+
+[Atc_Menu]
+Visible=False
+
+[Weather]
+UseWeatherFile=True
+
+[Assistance]
+EventTriggersFileCount=1
+EventTriggersFile.0=BushTripEventTriggers
+
+[Departure]
+ICAO=ESMH
+RunwayNumber=24
+RunwayDesignator=NONE
+
+[Loading]
+ImageName=./images/Loading_Screen.jpg
+Tips0=TT:unknown-bush-generated.Mission.5
+Tips1=TT:LOADING.TIPS.BUSH_TRIPS.2
+Tips2=TT:LOADING.TIPS.BUSH_TRIPS.3
+Tips3=TT:LOADING.TIPS.BUSH_TRIPS.4
+Tips4=TT:LOADING.TIPS.BUSH_TRIPS.5
+
+
+[Panels]
+Panel.On=True
+HUD.On=False
+
+[Window.1]
+Order=255
+Active=True
+Undocked=False
+Maximized=True
+ScreenUniCoords=0, 0, 8192, 4000
+UndocCoords=0, 0, 0, 0
+CurrentCamera={BCA3FDD1-FB83-4BBA-8407-4922A7F0D00C}
+
+[Camera.1.1]
+Guid={B1386D92-4782-4682-A137-738E25D1BAB5}
+Zoom=1
+Translation=0, 0, 0
+Rotation=8, 0, 0
+
+[Camera.1.2]
+Guid={C95EAB58-9E4A-4E2A-A34C-D8D9D948F078}
+Zoom=0.69999998807907104492
+Translation=0, 0, 0
+Rotation=8, 0, 0
+
+[Camera.1.3]
+Guid={195EAB58-9E4A-1E2A-A34C-A8D9D948F078}
+Zoom=0.56999999284744262695
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.4]
+Guid={A1FF1FC6-4902-46D4-AFFD-22F64B240235}
+Zoom=0.56999999284744262695
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.5]
+Guid={E9FF00BD-8D7B-4934-8855-364A432149A6}
+Zoom=0.31000000238418579102
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.6]
+Guid={64D6C8BC-406A-4B73-8441-7393A4A335B4}
+Zoom=0.31000000238418579102
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.7]
+Guid={A31C5FA5-4508-4C1A-84A7-6F46C68FBB4A}
+Zoom=0.31000000238418579102
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.8]
+Guid={3707B27E-DC9F-44A3-8E82-422191F16B72}
+Zoom=0.33000001311302185059
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.9]
+Guid={7B23189D-3554-4F63-99E2-F56DC287BD76}
+Zoom=0.33000001311302185059
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.10]
+Guid={BCA3FDD1-FB83-4BBA-8407-4922A7F0D00C}
+Zoom=1
+Translation=0, 0, 0
+ChaseDirection=90
+ChaseDistance=28.041599273681640625
+ChaseAltitude=0.91439998149871826172
+
+[Camera.1.11]
+Guid={BCA3FDD1-FB83-4BBA-8407-4922A7F0D00D}
+Zoom=1
+Translation=0, 0, 0
+ChaseDirection=-135
+ChaseDistance=37.5
+ChaseAltitude=0.80000001192092895508
+
+[Camera.1.12]
+Guid={6B79DD49-9B4A-439D-BF40-ACBF157B0BA0}
+Zoom=10
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.13]
+Guid={A2849229-938A-448F-8AC6-01EF2291C171}
+Zoom=80.3000030517578125
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.14]
+Guid={60BC0819-BD04-4AF6-8954-8FC8AA3545FF}
+Zoom=8
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.15]
+Guid={C690EAFD-223A-42D0-99E0-681ADF93BB59}
+Zoom=1
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.16]
+Guid={3A09FD6C-D406-4D8F-A5CD-FA4F5E0C12ED}
+Zoom=1
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.17]
+Guid={D8D67955-2E9B-4E75-9D8B-8EFFBBFAC64A}
+Zoom=0.75
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.18]
+Guid={41F9C308-7FFA-4BE1-8CC1-43336D945791}
+Zoom=1.2999999523162841797
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.19]
+Guid={4B06E947-0AC1-465C-B1C7-D7548A5FACE9}
+Zoom=1.2999999523162841797
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.20]
+Guid={C46C9BC7-ABD4-401C-A273-087BAAA0922A}
+Zoom=1.2999999523162841797
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.21]
+Guid={1C03E395-7B86-4F79-8684-E3154A9EDDA6}
+Zoom=1.2999999523162841797
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.22]
+Guid={14AA6A13-7FCC-4F0F-9137-ABEF10DFCBB9}
+Zoom=0.56999999284744262695
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.23]
+Guid={EBABF59F-3730-4F2E-A245-74901E9F8ED6}
+Zoom=0.40000000596046447754
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.24]
+Guid={08E673AF-9D5D-449A-86CB-84A55649A650}
+Zoom=0.56999999284744262695
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.25]
+Guid={182C26E7-0D2D-4995-B776-53A96D125521}
+Zoom=0.31083399057388305664
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[Camera.1.26]
+Guid={A32BC57C-6208-4FA7-98D0-09F3425F5F0E}
+Zoom=0.56999999284744262695
+Translation=0, 0, 0
+Rotation=0, 0, 0
+
+[ATC_AgentManager]
+NumberofAgents=0
+
+[ATC_Aircraft.0]
+ActiveFlightPlan=True
+RequestedFlightPlan=False
+AcState=ACSTATE_REQUEST_TAXI_CLEARANCE_OUT_VFR_ATIS
+Waypoint.0=, ESMH, , TT:unknown-bush-generated.Mission.6, A, N56° 11' 5.47",E12° 34' 33.41", +000021.00, 
+Waypoint.1=!A, POI1, , TT:unknown-bush-generated.Mission.7, U, N56° 2' 37.90",E12° 41' 32.60", +001000.00, 
+Waypoint.2=!A, POI2, , TT:unknown-bush-generated.Mission.8, U, N55° 55' 5.80",E12° 41' 4.60", +001000.00, 
+Waypoint.3=, ESML, , TT:unknown-bush-generated.Mission.9, A, N55° 56' 46.77",E12° 52' 10.49", +001000.00, 
+Waypoint.4=!B, POI3, , TT:unknown-bush-generated.Mission.10, U, N55° 44' 38.70",E12° 55' 15.70", +001000.00, 
+Waypoint.5=!B, POI4, , TT:unknown-bush-generated.Mission.11, U, N55° 34' 3.30",E12° 55' 49.20", +001000.00, 
+Waypoint.6=!B, POI5, , TT:unknown-bush-generated.Mission.12, U, N55° 24' 20.00",E12° 51' 7.70", +001000.00, 
+Waypoint.7=, ESMR, , TT:unknown-bush-generated.Mission.13, A, N55° 23' 28.47",E13° 1' 18.73", +001000.00, 
+Waypoint.8=!C, POI6, , TT:unknown-bush-generated.Mission.14, U, N55° 22' 15.80",E13° 9' 2.70", +001000.00, 
+Waypoint.9=!C, POI7, , TT:unknown-bush-generated.Mission.15, U, N55° 28' 59.80",E13° 21' 30.40", +001000.00, 
+Waypoint.10=, ESMS, , TT:unknown-bush-generated.Mission.16, A, N55° 31' 44.03",E13° 22' 16.02", +001000.00, 
+Waypoint.11=!D, POI8, , TT:unknown-bush-generated.Mission.17, U, N55° 31' 44.20",E13° 44' 1.50", +001000.00, 
+Waypoint.12=, ESTO, , TT:unknown-bush-generated.Mission.18, A, N55° 32' 33.12",E13° 59' 53.51", +001000.00, 
+Waypoint.13=!E, POI9, , TT:unknown-bush-generated.Mission.19, U, N55° 36' 43.20",E14° 16' 45.10", +001000.00, 
+Waypoint.14=!E, POI10, , TT:unknown-bush-generated.Mission.20, U, N55° 39' 43.90",E14° 16' 30.70", +001000.00, 
+Waypoint.15=!E, POI11, , TT:unknown-bush-generated.Mission.21, U, N55° 51' 30.00",E14° 14' 2.30", +001000.00, 
+Waypoint.16=, ESMK, , TT:unknown-bush-generated.Mission.22, A, N55° 55' 18.16",E14° 5' 7.70", +001000.00, 
+Waypoint.17=!F, POI12, , TT:unknown-bush-generated.Mission.23, U, N55° 59' 51.40",E14° 11' 22.30", +001000.00, 
+Waypoint.18=!F, POI13, , TT:unknown-bush-generated.Mission.24, U, N56° 3' 35.20",E14° 7' 7.00", +001000.00, 
+Waypoint.19=, ESFI, , TT:unknown-bush-generated.Mission.25, A, N56° 11' 16.10",E14° 8' 8.12", +001000.00, 
+Waypoint.20=!G, POI14, , TT:unknown-bush-generated.Mission.26, U, N56° 20' 51.80",E13° 40' 22.60", +001000.00, 
+Waypoint.21=, ESMF, , TT:unknown-bush-generated.Mission.27, A, N56° 23' 16.11",E13° 28' 15.95", +001000.00, 
+Waypoint.22=!H, POI15, , TT:unknown-bush-generated.Mission.28, U, N56° 8' 6.60",E13° 41' 59.80", +001000.00, 
+Waypoint.23=, ESTL, , TT:unknown-bush-generated.Mission.29, A, N56° 5' 1.52",E13° 12' 30.22", +001000.00, 
+Waypoint.24=!I, POI16, , TT:unknown-bush-generated.Mission.30, U, N56° 8' 6.00",E13° 2' 44.80", +001000.00, 
+Waypoint.25=, ESTA, , TT:unknown-bush-generated.Mission.31, A, N56° 17' 45.95",E12° 51' 26.18", +000050.00, 
+NumberofWaypoints=26
+
+ClearanceFlags=88a
+CtCur=CLEARANCE_NONE
+WaypointNext=1
+AltCleared=-1
+HdgAssigned=-1
+SquawkAssigned=4608
+LandingSequence=LANDING_NONE
+DepartureRequest=DEPARTURE_VFR_REQUEST_NONE
+ParkingRequest=PARKING_NAME_NONE
+ParkingTypeRequest=PARKING_TYPE_NONE
+PatternLeg=PATTERN_LEG_NONE
+ApproachIndex=-1
+ApproachTransitionIndex=-1
+ApproachRequestIndex=-1
+ApproachTransitionRequestIndex=-1
+RunwayIndex=-1
+RunwayRequestIndex=-1
+ParkingIndex=-1
+FlightFollowing=FLIGHT_FOLLOWING_NO
+AirspaceTransition=AIRSPACE_TRANSITION_NONE
+BVAirspaceTransition=BV_TYPE_NONE
+BVAirspaceTransitionReq=BV_TYPE_NONE
+TakeoffSequence=TAKEOFF_SEQUENCE_NONE
+LandingSequenceNumber=-1
+TaxiRouteCurrent=-1
+CruisingAltitude=1000
+RequestedCruisingAltitude=-1
+ExpectedAltitude=-1
+AircraftSignature=1,0
+
+[ATC_ActiveFlightPlan.0]
+Title=TT:unknown-bush-generated.Mission.3
+Description=TT:unknown-bush-generated.Mission.4
+type=VFR
+routetype=0
+cruising_altitude=1000
+departure_id=ESMH, N56°11'5.47",E12°34'33.41",+21.00
+departure_position=
+destination_id=ESTA, N56°17'45.95",E12°51'26.18",+50.00
+departure_name=TT:unknown-bush-generated.Mission.6
+destination_name=TT:unknown-bush-generated.Mission.31
+Waypoint.0=, ESMH, , TT:unknown-bush-generated.Mission.6, A, N56° 11' 5.47",E12° 34' 33.41", +000021.00, 
+Waypoint.1=!A, POI1, , TT:unknown-bush-generated.Mission.7, U, N56° 2' 37.90",E12° 41' 32.60", +001000.00, 
+Waypoint.2=!A, POI2, , TT:unknown-bush-generated.Mission.8, U, N55° 55' 5.80",E12° 41' 4.60", +001000.00, 
+Waypoint.3=, ESML, , TT:unknown-bush-generated.Mission.9, A, N55° 56' 46.77",E12° 52' 10.49", +001000.00, 
+Waypoint.4=!B, POI3, , TT:unknown-bush-generated.Mission.10, U, N55° 44' 38.70",E12° 55' 15.70", +001000.00, 
+Waypoint.5=!B, POI4, , TT:unknown-bush-generated.Mission.11, U, N55° 34' 3.30",E12° 55' 49.20", +001000.00, 
+Waypoint.6=!B, POI5, , TT:unknown-bush-generated.Mission.12, U, N55° 24' 20.00",E12° 51' 7.70", +001000.00, 
+Waypoint.7=, ESMR, , TT:unknown-bush-generated.Mission.13, A, N55° 23' 28.47",E13° 1' 18.73", +001000.00, 
+Waypoint.8=!C, POI6, , TT:unknown-bush-generated.Mission.14, U, N55° 22' 15.80",E13° 9' 2.70", +001000.00, 
+Waypoint.9=!C, POI7, , TT:unknown-bush-generated.Mission.15, U, N55° 28' 59.80",E13° 21' 30.40", +001000.00, 
+Waypoint.10=, ESMS, , TT:unknown-bush-generated.Mission.16, A, N55° 31' 44.03",E13° 22' 16.02", +001000.00, 
+Waypoint.11=!D, POI8, , TT:unknown-bush-generated.Mission.17, U, N55° 31' 44.20",E13° 44' 1.50", +001000.00, 
+Waypoint.12=, ESTO, , TT:unknown-bush-generated.Mission.18, A, N55° 32' 33.12",E13° 59' 53.51", +001000.00, 
+Waypoint.13=!E, POI9, , TT:unknown-bush-generated.Mission.19, U, N55° 36' 43.20",E14° 16' 45.10", +001000.00, 
+Waypoint.14=!E, POI10, , TT:unknown-bush-generated.Mission.20, U, N55° 39' 43.90",E14° 16' 30.70", +001000.00, 
+Waypoint.15=!E, POI11, , TT:unknown-bush-generated.Mission.21, U, N55° 51' 30.00",E14° 14' 2.30", +001000.00, 
+Waypoint.16=, ESMK, , TT:unknown-bush-generated.Mission.22, A, N55° 55' 18.16",E14° 5' 7.70", +001000.00, 
+Waypoint.17=!F, POI12, , TT:unknown-bush-generated.Mission.23, U, N55° 59' 51.40",E14° 11' 22.30", +001000.00, 
+Waypoint.18=!F, POI13, , TT:unknown-bush-generated.Mission.24, U, N56° 3' 35.20",E14° 7' 7.00", +001000.00, 
+Waypoint.19=, ESFI, , TT:unknown-bush-generated.Mission.25, A, N56° 11' 16.10",E14° 8' 8.12", +001000.00, 
+Waypoint.20=!G, POI14, , TT:unknown-bush-generated.Mission.26, U, N56° 20' 51.80",E13° 40' 22.60", +001000.00, 
+Waypoint.21=, ESMF, , TT:unknown-bush-generated.Mission.27, A, N56° 23' 16.11",E13° 28' 15.95", +001000.00, 
+Waypoint.22=!H, POI15, , TT:unknown-bush-generated.Mission.28, U, N56° 8' 6.60",E13° 41' 59.80", +001000.00, 
+Waypoint.23=, ESTL, , TT:unknown-bush-generated.Mission.29, A, N56° 5' 1.52",E13° 12' 30.22", +001000.00, 
+Waypoint.24=!I, POI16, , TT:unknown-bush-generated.Mission.30, U, N56° 8' 6.00",E13° 2' 44.80", +001000.00, 
+Waypoint.25=, ESTA, , TT:unknown-bush-generated.Mission.31, A, N56° 17' 45.95",E12° 51' 26.18", +000050.00, 
+
+[ATC_AircraftManager]
+NumberofAircraft=1
+
+[ATC_MessageSystem]
+FrequencyNodes=0
+
+[GPS_Engine]
+Filename=unknown-bush-generated
+position=N56°11'5.47",E12°34'33.41",+21.00
+Time=-1
+TimeWP=22020
+ArriveTime=47346
+CountWP=26
+NextWP=1
+PlaneStarted=False
+WpInfo0=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo1=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo2=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo3=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo4=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo5=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo6=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo7=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo8=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo9=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo10=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo11=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo12=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo13=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo14=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo15=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo16=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo17=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo18=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo19=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo20=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo21=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo22=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo23=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo24=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+WpInfo25=126, 0, 304, 0, 0, 0.0, 0.0, 0.0
+CountFP=0
+
+[DateTimeSeason]
+Season=Summer
+Year=2018
+Day=167
+Hours=9
+Minutes=35
+Seconds=0
+
+[Panel.1]
+ScreenUniCoords=0, 0, 0, 0
+UndocCoords=0, 0, 0, 0
+Visible=False
+Undocked=False
+HiddenOn=False
+ID=0
+ViewsOn=1
+
+[Panel.2]
+ScreenUniCoords=0, 0, 0, 0
+UndocCoords=0, 0, 0, 0
+Visible=False
+Undocked=False
+HiddenOn=False
+ID=50
+ViewsOn=0
+
+[Panel.3]
+ScreenUniCoords=0, 0, 0, 0
+UndocCoords=0, 0, 0, 0
+Visible=False
+Undocked=False
+HiddenOn=False
+ID=225
+ViewsOn=0
+
+[Panel.4]
+ScreenUniCoords=0, 0, 0, 0
+UndocCoords=0, 0, 0, 0
+Visible=False
+Undocked=False
+HiddenOn=False
+ID=1
+ViewsOn=0
+
+[Panel.5]
+ScreenUniCoords=0, 0, 0, 0
+UndocCoords=0, 0, 0, 0
+Visible=False
+Undocked=False
+HiddenOn=False
+ID=2
+ViewsOn=0
+
+[Panel.6]
+ScreenUniCoords=0, 0, 0, 0
+UndocCoords=0, 0, 0, 0
+Visible=False
+Undocked=False
+HiddenOn=False
+ID=20000
+ViewsOn=1
+
+[SimVars.0]
+Latitude=N56°11'5.10"
+Longitude=E12°34'29.90"
+Altitude=+28.00
+Pitch=0
+Bank=0
+Heading=240
+PVelBodyAxis=0
+BVelBodyAxis=0
+HVelBodyAxis=0
+XVelBodyAxis=0
+YVelBodyAxis=0
+ZVelBodyAxis=0
+SimOnGround=True
+OnPlatformHeight=-9999999999
+
+[Slew.0]
+Active=False
+
+
+
+[Freeze.0]
+Location=False
+Altitude=False
+Attitude=False
+
+
+
+[Fuel.0]
+TankSelector=All
+TankSelector1=All
+Center=100
+LeftMain=100
+RightMain=100
+LeftAux=100
+RightAux=100
+LeftTip=100
+RightTip=100
+Center 2=100
+Center 3=100
+External 1=100
+External 2=100
+
+[Payload.0]
+PayloadList=  85.0,  85.0,   0.0,   0.0,   0.0
+
+[Controls.0]
+LeftBrake=0.00
+RightBrake=0.00
+ParkingBrake=0.00
+
+[SimScheduler]
+SimSpeed=001.00
+SimTime=596.82995962224549658
+
+
+[Multiplayer]
+Status=1

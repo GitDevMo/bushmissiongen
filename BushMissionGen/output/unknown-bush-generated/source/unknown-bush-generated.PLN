@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimBase.Document Type="AceXML" version="1,0">
+    <Descr>AceXML Document</Descr>
+       <FlightPlan.FlightPlan>
+        <Title>ESMH to ESTA</Title>
+        <FPType>VFR</FPType>
+        <CruisingAlt>1000</CruisingAlt>
+        <DepartureID>ESMH</DepartureID>
+        <DepartureLLA>N56° 11' 5.10",E12° 34' 29.90",+000028.00</DepartureLLA>
+        <DestinationID>ESTA</DestinationID>
+        <DestinationLLA>N56° 17' 45.95",E12° 51' 26.18",+000050.00</DestinationLLA>
+        <Descr>ESMH, ESTA</Descr>
+        <DeparturePosition></DeparturePosition>
+        <DepartureName></DepartureName>
+        <DestinationName></DestinationName>
+        <AppVersion>
+            <AppVersionMajor>10</AppVersionMajor>
+            <AppVersionBuild>61472</AppVersionBuild>
+        </AppVersion>
+        <ATCWaypoint id="ESMH">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N56° 11' 5.47",E12° 34' 33.41",+000021.00</WorldPosition>
+            <RunwayNumberFP>24</RunwayNumberFP>
+            <ICAO>
+                <ICAOIdent>ESMH</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI1">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N56° 2' 37.90",E12° 41' 32.60",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI2">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N55° 55' 5.80",E12° 41' 4.60",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="ESML">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N55° 56' 46.77",E12° 52' 10.49",+001000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>ESML</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI3">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N55° 44' 38.70",E12° 55' 15.70",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI4">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N55° 34' 3.30",E12° 55' 49.20",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI5">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N55° 24' 20.00",E12° 51' 7.70",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="ESMR">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N55° 23' 28.47",E13° 1' 18.73",+001000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>ESMR</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI6">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N55° 22' 15.80",E13° 9' 2.70",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI7">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N55° 28' 59.80",E13° 21' 30.40",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="ESMS">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N55° 31' 44.03",E13° 22' 16.02",+001000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>ESMS</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI8">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N55° 31' 44.20",E13° 44' 1.50",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="ESTO">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N55° 32' 33.12",E13° 59' 53.51",+001000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>ESTO</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI9">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N55° 36' 43.20",E14° 16' 45.10",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI10">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N55° 39' 43.90",E14° 16' 30.70",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI11">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N55° 51' 30.00",E14° 14' 2.30",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="ESMK">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N55° 55' 18.16",E14° 5' 7.70",+001000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>ESMK</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI12">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N55° 59' 51.40",E14° 11' 22.30",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI13">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N56° 3' 35.20",E14° 7' 7.00",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="ESFI">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N56° 11' 16.10",E14° 8' 8.12",+001000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>ESFI</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI14">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N56° 20' 51.80",E13° 40' 22.60",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="ESMF">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N56° 23' 16.11",E13° 28' 15.95",+001000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>ESMF</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI15">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N56° 8' 6.60",E13° 41' 59.80",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="ESTL">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N56° 5' 1.52",E13° 12' 30.22",+001000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>ESTL</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI16">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N56° 8' 6.00",E13° 2' 44.80",+001000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="ESTA">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N56° 17' 45.95",E12° 51' 26.18",+000050.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>ESTA</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+
+    </FlightPlan.FlightPlan>
+</SimBase.Document>

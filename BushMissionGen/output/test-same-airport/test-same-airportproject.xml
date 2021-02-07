@@ -1,0 +1,8 @@
+<Project Version="2" Name="test-same-airportproject" FolderName="Packages">
+	<OutputDirectory>.</OutputDirectory>
+	<TemporaryOutputDirectory>_PackageInt</TemporaryOutputDirectory>
+	<Packages>
+		<Package>PackageDefinitions\test-same-airport.xml</Package>
+	</Packages>
+</Project>
+

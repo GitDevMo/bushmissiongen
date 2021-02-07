@@ -1,0 +1,1055 @@
+{
+  "LocalisationFile": {
+    "Version": 2,
+    "UUID": "e7f9380a-a43e-4a3f-b82e-135f45f8ce39",
+    "Languages": [
+      "en-US",
+      "fr-FR",
+      "es-ES",
+      "de-DE",
+      "it-IT",
+      "pl-PL",
+      "pt-BR",
+      "ru-RU",
+      "zh-CN"
+    ],
+    "Strings": {
+      "japan-kyushu.Mission.1": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568001",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "what is this 2"
+          }
+        }
+      },
+      "japan-kyushu.Mission.2": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568002",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "Kagoshima to Fukuoka"
+          }
+        }
+      },
+      "japan-kyushu.Mission.3": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568003",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RJFK to RJFF"
+          }
+        }
+      },
+      "japan-kyushu.Mission.4": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568004",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "Kagoshima to Fukuoka"
+          }
+        }
+      },
+      "japan-kyushu.Mission.5": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568005",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "what is this 1"
+          }
+        }
+      },
+      "japan-kyushu.Mission.6": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568006",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RJFK"
+          }
+        }
+      },
+      "japan-kyushu.Mission.7": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568007",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI1"
+          }
+        }
+      },
+      "japan-kyushu.Mission.8": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568008",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI2"
+          }
+        }
+      },
+      "japan-kyushu.Mission.9": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568009",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI3"
+          }
+        }
+      },
+      "japan-kyushu.Mission.10": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568010",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI4"
+          }
+        }
+      },
+      "japan-kyushu.Mission.11": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568011",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI5"
+          }
+        }
+      },
+      "japan-kyushu.Mission.12": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568012",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RJFM"
+          }
+        }
+      },
+      "japan-kyushu.Mission.13": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568013",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI6"
+          }
+        }
+      },
+      "japan-kyushu.Mission.14": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568014",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI7"
+          }
+        }
+      },
+      "japan-kyushu.Mission.15": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568015",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI8"
+          }
+        }
+      },
+      "japan-kyushu.Mission.16": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568016",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI9"
+          }
+        }
+      },
+      "japan-kyushu.Mission.17": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568017",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI10"
+          }
+        }
+      },
+      "japan-kyushu.Mission.18": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568018",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI11"
+          }
+        }
+      },
+      "japan-kyushu.Mission.19": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568019",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RJFT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.20": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568020",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI12"
+          }
+        }
+      },
+      "japan-kyushu.Mission.21": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568021",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI13"
+          }
+        }
+      },
+      "japan-kyushu.Mission.22": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568022",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI14"
+          }
+        }
+      },
+      "japan-kyushu.Mission.23": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568023",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI15"
+          }
+        }
+      },
+      "japan-kyushu.Mission.24": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568024",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI16"
+          }
+        }
+      },
+      "japan-kyushu.Mission.25": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568025",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI17"
+          }
+        }
+      },
+      "japan-kyushu.Mission.26": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568026",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RJFS"
+          }
+        }
+      },
+      "japan-kyushu.Mission.27": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568027",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI18"
+          }
+        }
+      },
+      "japan-kyushu.Mission.28": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568028",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI19"
+          }
+        }
+      },
+      "japan-kyushu.Mission.29": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568029",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI20"
+          }
+        }
+      },
+      "japan-kyushu.Mission.30": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568030",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI21"
+          }
+        }
+      },
+      "japan-kyushu.Mission.31": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568031",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RJFO"
+          }
+        }
+      },
+      "japan-kyushu.Mission.32": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568032",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI22"
+          }
+        }
+      },
+      "japan-kyushu.Mission.33": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568033",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI23"
+          }
+        }
+      },
+      "japan-kyushu.Mission.34": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568034",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI24"
+          }
+        }
+      },
+      "japan-kyushu.Mission.35": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568035",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI25"
+          }
+        }
+      },
+      "japan-kyushu.Mission.36": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568036",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI26"
+          }
+        }
+      },
+      "japan-kyushu.Mission.37": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568037",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RJFF"
+          }
+        }
+      },
+      "japan-kyushu.Mission.38": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568038",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RFJK to RJFM"
+          }
+        }
+      },
+      "japan-kyushu.Mission.39": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568039",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RJFM to RJFT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.40": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568040",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RJFT to RJFS"
+          }
+        }
+      },
+      "japan-kyushu.Mission.41": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568041",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RJFS to RJFO"
+          }
+        }
+      },
+      "japan-kyushu.Mission.42": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568042",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RJFO to RJFF"
+          }
+        }
+      },
+      "japan-kyushu.Mission.43": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568043",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "what is this 4 Mats"
+          }
+        }
+      },
+      "japan-kyushu.Mission.44": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568044",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI2_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.45": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568045",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI3_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.46": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568046",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI4_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.47": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568047",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI5_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.48": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568048",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "what is this 7"
+          }
+        }
+      },
+      "japan-kyushu.Mission.49": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568049",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI6_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.50": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568050",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI7_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.51": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568051",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI8_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.52": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568052",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI9_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.53": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568053",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI10_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.54": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568054",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI11_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.55": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568055",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RJFT_LANDING_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.56": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568056",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI12_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.57": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568057",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI13_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.58": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568058",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI14_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.59": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568059",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI15_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.60": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568060",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI16_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.61": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568061",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI17_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.62": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568062",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RJFS_LANDING_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.63": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568063",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI18_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.64": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568064",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI19_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.65": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568065",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI20_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.66": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568066",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI21_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.67": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568067",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "RJFO_LANDING_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.68": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568068",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "what is this 9"
+          }
+        }
+      },
+      "japan-kyushu.Mission.69": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568069",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI23_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.70": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568070",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI24_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.71": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568071",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI25_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.72": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568072",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "POI26_TEXT"
+          }
+        }
+      },
+      "japan-kyushu.Mission.73": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568073",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "what is this 11 Mats"
+          }
+        }
+      },
+      "japan-kyushu.Mission.74": {
+        "UUID": "a67a26c1-4651-4b3b-84ef-28c87f568074",
+        "LastModifiedBy": "MerlinCH65",
+        "LastModifiedDate": "2020-09-27 19:21:00",
+        "LocalizationStatus": "TranslationNeeded",
+        "Tags": {
+          "Locked": "False"
+        },
+        "Languages": {
+          "en-US": {
+            "Text": "Thank you for using BushMissionGen!"
+          }
+        }
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@
     <!--define folder properties-->
 	<property environment="env"/>
     <property name="dir.buildfile" value="."/>
-    <property name="dir.jarfile" value="./run"/>
+    <property name="dir.jarfile" value="./BushMissionGen"/>
     <target name="create_run_jar">
 		<echo message="ECLIPSE_HOME = ${env.ECLIPSE_HOME}" />
         <jar destfile="${dir.jarfile}/BushMissionGen.jar">

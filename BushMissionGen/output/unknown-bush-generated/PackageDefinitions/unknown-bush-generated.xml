@@ -1,0 +1,31 @@
+<AssetPackage Name="unknown-bush-generated" Version="1.0.0">
+	<ItemSettings>
+		<ContentType>MISSION</ContentType>
+		<Title>ESMH to ESTA</Title>
+		<Manufacturer>unknown</Manufacturer>
+		<Creator>unknown</Creator>
+	</ItemSettings>
+	<Flags>
+		<VisibleInStore>false</VisibleInStore>
+		<CanBeReferenced>false</CanBeReferenced>
+	</Flags>
+	<AssetGroups>
+		<AssetGroup Name="ContentInfo">
+			<Type>ContentInfo</Type>
+			<Flags>
+				<FSXCompatibility>false</FSXCompatibility>
+			</Flags>
+			<AssetDir>PackageDefinitions\ContentInfo</AssetDir>
+			<OutputDir>ContentInfo\unknown-bush-generated</OutputDir>
+		</AssetGroup>
+		<AssetGroup Name="unknown-bush-generated">
+			<Type>Mission</Type>
+			<Flags>
+				<FSXCompatibility>false</FSXCompatibility>
+			</Flags>
+			<AssetDir>source</AssetDir>
+			<OutputDir>Missions\unknown-bush-generatedDir</OutputDir>
+		</AssetGroup>
+	</AssetGroups>
+</AssetPackage>
+

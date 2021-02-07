@@ -1,0 +1,1754 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<SimBase.Document Type="AceXML" version="1,0">
+    <Descr>AceXML Document</Descr>
+    <FlightPlan.FlightPlan>
+        <Title>LFMV to LFMV</Title>
+        <FPType>IFR</FPType>
+        <RouteType>HighAlt</RouteType>
+        <CruisingAlt>4000.000</CruisingAlt>
+        <DepartureID>LFMV</DepartureID>
+        <DepartureLLA>N43° 54' 24.00",E4° 54' 7.00",+000124.00</DepartureLLA>
+        <DestinationID>LFMV</DestinationID>
+        <DestinationLLA>N43° 54' 24.00",E4° 54' 7.00",+000124.00</DestinationLLA>
+        <Descr>LFMV to LFMV created by SimBrief</Descr>
+        <DepartureName>Caumont</DepartureName>
+        <DestinationName>Caumont</DestinationName>
+        <AppVersion>
+            <AppVersionMajor>11</AppVersionMajor>
+            <AppVersionBuild>282174</AppVersionBuild>
+        </AppVersion>
+        <ATCWaypoint id="LFMV">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N43° 54' 24.00",E4° 54' 7.00",+000124.00</WorldPosition>
+            <RunwayNumberFP>17</RunwayNumberFP>
+            <ICAO>
+                <ICAOIdent>LFMV</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4304E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 57' 0.00",E4° 47' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4357N00447E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4304E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 51' 0.00",E4° 37' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4351N00437E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4304E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 56' 0.00",E4° 34' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4356N00434E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4304E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 57' 0.00",E4° 32' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4357N00432E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4304E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 50' 0.00",E4° 22' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4350N00422E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4304E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 41' 0.00",E4° 38' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4341N00438E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4304E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 33' 0.00",E4° 44' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4333N00444E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4304E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 27' 0.00",E4° 26' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4327N00426E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="ESPIG">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 30' 38.60",E4° 6' 18.70",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAORegion>LF</ICAORegion>
+                <ICAOIdent>ESPIG</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFNG">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N43° 36' 37.00",E4° 4' 13.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFNG</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4303E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 37' 0.00",E3° 52' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4337N00352E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4303E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 30' 0.00",E3° 53' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4330N00353E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4303E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 24' 0.00",E3° 42' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4324N00342E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4303E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 19' 0.00",E3° 28' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4319N00328E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFMU">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N43° 19' 24.00",E3° 21' 12.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFMU</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4303E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 21' 0.00",E3° 14' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4321N00314E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4303E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 12' 0.00",E3° 0' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4312N00300E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4303E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 1' 0.00",E3° 4' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4301N00304E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4203E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N42° 48' 0.00",E3° 2' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4248N00302E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4202E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N42° 47' 0.00",E2° 50' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4247N00250E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFMP">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N42° 44' 27.00",E2° 52' 11.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFMP</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4202E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N42° 42' 0.00",E2° 53' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4242N00253E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4202E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N42° 42' 0.00",E2° 41' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4242N00241E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4202E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N42° 35' 0.00",E2° 22' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4235N00222E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4202E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N42° 30' 0.00",E2° 10' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4230N00210E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFNQ">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N42° 32' 36.00",E2° 7' 12.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFNQ</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4202E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N42° 34' 0.00",E2° 5' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4234N00205E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4202E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N42° 37' 0.00",E2° 6' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4237N00206E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4202E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N42° 39' 0.00",E2° 0' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4239N00200E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4201E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N42° 51' 0.00",E1° 35' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4251N00135E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4201E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N42° 55' 0.00",E1° 2' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4255N00102E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4200E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N42° 55' 0.00",E0° 38' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4255N00038E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFCB">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N42° 48' 2.00",E0° 36' 4.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFCB</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4200E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N42° 48' 0.00",E0° 26' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4248N00026E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4300E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 4' 0.00",E0° 9' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4304N00009E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4300N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 6' 0.00",W0° 3' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4306N00003W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFDT">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N43° 12' 54.00",E0° 4' 39.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFDT</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4300E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 14' 0.00",E0° 4' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4314N00004E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4300N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 17' 0.00",W0° 22' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4317N00022W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4300N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 12' 0.00",W0° 37' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4312N00037W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4300N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 14' 0.00",W0° 53' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4314N00053W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4301N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 10' 0.00",W1° 14' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4310N00114W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFBZ">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N43° 28' 6.00",W1° 31' 52.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFBZ</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4301N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 39' 0.00",W1° 26' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4339N00126W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4401N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 13' 0.00",W1° 18' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4413N00118W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFBS">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N44° 22' 5.00",W1° 7' 56.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFBS</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4401N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 36' 0.00",W1° 13' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4436N00113W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4400N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 51' 0.00",W0° 34' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4451N00034W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4501N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 39' 0.00",W1° 6' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4539N00106W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFCY">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N45° 37' 52.00",W0° 58' 32.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFCY</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4501N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 49' 0.00",W1° 7' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4549N00107W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4601N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 3' 0.00",W1° 25' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4603N00125W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4601N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 15' 0.00",W1° 34' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4615N00134W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFBH">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N46° 10' 45.00",W1° 11' 43.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFBH</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4601N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 17' 0.00",W1° 18' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4617N00118W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4601N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 30' 0.00",W1° 47' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4630N00147W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4602N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 44' 0.00",W2° 24' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4644N00224W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4702N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 1' 0.00",W2° 18' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4701N00218W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4702N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 7' 0.00",W2° 7' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4707N00207W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFRS">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N47° 9' 25.00",W1° 36' 28.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFRS</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4701N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 15' 0.00",W1° 34' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4715N00134W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4702N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 16' 0.00",W2° 12' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4716N00212W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4702N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 18' 0.00",W2° 33' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4718N00233W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4703N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 19' 0.00",W3° 15' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4719N00315W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4703N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 28' 0.00",W3° 5' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4728N00305W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4702N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 38' 0.00",W2° 47' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4738N00247W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFRV">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N47° 43' 9.00",W2° 43' 24.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFRV</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4703N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 44' 0.00",W3° 22' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4744N00322W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4703N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 52' 0.00",W3° 55' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4752N00355W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4704N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 49' 0.00",W4° 23' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4749N00423W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4804N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 2' 0.00",W4° 44' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4802N00444W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4804N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 6' 0.00",W4° 19' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4806N00419W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFRB">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N48° 26' 50.00",W4° 25' 18.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFRB</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4804N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 23' 0.00",W4° 29' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4823N00429W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4804N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 22' 0.00",W4° 47' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4822N00447W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4805N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 27' 0.00",W5° 9' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4827N00509W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4804N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 33' 0.00",W4° 40' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4833N00440W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4804N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 41' 0.00",W4° 0' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4841N00400W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4803N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 35' 0.00",W3° 50' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4835N00350W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4803N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 33' 0.00",W3° 8' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4833N00308W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFRT">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N48° 32' 15.00",W2° 51' 24.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFRT</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4802N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 31' 0.00",W2° 46' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4831N00246W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4802N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 41' 0.00",W2° 20' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4841N00220W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4802N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 39' 0.00",W2° 1' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4839N00201W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4801N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 43' 0.00",W1° 50' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4843N00150W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4801N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 37' 0.00",W1° 49' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4837N00149W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4801N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 40' 0.00",W1° 25' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4840N00125W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4801N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 45' 0.00",W1° 35' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4845N00135W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4801N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 50' 0.00",W1° 36' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4850N00136W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4801N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 53' 0.00",W1° 51' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4853N00151W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFRF">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N48° 52' 58.00",W1° 33' 50.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFRF</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4901N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 0' 0.00",W1° 34' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4900N00134W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4901N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 13' 0.00",W1° 37' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4913N00137W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4901N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 23' 0.00",W1° 49' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4923N00149W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4901N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 32' 0.00",W1° 55' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4932N00155W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4901N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 44' 0.00",W1° 57' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4944N00157W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4901N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 39' 0.00",W1° 37' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4939N00137W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4901N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 42' 0.00",W1° 16' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4942N00116W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4901N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 24' 0.00",W1° 0' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4924N00100W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFRK">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N49° 10' 24.00",W0° 27' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFRK</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4900N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 10' 0.00",W0° 22' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4910N00022W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4900N">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 17' 0.00",W0° 14' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4917N00014W</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4900E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 22' 0.00",E0° 4' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4922N00004E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4900E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 31' 0.00",E0° 4' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4931N00004E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4900E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 42' 0.00",E0° 10' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4942N00010E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4900E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 51' 0.00",E0° 35' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4951N00035E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4901E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 55' 0.00",E1° 1' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4955N00101E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFAB">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N49° 52' 57.00",E1° 5' 7.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFAB</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4901E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 56' 0.00",E1° 5' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4956N00105E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5001E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N50° 4' 0.00",E1° 23' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5004N00123E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5001E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N50° 16' 0.00",E1° 32' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5016N00132E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5001E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N50° 24' 0.00",E1° 34' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5024N00134E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5001E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N50° 30' 0.00",E1° 41' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5030N00141E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFAT">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N50° 30' 53.00",E1° 37' 39.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFAT</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5001E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N50° 44' 0.00",E1° 35' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5044N00135E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5001E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N50° 52' 0.00",E1° 34' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5052N00134E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5001E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N50° 57' 0.00",E1° 51' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5057N00151E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5102E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N51° 3' 0.00",E2° 21' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5103N00221E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5102E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N51° 2' 0.00",E2° 33' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5102N00233E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5002E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N50° 44' 0.00",E2° 32' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5044N00232E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5003E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N50° 33' 0.00",E3° 0' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5033N00300E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFQQ">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N50° 33' 48.00",E3° 5' 13.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFQQ</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5003E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N50° 20' 0.00",E3° 30' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5020N00330E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5003E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N50° 18' 0.00",E3° 30' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5018N00330E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5003E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N50° 17' 0.00",E3° 57' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5017N00357E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5003E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N50° 8' 0.00",E3° 56' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5008N00356E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="5004E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N50° 1' 0.00",E4° 3' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>5001N00403E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4904E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 55' 0.00",E4° 5' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4955N00405E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFQV">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N49° 47' 6.00",E4° 38' 34.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFQV</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4904E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 46' 0.00",E4° 43' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4946N00443E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4904E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 42' 0.00",E4° 56' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4942N00456E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4905E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 26' 0.00",E5° 36' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4926N00536E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4906E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 21' 0.00",E6° 10' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4921N00610E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4906E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 7' 0.00",E6° 10' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4907N00610E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4906E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 3' 0.00",E6° 20' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4903N00620E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFJL">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N48° 58' 42.00",E6° 14' 48.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFJL</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4906E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 7' 0.00",E6° 43' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4907N00643E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4907E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 6' 0.00",E7° 4' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4906N00704E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4907E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 3' 0.00",E7° 26' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4903N00726E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4907E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N49° 1' 0.00",E7° 54' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4901N00754E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4808E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 58' 0.00",E8° 11' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4858N00811E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4807E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 35' 0.00",E7° 45' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4835N00745E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFGC">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N48° 33' 13.00",E7° 46' 39.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFGC</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4807E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 27' 0.00",E7° 44' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4827N00744E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4807E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 19' 0.00",E7° 32' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4819N00732E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4807E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 16' 0.00",E7° 27' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4816N00727E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4807E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N48° 5' 0.00",E7° 21' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4805N00721E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4707E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 48' 0.00",E7° 22' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4748N00722E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFGB">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N47° 44' 14.00",E7° 25' 47.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFGB</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4707E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 45' 0.00",E7° 20' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4745N00720E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4707E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 38' 0.00",E7° 14' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4738N00714E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4706E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 38' 0.00",E6° 51' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4738N00651E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4706E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 29' 0.00",E6° 47' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4729N00647E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4706E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N47° 15' 0.00",E6° 1' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4715N00601E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4605E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 55' 0.00",E5° 51' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4655N00551E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4605E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 35' 0.00",E5° 42' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4635N00542E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4605E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 21' 0.00",E5° 38' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4621N00538E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4605E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 16' 0.00",E5° 39' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4616N00539E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4605E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 11' 0.00",E5° 34' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4611N00534E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4605E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 9' 0.00",E5° 37' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4609N00537E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4605E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 11' 0.00",E5° 44' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4611N00544E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4605E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 9' 0.00",E5° 48' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4609N00548E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFHN">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N46° 7' 24.00",E5° 48' 17.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFHN</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4605E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 2' 0.00",E5° 54' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4602N00554E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4605E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 0' 0.00",E5° 58' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4600N00558E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4606E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 1' 0.00",E6° 0' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4601N00600E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 56' 0.00",E6° 3' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4556N00603E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 55' 0.00",E6° 7' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4555N00607E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 57' 0.00",E6° 10' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4557N00610E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4606E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 0' 0.00",E6° 10' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4600N00610E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4606E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 4' 0.00",E6° 18' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4604N00618E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4606E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 3' 0.00",E6° 35' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4603N00635E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4606E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N46° 0' 0.00",E6° 38' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4600N00638E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 55' 0.00",E6° 39' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4555N00639E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 52' 0.00",E6° 37' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4552N00637E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFHM">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N45° 49' 28.00",E6° 38' 54.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFHM</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 52' 0.00",E6° 37' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4552N00637E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 49' 0.00",E6° 30' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4549N00630E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 46' 0.00",E6° 29' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4546N00629E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 45' 0.00",E6° 25' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4545N00625E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 40' 0.00",E6° 23' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4540N00623E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 39' 0.00",E6° 26' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4539N00626E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 31' 0.00",E6° 29' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4531N00629E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFKX">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N45° 24' 27.00",E6° 34' 39.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFKX</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 33' 0.00",E6° 28' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4533N00628E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 21' 0.00",E6° 18' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4521N00618E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 13' 0.00",E6° 8' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4513N00608E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 12' 0.00",E6° 5' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4512N00605E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 13' 0.00",E6° 3' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4513N00603E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 11' 0.00",E6° 2' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4511N00602E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4506E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 8' 0.00",E6° 3' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4508N00603E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4505E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N45° 2' 0.00",E5° 59' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4502N00559E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4405E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 57' 0.00",E5° 58' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4457N00558E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4405E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 55' 0.00",E5° 57' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4455N00557E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4405E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 53' 0.00",E5° 55' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4453N00555E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4405E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 54' 0.00",E5° 49' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4454N00549E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4405E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 52' 0.00",E5° 44' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4452N00544E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4405E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 48' 0.00",E5° 46' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4448N00546E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4405E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 52' 0.00",E5° 44' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4452N00544E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4405E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 53' 0.00",E5° 48' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4453N00548E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4405E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 47' 0.00",E5° 59' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4447N00559E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4406E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 40' 0.00",E6° 5' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4440N00605E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4406E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 31' 0.00",E6° 5' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4431N00605E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4405E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 19' 0.00",E5° 55' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4419N00555E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4406E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 4' 0.00",E6° 0' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4404N00600E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFTP">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N43° 52' 8.00",E6° 9' 46.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFTP</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 47' 0.00",E6° 16' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4347N00616E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 44' 0.00",E6° 21' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4344N00621E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 44' 0.00",E6° 22' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4344N00622E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 47' 0.00",E6° 24' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4347N00624E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 50' 0.00",E6° 30' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4350N00630E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 55' 0.00",E6° 32' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4355N00632E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 56' 0.00",E6° 41' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4356N00641E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 57' 0.00",E6° 41' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4357N00641E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 58' 0.00",E6° 45' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4358N00645E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4406E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 3' 0.00",E6° 51' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4403N00651E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4406E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 6' 0.00",E6° 51' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4406N00651E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4406E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 7' 0.00",E6° 55' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4407N00655E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4406E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 6' 0.00",E6° 56' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4406N00656E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4406E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 7' 0.00",E6° 57' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4407N00657E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4406E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 6' 0.00",E6° 59' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4406N00659E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4407E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N44° 5' 0.00",E7° 6' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4405N00706E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4307E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 55' 0.00",E7° 11' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4355N00711E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4307E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 42' 0.00",E7° 18' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4342N00718E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFMN">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N43° 39' 55.00",E7° 12' 54.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFMN</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4307E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 33' 0.00",E7° 8' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4333N00708E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 30' 0.00",E6° 58' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4330N00658E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 25' 0.00",E6° 54' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4325N00654E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 16' 0.00",E6° 40' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4316N00640E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 9' 0.00",E6° 37' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4309N00637E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 0' 0.00",E6° 26' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4300N00626E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 0' 0.00",E6° 10' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4300N00610E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4306E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 5' 0.00",E6° 1' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4305N00601E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4305E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 7' 0.00",E5° 54' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4307N00554E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4305E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 11' 0.00",E5° 34' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4311N00534E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4305E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 12' 0.00",E5° 19' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4312N00519E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4305E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 17' 0.00",E5° 23' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4317N00523E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4305E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 28' 0.00",E5° 24' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4328N00524E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFMA">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N43° 30' 19.00",E5° 22' 2.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>LFMA</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4305E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 32' 0.00",E5° 27' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4332N00527E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4305E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 40' 0.00",E5° 31' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4340N00531E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4305E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 44' 0.00",E5° 19' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4344N00519E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4305E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 45' 0.00",E5° 10' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4345N00510E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4305E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 47' 0.00",E5° 4' 0.00",+004000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4347N00504E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="4304E">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N43° 49' 0.00",E4° 55' 0.00",+002900.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>4349N00455E</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="LFMV">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N43° 54' 24.00",E4° 54' 7.00",+000124.00</WorldPosition>
+            <RunwayNumberFP>17</RunwayNumberFP>
+            <ICAO>
+                <ICAOIdent>LFMV</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+    </FlightPlan.FlightPlan>
+</SimBase.Document>

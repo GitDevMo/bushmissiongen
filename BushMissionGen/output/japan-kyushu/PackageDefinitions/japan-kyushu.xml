@@ -1,0 +1,31 @@
+<AssetPackage Name="japan-kyushu" Version="1.0.0">
+	<ItemSettings>
+		<ContentType>MISSION</ContentType>
+		<Title>RJFK to RJFF</Title>
+		<Manufacturer>MerlinCH65</Manufacturer>
+		<Creator>MerlinCH65</Creator>
+	</ItemSettings>
+	<Flags>
+		<VisibleInStore>false</VisibleInStore>
+		<CanBeReferenced>false</CanBeReferenced>
+	</Flags>
+	<AssetGroups>
+		<AssetGroup Name="ContentInfo">
+			<Type>ContentInfo</Type>
+			<Flags>
+				<FSXCompatibility>false</FSXCompatibility>
+			</Flags>
+			<AssetDir>PackageDefinitions\ContentInfo</AssetDir>
+			<OutputDir>ContentInfo\japan-kyushu</OutputDir>
+		</AssetGroup>
+		<AssetGroup Name="japan-kyushu">
+			<Type>Mission</Type>
+			<Flags>
+				<FSXCompatibility>false</FSXCompatibility>
+			</Flags>
+			<AssetDir>source</AssetDir>
+			<OutputDir>Missions\japan-kyushuDir</OutputDir>
+		</AssetGroup>
+	</AssetGroups>
+</AssetPackage>
+

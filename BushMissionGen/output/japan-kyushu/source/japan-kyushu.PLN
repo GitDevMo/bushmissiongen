@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimBase.Document Type="AceXML" version="1,0">
+    <Descr>AceXML Document</Descr>
+       <FlightPlan.FlightPlan>
+        <Title>RJFK to RJFF</Title>
+        <FPType>VFR</FPType>
+        <CruisingAlt>1000</CruisingAlt>
+        <DepartureID>RJFK</DepartureID>
+        <DepartureLLA>N31° 47' 31.04",E130° 43' 37.66",+000883.00</DepartureLLA>
+        <DestinationID>RJFF</DestinationID>
+        <DestinationLLA>N33° 35' 9.36",E130° 27' 2.46",+000023.00</DestinationLLA>
+        <Descr>RJFK, RJFF</Descr>
+        <DeparturePosition></DeparturePosition>
+        <DepartureName></DepartureName>
+        <DestinationName></DestinationName>
+        <AppVersion>
+            <AppVersionMajor>10</AppVersionMajor>
+            <AppVersionBuild>61472</AppVersionBuild>
+        </AppVersion>
+        <ATCWaypoint id="RJFK">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N31° 48' 12.21",E130° 43' 9.81",+000883.00</WorldPosition>
+            <RunwayNumberFP>34</RunwayNumberFP>
+            <ICAO>
+                <ICAOIdent>RJFK</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI1">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N31° 35' 30.10",E130° 35' 59.75",+005535.25</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI2">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N31° 33' 15.85",E130° 42' 11.80",+007429.62</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI3">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N31° 46' 35.21",E130° 45' 5.11",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI4">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N31° 43' 11.96",E131° 3' 41.21",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI5">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N31° 49' 9.23",E131° 13' 46.83",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="RJFM">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N31° 52' 37.68",E131° 26' 54.39",+010000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>RJFM</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI6">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N31° 48' 17.24",E131° 28' 31.78",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI7">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N31° 59' 36.14",E130° 58' 26.01",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI8">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N31° 55' 20.80",E130° 50' 57.39",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI9">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N32° 2' 40.06",E130° 48' 37.09",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI10">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N32° 13' 0.73",E130° 45' 52.73",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI11">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N32° 30' 16.38",E130° 36' 42.70",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="RJFT">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N32° 50' 14.28",E130° 51' 18.20",+010000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>RJFT</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI12">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N32° 42' 37.69",E130° 16' 1.80",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI13">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N32° 50' 8.70",E130° 10' 55.28",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI14">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N32° 45' 3.24",E129° 52' 42.69",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI15">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N33° 2' 31.39",E129° 36' 46.05",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI16">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N33° 21' 55.86",E129° 33' 6.05",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI17">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N33° 22' 39.21",E129° 49' 24.94",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="RJFS">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N33° 8' 59.02",E130° 18' 7.81",+010000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>RJFS</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI18">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N32° 52' 55.34",E131° 5' 12.07",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI19">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N33° 5' 54.41",E131° 14' 31.33",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI20">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N33° 13' 16.21",E131° 40' 15.01",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI21">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N33° 17' 54.22",E131° 29' 21.22",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="RJFO">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N33° 28' 46.16",E131° 44' 13.53",+010000.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>RJFO</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI22">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N33° 43' 39.96",E131° 39' 49.09",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI23">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N33° 36' 36.17",E131° 10' 19.19",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI24">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N33° 46' 53.15",E130° 59' 29.07",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI25">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N33° 54' 16.62",E130° 52' 36.26",+010000.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="POI26">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N33° 40' 19.45",E130° 18' 4.79",+003019.92</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="RJFF">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N33° 35' 9.36",E130° 27' 2.46",+000023.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>RJFF</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+
+    </FlightPlan.FlightPlan>
+</SimBase.Document>
