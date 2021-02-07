@@ -7,37 +7,26 @@ https://flightsim.to/file/3681/bushmissiongen#
 
 # Development
 
-Eclipse 2020-12 is the prefered IDE for developing BMG.
+Eclipse 2020-12 is the preferred IDE for developing BMG.
 
 ### Required downloads and installation
 
 https://www.eclipse.org/downloads/packages/release/2020-12/r/eclipse-ide-rcp-and-rap-developers<br>
-https://www.oracle.com/se/java/technologies/javase-jdk11-downloads.html<br
+https://www.oracle.com/se/java/technologies/javase-jdk11-downloads.html<br>
 <br>
 * Extract the Eclipse zip package to your home folder.
-* Extract the JDK into the Eclipse folder created above.
-* Edit the file eclipse.ini and add this ABOVE -vmargs:<br>
-```
-    -vm
-    {The path to the Eclipse folder}\eclipse\jdk-11.0.8\bin\
-```
+* Uninstall any existing version of Java on your computer and install JDK 11 instead.
 
 ### Eclipse configuration and program start
 
 * Right-click on the Starter.java file and select <b>Run As --> Run Configurations...</b>.
-* Set the working directory to "${workspace_loc:BushMissonGen/run}".
+* Set the working directory to <b>${workspace_loc:BushMissonGen/run}</b>.
 * Run the application.
 
 ### Create JAR file
 
-* Extract jar-in-jar-loader.zip from eclipse_install_dir/plugins/org.eclipse.jdt.ui_XXXXXXX.jar and place it next to the build script.
+* Extract jar-in-jar-loader.zip from <b>{the path to your Eclipse folder}/plugins/org.eclipse.jdt.ui_XXXXXXX.jar</b> and place it next to the build script (build.xml).
 * Right click on build.xml and select <b>Run As --> Ant Build...</b>.
 * Under "Environment", add an entry with name = "ECLIPSE_HOME" and value = "{the path to your Eclipse folder}".
 * Run build.xml and make sure BushMissionGen.jar is created in the 'run' folder.
 * Launch the JAR file.
-
-# TO-DO
-
-* What is the Overview.htm file used for in landing challenges?
-* Leaderboards for landing challenges? Possible for 3rd party missions?
-* Is there the possibility of setting the flight departure at the parking area instead of on the runway (leg 2-X)?
