@@ -3465,8 +3465,6 @@ public class BushMissionGen {
 		return null;
 	}
 
-	
-
 	public Message compileMission(MetaEntry metaEntry, String source, String destination, String sdkPath) {
 		String compilerExe = "C:\\MSFS SDK\\Tools\\bin\\fspackagetool.exe";
 		int startScan = 0;

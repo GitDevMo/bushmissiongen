@@ -12,10 +12,10 @@ Eclipse 2020-12 is the preferred IDE for developing BMG.
 ### Required downloads and installation
 
 https://www.eclipse.org/downloads/packages/release/2020-12/r/eclipse-ide-rcp-and-rap-developers<br>
-https://www.oracle.com/se/java/technologies/javase-jdk11-downloads.html<br>
+https://www.oracle.com/java/technologies/javase-jdk15-downloads.html<br>
 <br>
 * Extract the Eclipse zip package to your home folder.
-* Uninstall any existing version of Java on your computer and install JDK 11 instead.
+* Uninstall any existing version of Java on your computer and install JDK 15 instead.
 
 ### Eclipse configuration and program start
 
