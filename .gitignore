@@ -4,6 +4,7 @@ BushMissionGen/*.txt
 BushMissionGen/*.xlsx
 BushMissionGen/*.pln
 BushMissionGen/output/
+!BushMissionGen/README.txt
 
 # Compiled class file
 *.class
