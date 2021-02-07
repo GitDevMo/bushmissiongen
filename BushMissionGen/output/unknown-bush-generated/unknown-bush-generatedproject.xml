@@ -1,8 +1,0 @@
-<Project Version="2" Name="unknown-bush-generatedproject" FolderName="Packages">
-	<OutputDirectory>.</OutputDirectory>
-	<TemporaryOutputDirectory>_PackageInt</TemporaryOutputDirectory>
-	<Packages>
-		<Package>PackageDefinitions\unknown-bush-generated.xml</Package>
-	</Packages>
-</Project>
-
