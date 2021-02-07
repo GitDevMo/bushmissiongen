@@ -2,12 +2,16 @@ package bushmissiongen.misc;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import bushmissiongen.BushMissionGen;
 
 public class SimData {
 	public Object[] weatherTypes = new Object[] {
@@ -242,5 +246,120 @@ public class SimData {
 			try { in.close() ; } catch(Exception e) { /* ignore */ }  
 		}
 		return foundPath;
+	}
+	
+	public String getPlanes() {
+		StringBuffer sb = new StringBuffer();		
+
+		if (BushMissionGen.COMMUNITY_DIR != null) {
+			File communityPath = new File(BushMissionGen.COMMUNITY_DIR);
+			File officialPath = new File(BushMissionGen.OFFICIAL_DIR);
+
+			// Scan the two folder recursively
+			List<String> planesCommunity = new ArrayList<>();
+			scan(communityPath, planesCommunity);
+			Collections.sort(planesCommunity);
+
+			sb.append("AVAILABLE PLANES" + System.lineSeparator());
+			sb.append("" + System.lineSeparator());
+
+			sb.append("Community folder:" + System.lineSeparator());
+
+			for (String plane : planesCommunity) {
+				sb.append(plane + System.lineSeparator());
+			}
+
+			List<String> planesOfficial = new ArrayList<>();
+			scan(officialPath, planesOfficial);
+			Collections.sort(planesOfficial);
+
+			sb.append("" + System.lineSeparator());
+			sb.append("Official folder:" + System.lineSeparator());
+
+			for (String plane : planesOfficial) {
+				sb.append(plane + System.lineSeparator());
+			}
+
+			Collections.sort(encryptedOfficial);
+
+			sb.append("" + System.lineSeparator());
+			sb.append("Encrypted offical (You might have them, you might not. Deluxe + Premium planes):" + System.lineSeparator());
+
+			for (String plane : encryptedOfficial) {
+				sb.append(plane + System.lineSeparator());
+			}
+
+			sb.append("" + System.lineSeparator());
+			sb.append("*** Triple click and CTRL+C to copy a row to the clipboard! ***" + System.lineSeparator());
+		} else {
+			sb.append("Sorry, I could not find the Packages folder on this computer.");
+		}
+
+		return sb.toString();
+	}
+
+	private void scan(File dir, List<String> planeList) {
+		File[] list = dir.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				if (new File(dir + File.separator + name).isDirectory() || name.toLowerCase().equals("aircraft.cfg")) {
+					return true;
+				}
+
+				return false;
+			}
+		});
+
+		for (File f : list) {
+			if (f.isDirectory()) {
+				scan(f, planeList);
+			} else {
+				planeList.addAll(findPlanes(f));
+			}
+		}
+	}
+
+	private List<String> findPlanes(File f) {
+		List<String> result = new ArrayList<>();
+		String firstFind = "[FLTSIM.";
+		boolean foundFirstFind = false;
+
+		try (Scanner in = new Scanner(new FileReader(f))){
+			while(in.hasNextLine()) {
+				String line = in.nextLine();
+
+				if (foundFirstFind) {
+					String lineNoSpaces = line.replace(" " ,  "");
+					if (lineNoSpaces.indexOf("title=\"") == 0) {
+						String[] split = line.split("\"");
+
+						line = split[1].trim();
+						if (!line.startsWith("Generic ")) {
+							result.add(line);
+						}
+					} else if (lineNoSpaces.indexOf("title=") == 0) {
+						int sep1 = line.indexOf("=");
+						line = line.substring(sep1+1);
+
+						int sep2 = line.indexOf(";");
+						if (sep2 >= 0) {
+							line = line.substring(0, sep2);
+						}
+
+						line = line.trim();
+						if (!line.startsWith("Generic ")) {
+							result.add(line);
+						}
+					}
+				} else {
+					if (line.startsWith(firstFind)) {
+						foundFirstFind = true;
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();      
+		}
+		return result;
 	}
 }

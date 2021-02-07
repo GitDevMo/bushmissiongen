@@ -1,54 +1,28 @@
 package bushmissiongen;
 
-import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -62,6 +36,8 @@ import bushmissiongen.entries.MissionFailureEntry;
 import bushmissiongen.entries.MissionFailureEntry.MissionFailureEntryMode;
 import bushmissiongen.entries.WarningEntry;
 import bushmissiongen.entries.WarningEntry.WarningEntryMode;
+import bushmissiongen.handling.FileHandling;
+import bushmissiongen.handling.ImageHandling;
 import bushmissiongen.messages.ErrorMessage;
 import bushmissiongen.messages.InfoMessage;
 import bushmissiongen.messages.Message;
@@ -89,10 +65,10 @@ public class BushMissionGen {
 	private static final int META_REQUIRED_ITEMS = 20;
 	private static final int META_SPLIT_LEN = 2;
 
-	private static final int WP_SPLIT_LEN = 9;
-	private static final int WP_EXTRA_SPLIT_LEN = 16;
-	private static final int WP_LANDING_LEN = 6;
-	private static final int WP_LOCALIZATION_LEN = 5;
+	public static final int WP_SPLIT_LEN = 9;
+	public static final int WP_EXTRA_SPLIT_LEN = 16;
+	public static final int WP_LANDING_LEN = 6;
+	public static final int WP_LOCALIZATION_LEN = 5;
 
 	private static final int MAX_COUNT_LEGS = 728;  // 2*26 (!A, ?A, AA, AB, ..)
 	private static final int MAX_COUNT_POIS = 1035; //  (1035 == FF)
@@ -110,6 +86,8 @@ public class BushMissionGen {
 	public StringBuffer mGeoJSON;
 	public int mGeoJSONcount;
 	public List<String> mSounds = null;
+	public FileHandling mFileHandling = new FileHandling();
+	public ImageHandling mImageHandling = new ImageHandling();
 	public Settings mSettings = new Settings();
 	public SimData mSimData = new SimData();
 
@@ -194,7 +172,7 @@ public class BushMissionGen {
 			if (!recept_file.toLowerCase().endsWith(".xlsx")) {
 				list = Files.readAllLines(path, StandardCharsets.UTF_8);
 			} else {
-				list = readFromXLS(recept_file);
+				list = mFileHandling.readFromXLS(recept_file);
 			}
 
 			String separator = preScan(list);
@@ -847,10 +825,10 @@ public class BushMissionGen {
 		String compiledPath = projectPath + File.separator + "Packages";
 
 		if (mode >= 3 && mode <= 6) {
-			if (mode == 3) return showFolder(projectPath);
-			if (mode == 4) return showFolder(imagesPath);
-			if (mode == 5) return showFolder(soundPath);
-			if (mode == 6) return showFolder(compiledPath);
+			if (mode == 3) return mFileHandling.showFolder(projectPath);
+			if (mode == 4) return mFileHandling.showFolder(imagesPath);
+			if (mode == 5) return mFileHandling.showFolder(soundPath);
+			if (mode == 6) return mFileHandling.showFolder(compiledPath);
 		}
 
 		String outFileXML = fourFilesPath +  File.separator + metaEntry.project + ".xml";
@@ -1090,11 +1068,11 @@ public class BushMissionGen {
 						}
 
 						String imageFile = imagesPath + File.separator + id;
-						Message msgJPG = generateImage(new File(imageFile + ".jpg"), 1920, 1080, "jpg", "LEG - " + entry.id, Font.PLAIN, 1.0d);
+						Message msgJPG = mImageHandling.generateImage(new File(imageFile + ".jpg"), 1920, 1080, "jpg", "LEG - " + entry.id, Font.PLAIN, 1.0d);
 						if (msgJPG != null) {
 							return msgJPG;
 						}
-						Message msgPNG = generateImage(new File(imageFile + ".png"), 1200, 800, "png", "NAVLOG - " + entry.id, Font.PLAIN, 1.0d);
+						Message msgPNG = mImageHandling.generateImage(new File(imageFile + ".png"), 1200, 800, "png", "NAVLOG - " + entry.id, Font.PLAIN, 1.0d);
 						if (msgPNG != null) {
 							return msgPNG;
 						}
@@ -1104,24 +1082,24 @@ public class BushMissionGen {
 			}
 		} else {
 			String imageFileBriefing = imagesPath + File.separator + "Briefing_Screen.jpg";
-			Message msgJPGBriefing = generateImage(new File(imageFileBriefing), 3840, 2160, "jpg", "Briefing", Font.PLAIN, 1.0d);
+			Message msgJPGBriefing = mImageHandling.generateImage(new File(imageFileBriefing), 3840, 2160, "jpg", "Briefing", Font.PLAIN, 1.0d);
 			if (msgJPGBriefing != null) {
 				return msgJPGBriefing;
 			}
 		}
 
 		String imageFile1 = imagesPath + File.separator + "Loading_Screen.jpg";
-		Message msgJPG1 = generateImage(new File(imageFile1), 3840, 2160, "jpg", "Loading", Font.PLAIN, 1.0d);
+		Message msgJPG1 = mImageHandling.generateImage(new File(imageFile1), 3840, 2160, "jpg", "Loading", Font.PLAIN, 1.0d);
 		if (msgJPG1 != null) {
 			return msgJPG1;
 		}
 		String imageFile2 = imagesPath + File.separator + "Activity_Widget.jpg";
-		Message msgJPG2 = generateImage(new File(imageFile2), 816, 626, "jpg", "Generated|in|BushMissionGen v" + BushMissionGen.VERSION, Font.PLAIN, 1.0d);
+		Message msgJPG2 = mImageHandling.generateImage(new File(imageFile2), 816, 626, "jpg", "Generated|in|BushMissionGen v" + BushMissionGen.VERSION, Font.PLAIN, 1.0d);
 		if (msgJPG2 != null) {
 			return msgJPG2;
 		}
 		String imageFile3 = contentInfoPath + File.separator + "Thumbnail.jpg";
-		Message msgJPG3 = generateImage(new File(imageFile3), 412, 170, "jpg", "Generated|in|BushMissionGen v" + BushMissionGen.VERSION, Font.BOLD, 1.5d);
+		Message msgJPG3 = mImageHandling.generateImage(new File(imageFile3), 412, 170, "jpg", "Generated|in|BushMissionGen v" + BushMissionGen.VERSION, Font.BOLD, 1.5d);
 		if (msgJPG3 != null) {
 			return msgJPG3;
 		}
@@ -1191,7 +1169,7 @@ public class BushMissionGen {
 
 			// Write preview HTML to file
 			Charset cs = StandardCharsets.UTF_8;
-			Message msg = writeStringToFile(outFilePreview, mDoc.toString(), cs);
+			Message msg = mFileHandling.writeStringToFile(outFilePreview, mDoc.toString(), cs);
 			if (msg != null) {
 				return msg;
 			}
@@ -1200,7 +1178,7 @@ public class BushMissionGen {
 			// JSON
 			mGeoJSON.append("]").append(System.lineSeparator());
 			mGeoJSON.append("}").append(System.lineSeparator());
-			Message msgJSON = writeStringToFile(outFileJSON, mGeoJSON.toString(), cs);
+			Message msgJSON = mFileHandling.writeStringToFile(outFileJSON, mGeoJSON.toString(), cs);
 			if (msgJSON != null) {
 				return msgJSON;
 			}
@@ -1275,12 +1253,12 @@ public class BushMissionGen {
 
 	private Message handleXML(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile, String pathRoot, String imagesPath) {
 		Charset cs = Charset.forName("windows-1252");
-		String XML_FILE = readFileToString(inFile, cs);
-		String XML_LEG = readUrlToString("XML/LEG.txt", cs);
-		String XML_SUBLEG = readUrlToString("XML/SUBLEG.txt", cs);
-		String XML_CALC = readUrlToString("XML/CALC.txt", cs);
-		String XML_LANDEDDIALOGS = readUrlToString("XML/LANDEDDIALOGS.txt", cs);
-		String XML_LANDEDTRIGGER = readUrlToString("XML/LANDEDTRIGGER.txt", cs);
+		String XML_FILE = mFileHandling.readFileToString(inFile, cs);
+		String XML_LEG = mFileHandling.readUrlToString("XML/LEG.txt", cs);
+		String XML_SUBLEG = mFileHandling.readUrlToString("XML/SUBLEG.txt", cs);
+		String XML_CALC = mFileHandling.readUrlToString("XML/CALC.txt", cs);
+		String XML_LANDEDDIALOGS = mFileHandling.readUrlToString("XML/LANDEDDIALOGS.txt", cs);
+		String XML_LANDEDTRIGGER = mFileHandling.readUrlToString("XML/LANDEDTRIGGER.txt", cs);
 		String XML_REGION = System.lineSeparator() +
 				"                <idRegion>##REGION##</idRegion>";
 		String XML_IMAGEPATH = System.lineSeparator() +
@@ -1692,8 +1670,8 @@ public class BushMissionGen {
 
 		StringBuffer sb_DIALOGS = new StringBuffer();
 		if (!metaEntry.poiSpeech.isEmpty() || !metaEntry.poiSpeechBefore.isEmpty()) {
-			String XML_DIALOGS = readUrlToString("XML/DIALOGS.txt", cs);
-			String XML_DIALOGSEXIT = readUrlToString("XML/DIALOGSEXIT.txt", cs);
+			String XML_DIALOGS = mFileHandling.readUrlToString("XML/DIALOGS.txt", cs);
+			String XML_DIALOGSEXIT = mFileHandling.readUrlToString("XML/DIALOGSEXIT.txt", cs);
 			sb_DIALOGS.append(System.lineSeparator());
 			int count = 0;
 			DialogEntry de = new DialogEntry(); // To get standard values
@@ -1902,8 +1880,8 @@ public class BushMissionGen {
 		}
 
 		if (!metaEntry.dialogEntries.isEmpty()) {
-			String XML_DIALOGS = readUrlToString("XML/DIALOGS.txt", cs);
-			String XML_DIALOGSEXIT = readUrlToString("XML/DIALOGSEXIT.txt", cs);
+			String XML_DIALOGS = mFileHandling.readUrlToString("XML/DIALOGS.txt", cs);
+			String XML_DIALOGSEXIT = mFileHandling.readUrlToString("XML/DIALOGSEXIT.txt", cs);
 			sb_DIALOGS.append(System.lineSeparator());
 			int count = 0;
 			for (DialogEntry de : metaEntry.dialogEntries) {
@@ -2084,13 +2062,13 @@ public class BushMissionGen {
 		if (!failureEntries.isEmpty()) {
 			sb_FAILURES.append(System.lineSeparator());
 
-			String XML_FAILURES = readUrlToString("XML/FAILURES.txt", cs);
-			String XML_FAILURESEXIT = readUrlToString("XML/FAILURESEXIT.txt", cs);
-			String XML_ALTITUDETRIGGER = readUrlToString("XML/ALTITUDETRIGGER.txt", cs);
-			String XML_SPEEDTRIGGER = readUrlToString("XML/SPEEDTRIGGER.txt", cs);
-			String XML_ALTITUDESPEEDTRIGGER = readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", cs);
-			String XML_FORMULATRIGGER = readUrlToString("XML/FORMULATRIGGER.txt", cs);
-			String XML_FAILUREACTION = readUrlToString("XML/FAILUREACTION.txt", cs);
+			String XML_FAILURES = mFileHandling.readUrlToString("XML/FAILURES.txt", cs);
+			String XML_FAILURESEXIT = mFileHandling.readUrlToString("XML/FAILURESEXIT.txt", cs);
+			String XML_ALTITUDETRIGGER = mFileHandling.readUrlToString("XML/ALTITUDETRIGGER.txt", cs);
+			String XML_SPEEDTRIGGER = mFileHandling.readUrlToString("XML/SPEEDTRIGGER.txt", cs);
+			String XML_ALTITUDESPEEDTRIGGER = mFileHandling.readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", cs);
+			String XML_FORMULATRIGGER = mFileHandling.readUrlToString("XML/FORMULATRIGGER.txt", cs);
+			String XML_FAILUREACTION = mFileHandling.readUrlToString("XML/FAILUREACTION.txt", cs);
 			int count = 0;
 			for (FailureEntry fe : failureEntries) {
 				String ss = XML_FAILURES;
@@ -2243,7 +2221,7 @@ public class BushMissionGen {
 
 		StringBuffer sb_INTRODIALOG = new StringBuffer();
 		if (!metaEntry.introSpeeches.isEmpty()) {
-			String XML_INTRODIALOG = readUrlToString("XML/INTRODIALOG.txt", cs);
+			String XML_INTRODIALOG = mFileHandling.readUrlToString("XML/INTRODIALOG.txt", cs);
 			int count1 = 0;
 
 			for (DelayedText is : metaEntry.introSpeeches) {
@@ -2344,8 +2322,8 @@ public class BushMissionGen {
 				}
 
 				if (we.currentMode == WarningEntryMode.ALTITUDE) {
-					String XML_ALTITUDETRIGGER = readUrlToString("XML/ALTITUDETRIGGER.txt", cs);
-					String XML_DIALOGACTION = readUrlToString("XML/DIALOGACTION.txt", cs);
+					String XML_ALTITUDETRIGGER = mFileHandling.readUrlToString("XML/ALTITUDETRIGGER.txt", cs);
+					String XML_DIALOGACTION = mFileHandling.readUrlToString("XML/DIALOGACTION.txt", cs);
 
 					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##ACTION##", XML_DIALOGACTION);
 
@@ -2371,8 +2349,8 @@ public class BushMissionGen {
 					sb_WARNINGS.append(XML_ALTITUDETRIGGER);
 					count1++;
 				} else if (we.currentMode == WarningEntryMode.SPEED) {
-					String XML_SPEEDTRIGGER = readUrlToString("XML/SPEEDTRIGGER.txt", cs);
-					String XML_DIALOGACTION = readUrlToString("XML/DIALOGACTION.txt", cs);
+					String XML_SPEEDTRIGGER = mFileHandling.readUrlToString("XML/SPEEDTRIGGER.txt", cs);
+					String XML_DIALOGACTION = mFileHandling.readUrlToString("XML/DIALOGACTION.txt", cs);
 
 					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##ACTION##", XML_DIALOGACTION);
 
@@ -2397,8 +2375,8 @@ public class BushMissionGen {
 					sb_WARNINGS.append(XML_SPEEDTRIGGER);
 					count2++;
 				} else if (we.currentMode == WarningEntryMode.ALTITUDE_AND_SPEED) {
-					String XML_ALTITUDESPEEDTRIGGER = readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", cs);
-					String XML_DIALOGACTION = readUrlToString("XML/DIALOGACTION.txt", cs);
+					String XML_ALTITUDESPEEDTRIGGER = mFileHandling.readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", cs);
+					String XML_DIALOGACTION = mFileHandling.readUrlToString("XML/DIALOGACTION.txt", cs);
 
 					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##ACTION##", XML_DIALOGACTION);
 
@@ -2425,8 +2403,8 @@ public class BushMissionGen {
 					sb_WARNINGS.append(XML_ALTITUDESPEEDTRIGGER);
 					count3++;
 				} else if (we.currentMode == WarningEntryMode.FORMULA) {
-					String XML_FORMULATRIGGER = readUrlToString("XML/FORMULATRIGGER.txt", cs);
-					String XML_DIALOGACTION = readUrlToString("XML/DIALOGACTION.txt", cs);
+					String XML_FORMULATRIGGER = mFileHandling.readUrlToString("XML/FORMULATRIGGER.txt", cs);
+					String XML_DIALOGACTION = mFileHandling.readUrlToString("XML/DIALOGACTION.txt", cs);
 
 					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##ACTION##", XML_DIALOGACTION);
 
@@ -2465,7 +2443,7 @@ public class BushMissionGen {
 				count_MISSIONFAILURES++;
 
 				if (mfe.currentMode == MissionFailureEntryMode.AREA) {
-					String XML_PROXIMITYTRIGGER = readUrlToString("XML/PROXIMITYTRIGGER.txt", cs);
+					String XML_PROXIMITYTRIGGER = mFileHandling.readUrlToString("XML/PROXIMITYTRIGGER.txt", cs);
 
 					String ss = XML_PROXIMITYTRIGGER;
 					ss = ss.replace("##ACTION##", "");
@@ -2540,7 +2518,7 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.ALTITUDE) {
-					String XML_ALTITUDETRIGGER = readUrlToString("XML/ALTITUDETRIGGER.txt", cs);
+					String XML_ALTITUDETRIGGER = mFileHandling.readUrlToString("XML/ALTITUDETRIGGER.txt", cs);
 
 					String ss = XML_ALTITUDETRIGGER;
 					ss = ss.replace("##ACTION##", "");
@@ -2599,7 +2577,7 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.SPEED) {
-					String XML_SPEEDTRIGGER = readUrlToString("XML/SPEEDTRIGGER.txt", cs);
+					String XML_SPEEDTRIGGER = mFileHandling.readUrlToString("XML/SPEEDTRIGGER.txt", cs);
 
 					String ss = XML_SPEEDTRIGGER;
 					ss = ss.replace("##ACTION##", "");
@@ -2657,7 +2635,7 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.ALTITUDE_AND_SPEED) {
-					String XML_ALTITUDESPEEDTRIGGER = readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", cs);
+					String XML_ALTITUDESPEEDTRIGGER = mFileHandling.readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", cs);
 
 					String ss = XML_ALTITUDESPEEDTRIGGER;
 					ss = ss.replace("##ACTION##", "");
@@ -2717,7 +2695,7 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.TIME) {
-					String XML_TIMERTRIGGER = readUrlToString("XML/TIMERTRIGGER.txt", cs);
+					String XML_TIMERTRIGGER = mFileHandling.readUrlToString("XML/TIMERTRIGGER.txt", cs);
 
 					String ss = XML_TIMERTRIGGER;
 					ss = ss.replace("##ACTION##", "");
@@ -2787,7 +2765,7 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.FORMULA) {
-					String XML_FORMULATRIGGER = readUrlToString("XML/FORMULATRIGGER.txt", cs);
+					String XML_FORMULATRIGGER = mFileHandling.readUrlToString("XML/FORMULATRIGGER.txt", cs);
 
 					String ss = XML_FORMULATRIGGER;
 					ss = ss.replace("##ACTION##", "");
@@ -2921,7 +2899,7 @@ public class BushMissionGen {
 		XML_FILE = XML_FILE.replace("##CALCULATOR_STUFF##", sb_CALCULATOR_STUFF);
 		XML_FILE = XML_FILE.replace("##FLOWEVENT_STUFF##", sb_FLOWEVENT_STUFF);
 
-		Message msg = writeStringToFile(outFile, XML_FILE, cs);
+		Message msg = mFileHandling.writeStringToFile(outFile, XML_FILE, cs);
 		if (msg != null) {
 			return msg;
 		}
@@ -2931,7 +2909,7 @@ public class BushMissionGen {
 
 	private Message handleFLT(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile) {
 		Charset cs = Charset.forName("windows-1252");
-		String FLT_FILE = readFileToString(inFile, cs);
+		String FLT_FILE = mFileHandling.readFileToString(inFile, cs);
 
 		StringBuffer sb_BRIEFINGIMAGES = new StringBuffer();
 		StringBuffer sb_WAYPOINTS = new StringBuffer();
@@ -3173,18 +3151,18 @@ public class BushMissionGen {
 		// Airliner bush?
 		String airlinerBushText = "";
 		if (mSimData.airliners.contains(metaEntry.plane)) {
-			airlinerBushText = readUrlToString("FLT/AIRLINER_BUSH.txt", cs);
+			airlinerBushText = mFileHandling.readUrlToString("FLT/AIRLINER_BUSH.txt", cs);
 		}
 		FLT_FILE = FLT_FILE.replace("##META_AIRLINER_BUSH##", airlinerBushText);
 
 		// Airliner landing?
 		String airlinerLandText = "";
 		if (mSimData.airliners.contains(metaEntry.plane)) {
-			airlinerLandText = readUrlToString("FLT/AIRLINER_LAND.txt", cs);
+			airlinerLandText = mFileHandling.readUrlToString("FLT/AIRLINER_LAND.txt", cs);
 		}
 		FLT_FILE = FLT_FILE.replace("##META_AIRLINER_LAND##", airlinerLandText);
 
-		Message msg = writeStringToFile(outFile, FLT_FILE, cs);
+		Message msg = mFileHandling.writeStringToFile(outFile, FLT_FILE, cs);
 		if (msg != null) {
 			return msg;
 		}
@@ -3194,10 +3172,10 @@ public class BushMissionGen {
 
 	private Message handlePLN(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile) {
 		Charset cs = StandardCharsets.UTF_8;
-		String PLN_FILE = readFileToString(inFile, cs);
-		String PLN_V1 = readUrlToString("PLN/ATCWAYPOINTS_V1.txt", cs);
-		String PLN_V2 = readUrlToString("PLN/ATCWAYPOINTS_V2.txt", cs);
-		String PLN_V3 = readUrlToString("PLN/ATCWAYPOINTS_V3.txt", cs);
+		String PLN_FILE = mFileHandling.readFileToString(inFile, cs);
+		String PLN_V1 = mFileHandling.readUrlToString("PLN/ATCWAYPOINTS_V1.txt", cs);
+		String PLN_V2 = mFileHandling.readUrlToString("PLN/ATCWAYPOINTS_V2.txt", cs);
+		String PLN_V3 = mFileHandling.readUrlToString("PLN/ATCWAYPOINTS_V3.txt", cs);
 
 		StringBuffer sb = new StringBuffer();
 		int count_POI = 0;
@@ -3226,7 +3204,7 @@ public class BushMissionGen {
 		PLN_FILE = PLN_FILE.replace("##START_LLA##", metaEntry.lat + "," + metaEntry.lon + "," + metaEntry.alt);
 		PLN_FILE = PLN_FILE.replace("##STOP_ICAO##", entries.get(entries.size()-1).id);
 		PLN_FILE = PLN_FILE.replace("##STOP_LLA##", entries.get(entries.size()-1).latlon + "," + entries.get(entries.size()-1).alt);
-		Message msg = writeStringToFile(outFile, PLN_FILE, cs);
+		Message msg = mFileHandling.writeStringToFile(outFile, PLN_FILE, cs);
 		if (msg != null) {
 			return msg;
 		}
@@ -3236,12 +3214,12 @@ public class BushMissionGen {
 
 	private Message handleLOC(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile) {
 		Charset cs = StandardCharsets.UTF_8;
-		String LOC_FILE = readFileToString(inFile, cs);
+		String LOC_FILE = mFileHandling.readFileToString(inFile, cs);
 
 		StringBuffer stringsBuffer = new StringBuffer();
 
-		String LOC_STRING = readUrlToString("LOC/STRING.txt", cs);
-		String LOC_LANGUAGE = readUrlToString("LOC/LANGUAGE.txt", cs);
+		String LOC_STRING = mFileHandling.readUrlToString("LOC/STRING.txt", cs);
+		String LOC_LANGUAGE = mFileHandling.readUrlToString("LOC/LANGUAGE.txt", cs);
 		int count = 1;
 		String ss = System.lineSeparator();
 		String sl = "";
@@ -3432,7 +3410,7 @@ public class BushMissionGen {
 		LOC_FILE = LOC_FILE.replace("##META_INTRO##", metaEntry.intro);
 		LOC_FILE = LOC_FILE.replace("##META_AUTHOR##", metaEntry.author);
 
-		Message msg = writeStringToFile(outFile, LOC_FILE, cs);
+		Message msg = mFileHandling.writeStringToFile(outFile, LOC_FILE, cs);
 		if (msg != null) {
 			return msg;
 		}
@@ -3442,12 +3420,12 @@ public class BushMissionGen {
 
 	private Message handleHTM(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile) {
 		Charset cs = StandardCharsets.UTF_8;
-		String OVERVIEW_FILE = readFileToString(inFile, cs);
+		String OVERVIEW_FILE = mFileHandling.readFileToString(inFile, cs);
 
 		OVERVIEW_FILE = OVERVIEW_FILE.replace("##META_TITLE##", metaEntry.title);
 		OVERVIEW_FILE = OVERVIEW_FILE.replace("##META_DESCR##", metaEntry.description);
 
-		Message msg = writeStringToFile(outFile, OVERVIEW_FILE, cs);
+		Message msg = mFileHandling.writeStringToFile(outFile, OVERVIEW_FILE, cs);
 		if (msg != null) {
 			return msg;
 		}
@@ -3457,12 +3435,12 @@ public class BushMissionGen {
 
 	private Message handleProject(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile) {
 		Charset cs = StandardCharsets.UTF_8;
-		String PROJECT_FILE = readFileToString(inFile, cs);
+		String PROJECT_FILE = mFileHandling.readFileToString(inFile, cs);
 
 		PROJECT_FILE = PROJECT_FILE.replace("##META_PROJECT##", metaEntry.project);
 		PROJECT_FILE = PROJECT_FILE.replace("##META_AUTHOR##", metaEntry.author);
 
-		Message msg = writeStringToFile(outFile, PROJECT_FILE, cs);
+		Message msg = mFileHandling.writeStringToFile(outFile, PROJECT_FILE, cs);
 		if (msg != null) {
 			return msg;
 		}
@@ -3472,14 +3450,14 @@ public class BushMissionGen {
 
 	private Message handlPackage(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile) {
 		Charset cs = StandardCharsets.UTF_8;
-		String PACKAGE_FILE = readFileToString(inFile, cs);
+		String PACKAGE_FILE = mFileHandling.readFileToString(inFile, cs);
 
 		PACKAGE_FILE = PACKAGE_FILE.replace("##META_PROJECT##", metaEntry.project);
 		PACKAGE_FILE = PACKAGE_FILE.replace("##META_AUTHOR##", metaEntry.author);
 		PACKAGE_FILE = PACKAGE_FILE.replace("##META_TITLE##", metaEntry.title);
 		PACKAGE_FILE = PACKAGE_FILE.replace("##META_VERSION##", metaEntry.version);
 
-		Message msg = writeStringToFile(outFile, PACKAGE_FILE, cs);
+		Message msg = mFileHandling.writeStringToFile(outFile, PACKAGE_FILE, cs);
 		if (msg != null) {
 			return msg;
 		}
@@ -3487,308 +3465,7 @@ public class BushMissionGen {
 		return null;
 	}
 
-	public String readUrlToString(String url, Charset cs) {
-		ClassLoader loader = BushMissionGen.class.getClassLoader();
-		InputStream in = loader.getResourceAsStream(url);
-		BufferedReader br = new BufferedReader(new InputStreamReader(in, cs));
-		String file = "";
-		String str;
-		String kept_str = null;
-		try {
-			while ((str = br.readLine()) != null) {
-
-				if (kept_str == null) {
-					kept_str = str;
-				} else {
-					file += kept_str + System.lineSeparator();
-					kept_str = str;
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "";
-		}
-		file += kept_str;
-
-		return file;
-	}
-
-	public String readFileToString(String filename, Charset cs) {
-		try {
-			Path path = FileSystems.getDefault().getPath(filename);
-			List<String> list = Files.readAllLines(path, cs);
-			return list.stream().map(Object::toString).collect(Collectors.joining(System.lineSeparator()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
-
-	public Message writeStringToFile(String filename, String str, Charset cs) {
-		try {
-			Files.write(Paths.get(filename), Collections.singleton(str), cs);
-			//System.out.println("File written to: " + filename);
-		} catch (IOException e) {
-			return new ErrorMessage("Could not write the output file!");
-		}
-
-		return null;
-	}
-
-	public Message writeStringToFile(String filename, StringBuffer sb1, StringBuffer sb2WpHeader, StringBuffer sb2, Charset cs) {
-		String str = sb1.append(sb2WpHeader).append(sb2).toString();
-
-		try {
-			Files.write(Paths.get(filename), Collections.singleton(str), cs);
-		} catch (IOException e) {
-			return new ErrorMessage("Could not write the output file!");
-		}
-
-		return null;
-	}
-
-	public List<String> readFromXLS(String recept_file) {
-		List<String> list = new ArrayList<>();
-		try {
-			FileInputStream inputStream = new FileInputStream(new File(recept_file));
-
-			Workbook workbook;
-			workbook = new XSSFWorkbook(inputStream);
-			Sheet firstSheet = workbook.getSheetAt(0);
-
-			// Decide which rows to process
-			int rowStart = Math.min(15, firstSheet.getFirstRowNum());
-			int rowEnd = Math.max(1400, firstSheet.getLastRowNum());
-
-			boolean foundMeta = false;
-			boolean foundWps = false;
-			boolean foundLoc = false;
-			boolean landing = false;
-
-			for (int rowNum = rowStart; rowNum < rowEnd; rowNum++) {
-				Row r = firstSheet.getRow(rowNum);
-				if (r==null) {
-					continue;
-				}
-				int lastColumn = foundLoc ? WP_LOCALIZATION_LEN : (landing ? WP_LANDING_LEN : WP_EXTRA_SPLIT_LEN);
-				StringBuffer sb = new StringBuffer();
-
-				boolean firstCell = true;
-
-				for (int cn = 0; cn < lastColumn; cn++) {
-					Cell cell = r.getCell(cn, MissingCellPolicy.RETURN_BLANK_AS_NULL);
-
-					if (!firstCell && foundWps) {
-						sb.append("|");
-					}
-
-					if (cell == null) {
-						// VOID
-					} else if (cell.getCellType() == CellType.STRING) {					
-						sb.append(cell.getStringCellValue());
-
-						if (cell.getStringCellValue().trim().equalsIgnoreCase("missiontype=landing")) {
-							landing = true;
-						}
-
-						if (foundMeta && foundWps && cell.getStringCellValue().trim().equalsIgnoreCase("meta")) {
-							foundLoc = true;
-							lastColumn = WP_LOCALIZATION_LEN;
-						}
-
-						if (foundMeta && !foundWps && cell.getStringCellValue().trim().length()>0 && cell.getStringCellValue().contains("#icao")) {
-							foundWps = true;
-						}
-
-						if (!foundMeta && !foundWps && cell.getStringCellValue().contains("=")) {
-							foundMeta = true;
-						}
-					} else if (cell.getCellType() == CellType.NUMERIC) {					
-						sb.append(String.valueOf(cell.getNumericCellValue()));
-					}
-
-					firstCell = false;
-				}
-
-				String candidateItem = sb.toString();
-				if (!candidateItem.replace("|", "").trim().isEmpty()) {
-					list.add(candidateItem);
-				}
-			}
-
-			workbook.close();
-			inputStream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return list;
-	}
-
-	private Message writeToXLS(String filename, StringBuffer sb1, StringBuffer sb3WpHeader, List<String[]> listWps) {
-		XSSFWorkbook workbook = new XSSFWorkbook();
-		XSSFSheet sheet = workbook.createSheet("Mission");
-
-		List<String> list1 = new ArrayList<String>();
-		String[] splitStr1 = sb1.toString().split(System.lineSeparator());
-		for (String s : splitStr1) {
-			list1.add(s);
-		}
-
-		List<String[]> listHeader = new ArrayList<String[]>();
-		String[] splitStrHeader = sb3WpHeader.toString().split("\\|");
-		for (int i=0; i<splitStrHeader.length; i++) {
-			splitStrHeader[i] = splitStrHeader[i].trim();
-		}
-		listHeader.add(splitStrHeader);
-
-		int rowCount = 0;
-
-		// Write metadata
-		for (String field : list1) {
-			Row row = sheet.createRow(rowCount++);
-
-			int columnCount = 0;
-			Cell cell = row.createCell(columnCount++);
-			cell.setCellValue(field);
-		}
-
-		// Write Wp header
-		for (String[] items : listHeader) {
-			Row row = sheet.createRow(rowCount++);
-
-			int columnCount = 0;
-			for (int i=0; i<items.length; i++) {
-				String field = items[i];
-				Cell cell = row.createCell(columnCount++);
-				cell.setCellValue(field);
-			}
-		}
-
-		// Write Wps
-		for (String[] items : listWps) {
-			Row row = sheet.createRow(rowCount++);
-
-			int columnCount = 0;
-			for (int i=0; i<items.length; i++) {
-				String field = items[i];
-				if (i==6) {
-					String[] split = field.split(",");
-					for (String s : split) {
-						Cell cell = row.createCell(columnCount++);
-						cell.setCellValue(s);
-					}
-				} else {
-					Cell cell = row.createCell(columnCount++);
-					cell.setCellValue(field);
-				}
-			}
-		}
-
-		String error = null;
-		try (FileOutputStream outputStream = new FileOutputStream(filename)) {
-			workbook.write(outputStream);
-		} catch (FileNotFoundException e) {
-			error = "Could not write the output file!";
-		} catch (IOException e) {
-			error = "Could not write the output file!";
-		}
-
-		try {
-			workbook.close();
-		} catch (IOException e) {
-			if (error != null) {
-				return new ErrorMessage(error);
-			} else {
-				return new ErrorMessage("Could not close the XLSX file!");
-			}
-		}
-
-		return null;
-	}
-
-	public static Color getContrastColor(Color color) {
-		double y = (299 * color.getRed() + 587 * color.getGreen() + 114 * color.getBlue()) / 1000;
-		return y >= 128 ? Color.black : Color.white;
-	}
-
-	public int drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
-		int lastY = 0;
-
-		// Get the FontMetrics
-		FontMetrics metrics = g.getFontMetrics(font);
-		// Set the font
-		g.setFont(font);
-
-		String[] textSplit = text.split("\\|", -1);
-		int count = 0;
-		double startF = -(textSplit.length-1)/2.0;
-		for (String s : textSplit) {
-			// Determine the X coordinate for the text
-			int x = rect.x + (rect.width - metrics.stringWidth(s)) / 2;
-			// Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-			int term = (int)Math.round((startF + count)*(metrics.getAscent()*2));
-			int y = term + rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
-			lastY = y;
-
-			// Draw the String
-			g.drawString(s, x, y);
-			count++;
-		}
-
-		return lastY;
-	}
-
-	public Message generateImage(File file, int width, int height, String format, String text, int style, double scale) {
-		// Never ovewrite!
-		if (file.exists()) {
-			return null;
-		}
-
-		// Constructs a BufferedImage of one of the predefined image types.
-		BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-		// Create a graphics which can be used to draw into the buffered image
-		Graphics2D g2d = bufferedImage.createGraphics();
-
-		// fill all the image with a random color
-		Color backColor = Color.getHSBColor((float)Math.random(), (float)Math.random(), (float)(0.2+0.6*Math.random()));
-		g2d.setColor(backColor);
-		g2d.fillRect(0, 0, width, height);
-
-		// create a high contrast color
-		Color textColor = getContrastColor(backColor);
-		g2d.setColor(textColor);
-
-		// create a string to output
-		Font textFont = new Font("Arial", style, (int)Math.round(scale*height/10.0));
-		g2d.setFont(textFont);
-		int lastY = drawCenteredString(g2d, text, new Rectangle(width, height), textFont);
-
-		// draw format information
-		textFont = new Font("Arial", style, (int)Math.round(scale*height/15.0));
-		g2d.setFont(textFont);
-		drawCenteredString(g2d, format.toUpperCase() + " " + width + " X " + height, new Rectangle(0, lastY, width, height-lastY), textFont);
-
-		// Disposes of this graphics context and releases any system resources that it is using. 
-		g2d.dispose();
-
-		try {
-			if (format.equals("png")) {
-				// Save as PNG
-				ImageIO.write(bufferedImage, "png", file);
-			}
-
-			// Save as JPEG
-			if (format.equals("jpg")) {
-				ImageIO.write(bufferedImage, "jpg", file);
-			}
-		} catch (IOException e) {
-			return new ErrorMessage("Could not create image.\n\n" + file.getAbsolutePath());
-		}
-
-		return null;
-	}
+	
 
 	public Message compileMission(MetaEntry metaEntry, String source, String destination, String sdkPath) {
 		String compilerExe = "C:\\MSFS SDK\\Tools\\bin\\fspackagetool.exe";
@@ -3801,7 +3478,7 @@ public class BushMissionGen {
 		int count = 0;
 		while (true) {
 			if (new File(compilerExe).exists()) {
-				Message msg = execCmd(compilerExe, "\"" + source + "\"");
+				Message msg = mFileHandling.execCmd(compilerExe, "\"" + source + "\"");
 				if (msg instanceof InfoMessage) {
 					if (BushMissionGen.COMMUNITY_DIR != null) {
 						String useCommunityDir = BushMissionGen.COMMUNITY_DIR;
@@ -3818,8 +3495,8 @@ public class BushMissionGen {
 							String communityProjectDir = useCommunityDir + File.separator + metaEntry.project;
 							File communityProjectPath = new File(communityProjectDir);
 							if (packageDirPath.exists()) {
-								deleteDirectory(communityProjectPath);
-								copyDirectoryRecursively(packageDir, communityProjectDir);
+								mFileHandling.deleteDirectory(communityProjectPath);
+								mFileHandling.copyDirectoryRecursively(packageDir, communityProjectDir);
 
 								String saveFolder = useCommunityPath.getParentFile().getParentFile().getParentFile().getAbsolutePath() + File.separator + "LocalState\\MISSIONS\\ACTIVITIES\\" + metaEntry.project.toUpperCase() + "_SAVE";
 								File saveFolderPath = new File(saveFolder);
@@ -3830,7 +3507,7 @@ public class BushMissionGen {
 											"Compile",
 											JOptionPane.YES_NO_OPTION);
 									if (nSAVE==0) {
-										deleteDirectory(saveFolderPath);									
+										mFileHandling.deleteDirectory(saveFolderPath);									
 									}
 								}
 							} else {
@@ -3857,75 +3534,9 @@ public class BushMissionGen {
 		return new ErrorMessage("Compiler not found on any drive.\nPlease install the SDK in the root folder of a drive.");
 	}
 
-	public boolean copyDirectoryRecursively(String source, String destination) {
-		Path sourceDir = Paths.get(source);
-		Path destinationDir = Paths.get(destination);
-
-		// Traverse the file tree and copy each file/directory.
-		try {
-			Files.walk(sourceDir)
-			.forEach(sourcePath -> {
-				try {
-					Path targetPath = destinationDir.resolve(sourceDir.relativize(sourcePath));
-					Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
-				} catch (IOException ex) {
-					return;
-				}
-			});
-		} catch (IOException e) {
-			return false;
-		}
-
-		return true;
-	}
-
-	private boolean deleteDirectory(File directoryToBeDeleted) {
-		File[] allContents = directoryToBeDeleted.listFiles();
-		if (allContents != null) {
-			for (File file : allContents) {
-				deleteDirectory(file);
-			}
-		}
-		return directoryToBeDeleted.delete();
-	}
-
-	public static Message showFolder(String path) {
-		Desktop desktop = Desktop.getDesktop();
-		File dirToOpen = null;
-		try {
-			dirToOpen = new File(path);
-			desktop.open(dirToOpen);
-		} catch (IllegalArgumentException | IOException iae) {
-			return new ErrorMessage("Could not find the path:\n\n" + path);
-		}
-		return null;
-	}
-
-	public Message execCmd(String... cmd) {
-		try {
-			ProcessBuilder builder = new ProcessBuilder(cmd);
-			builder.directory(new File(cmd[0]).getParentFile());
-			builder.redirectErrorStream(true);
-			Process process =  builder.start();
-
-			Scanner s = new Scanner(process.getInputStream());
-			StringBuilder text = new StringBuilder();
-			while (s.hasNextLine()) {
-				text.append(s.nextLine());
-				text.append("\n");
-			}
-			s.close();
-
-			process.waitFor();
-			return new InfoMessage(text.toString());
-		} catch (Exception e) {
-			return new ErrorMessage(e.getLocalizedMessage());
-		}
-	}
-
 	public Message convertPLN(File file) {
 		Charset cs = StandardCharsets.UTF_8;
-		String PLN_FILE = readFileToString(file.getAbsolutePath(), cs);
+		String PLN_FILE = mFileHandling.readFileToString(file.getAbsolutePath(), cs);
 
 		// MissonType
 		String missionType = null;
@@ -4359,7 +3970,7 @@ public class BushMissionGen {
 					options[0]);
 			if (nOPT <= 0) {
 				String outFile = file.getAbsolutePath().substring(0, file.getAbsolutePath().length()-3) + "txt";
-				Message msg = writeStringToFile(outFile, sb1, sb2WpHeader, sb2, cs);
+				Message msg = mFileHandling.writeStringToFile(outFile, sb1, sb2WpHeader, sb2, cs);
 				if (msg != null) {
 					return msg;
 				}
@@ -4370,135 +3981,19 @@ public class BushMissionGen {
 				JOptionPane.showMessageDialog(mGUI, "Input file generated!\n\n" + outFile, "Convert", JOptionPane.INFORMATION_MESSAGE);
 			} else if (nOPT == 1) {
 				String outFileXLS = file.getAbsolutePath().substring(0, file.getAbsolutePath().length()-3) + "xlsx";
-				Message msg = writeToXLS(outFileXLS, sb1, sb3WpHeader, sb3);
+				Message msg = mFileHandling.writeToXLS(outFileXLS, sb1, sb3WpHeader, sb3);
 				if (msg != null) {
 					return msg;
 				}
 				mGUI.mInputPathField.setText(outFileXLS);
 				mPOIs = null;
 				mSounds = null;
-				String contents = String.join(System.lineSeparator(), readFromXLS(outFileXLS));
+				String contents = String.join(System.lineSeparator(), mFileHandling.readFromXLS(outFileXLS));
 				mGUI.mTextArea.setText(contents);
 				mGUI.mTextArea.setCaretPosition(0);
 				JOptionPane.showMessageDialog(mGUI, "Input file generated!\n\n" + outFileXLS, "Convert", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 		return null;
-	}
-
-	public String getPlanes() {
-		StringBuffer sb = new StringBuffer();		
-
-		if (BushMissionGen.COMMUNITY_DIR != null) {
-			File communityPath = new File(BushMissionGen.COMMUNITY_DIR);
-			File officialPath = new File(BushMissionGen.OFFICIAL_DIR);
-
-			// Scan the two folder recursively
-			List<String> planesCommunity = new ArrayList<>();
-			scan(communityPath, planesCommunity);
-			Collections.sort(planesCommunity);
-
-			sb.append("AVAILABLE PLANES" + System.lineSeparator());
-			sb.append("" + System.lineSeparator());
-
-			sb.append("Community folder:" + System.lineSeparator());
-
-			for (String plane : planesCommunity) {
-				sb.append(plane + System.lineSeparator());
-			}
-
-			List<String> planesOfficial = new ArrayList<>();
-			scan(officialPath, planesOfficial);
-			Collections.sort(planesOfficial);
-
-			sb.append("" + System.lineSeparator());
-			sb.append("Official folder:" + System.lineSeparator());
-
-			for (String plane : planesOfficial) {
-				sb.append(plane + System.lineSeparator());
-			}
-
-			List<String> encryptedOfficial = mSimData.encryptedOfficial;
-			Collections.sort(encryptedOfficial);
-
-			sb.append("" + System.lineSeparator());
-			sb.append("Encrypted offical (You might have them, you might not. Deluxe + Premium planes):" + System.lineSeparator());
-
-			for (String plane : encryptedOfficial) {
-				sb.append(plane + System.lineSeparator());
-			}
-
-			sb.append("" + System.lineSeparator());
-			sb.append("*** Triple click and CTRL+C to copy a row to the clipboard! ***" + System.lineSeparator());
-		} else {
-			sb.append("Sorry, I could not find the Packages folder on this computer.");
-		}
-
-		return sb.toString();
-	}
-
-	private void scan(File dir, List<String> planeList) {
-		File[] list = dir.listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				if (new File(dir + File.separator + name).isDirectory() || name.toLowerCase().equals("aircraft.cfg")) {
-					return true;
-				}
-
-				return false;
-			}
-		});
-
-		for (File f : list) {
-			if (f.isDirectory()) {
-				scan(f, planeList);
-			} else {
-				planeList.addAll(findPlanes(f));
-			}
-		}
-	}
-
-	public static  List<String> findPlanes(File f) {
-		List<String> result = new ArrayList<>();
-		String firstFind = "[FLTSIM.";
-		boolean foundFirstFind = false;
-
-		try (Scanner in = new Scanner(new FileReader(f))){
-			while(in.hasNextLine()) {
-				String line = in.nextLine();
-
-				if (foundFirstFind) {
-					String lineNoSpaces = line.replace(" " ,  "");
-					if (lineNoSpaces.indexOf("title=\"") == 0) {
-						String[] split = line.split("\"");
-
-						line = split[1].trim();
-						if (!line.startsWith("Generic ")) {
-							result.add(line);
-						}
-					} else if (lineNoSpaces.indexOf("title=") == 0) {
-						int sep1 = line.indexOf("=");
-						line = line.substring(sep1+1);
-
-						int sep2 = line.indexOf(";");
-						if (sep2 >= 0) {
-							line = line.substring(0, sep2);
-						}
-
-						line = line.trim();
-						if (!line.startsWith("Generic ")) {
-							result.add(line);
-						}
-					}
-				} else {
-					if (line.startsWith(firstFind)) {
-						foundFirstFind = true;
-					}
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();      
-		}
-		return result;
 	}
 }
