@@ -1,6 +1,5 @@
-package test;
+package bushmissiongen.entries;
 
-import bushmissiongen.entries.MetaEntry;
 import junit.framework.TestCase;
 
 public class MetaEntryTest extends TestCase {
