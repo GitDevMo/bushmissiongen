@@ -90,6 +90,38 @@ public class BushMissionGen {
 	public Settings mSettings = new Settings();
 	public SimData mSimData = new SimData();
 
+	private static String FLT_AIRLINER_BUSH;
+	private static String FLT_AIRLINER_LAND;
+
+	private static String LOC_LANGUAGE;
+	private static String LOC_STRING;
+
+	private static String PLN_ATCWAYPOINTS_V1;
+	private static String PLN_ATCWAYPOINTS_V2;
+	private static String PLN_ATCWAYPOINTS_V3;
+
+	private static String XML_ALTITUDESPEEDTRIGGER;
+	private static String XML_ALTITUDETRIGGER;
+	private static String XML_CALC;
+	private static String XML_DIALOGACTION;
+	private static String XML_DIALOGS;
+	private static String XML_DIALOGSEXIT;
+	private static String XML_FAILUREACTION;
+	private static String XML_FAILURES;
+	private static String XML_FAILURESEXIT;
+	private static String XML_FORMULATRIGGER;
+	private static String XML_GOAL;
+	private static String XML_INTRODIALOG;
+	private static String XML_LANDEDDIALOGS;
+	private static String XML_LANDEDTRIGGER;
+	private static String XML_LEG;
+	private static String XML_OBJECTIVE;
+	private static String XML_PROXIMITYTRIGGER;
+	private static String XML_RESETACTION;
+	private static String XML_SPEEDTRIGGER;
+	private static String XML_SUBLEG;
+	private static String XML_TIMERTRIGGER;
+
 	public BushMissionGen(String[] args) {
 		mArgs = args;
 		mGUI = new GUI(this);
@@ -1144,6 +1176,39 @@ public class BushMissionGen {
 		mPOIs = 0;
 		mSounds = new ArrayList<>();
 
+		// Load resource files
+		FLT_AIRLINER_BUSH = mFileHandling.readUrlToString("FLT/AIRLINER_BUSH.txt", StandardCharsets.UTF_8);
+		FLT_AIRLINER_LAND = mFileHandling.readUrlToString("FLT/AIRLINER_LAND.txt", StandardCharsets.UTF_8);
+
+		LOC_STRING = mFileHandling.readUrlToString("LOC/STRING.txt", StandardCharsets.UTF_8);
+		LOC_LANGUAGE = mFileHandling.readUrlToString("LOC/LANGUAGE.txt", StandardCharsets.UTF_8);
+
+		PLN_ATCWAYPOINTS_V1 = mFileHandling.readUrlToString("PLN/ATCWAYPOINTS_V1.txt", StandardCharsets.UTF_8);
+		PLN_ATCWAYPOINTS_V2 = mFileHandling.readUrlToString("PLN/ATCWAYPOINTS_V2.txt", StandardCharsets.UTF_8);
+		PLN_ATCWAYPOINTS_V3 = mFileHandling.readUrlToString("PLN/ATCWAYPOINTS_V3.txt", StandardCharsets.UTF_8);
+
+		XML_ALTITUDESPEEDTRIGGER = mFileHandling.readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", Charset.forName("windows-1252"));
+		XML_ALTITUDETRIGGER = mFileHandling.readUrlToString("XML/ALTITUDETRIGGER.txt", Charset.forName("windows-1252"));
+		XML_CALC = mFileHandling.readUrlToString("XML/CALC.txt", Charset.forName("windows-1252"));
+		XML_DIALOGACTION = mFileHandling.readUrlToString("XML/DIALOGACTION.txt", Charset.forName("windows-1252"));
+		XML_DIALOGS = mFileHandling.readUrlToString("XML/DIALOGS.txt", Charset.forName("windows-1252"));
+		XML_DIALOGSEXIT = mFileHandling.readUrlToString("XML/DIALOGSEXIT.txt", Charset.forName("windows-1252"));
+		XML_FAILUREACTION = mFileHandling.readUrlToString("XML/FAILUREACTION.txt", Charset.forName("windows-1252"));
+		XML_FAILURES = mFileHandling.readUrlToString("XML/FAILURES.txt", Charset.forName("windows-1252"));
+		XML_FAILURESEXIT = mFileHandling.readUrlToString("XML/FAILURESEXIT.txt", Charset.forName("windows-1252"));
+		XML_FORMULATRIGGER = mFileHandling.readUrlToString("XML/FORMULATRIGGER.txt", Charset.forName("windows-1252"));
+		XML_GOAL = mFileHandling.readUrlToString("XML/GOAL.txt", Charset.forName("windows-1252"));
+		XML_INTRODIALOG = mFileHandling.readUrlToString("XML/INTRODIALOG.txt", Charset.forName("windows-1252"));
+		XML_LANDEDDIALOGS = mFileHandling.readUrlToString("XML/LANDEDDIALOGS.txt", Charset.forName("windows-1252"));
+		XML_LANDEDTRIGGER = mFileHandling.readUrlToString("XML/LANDEDTRIGGER.txt", Charset.forName("windows-1252"));
+		XML_LEG = mFileHandling.readUrlToString("XML/LEG.txt", Charset.forName("windows-1252"));
+		XML_OBJECTIVE = mFileHandling.readUrlToString("XML/OBJECTIVE.txt", Charset.forName("windows-1252"));
+		XML_PROXIMITYTRIGGER = mFileHandling.readUrlToString("XML/PROXIMITYTRIGGER.txt", Charset.forName("windows-1252"));
+		XML_RESETACTION = mFileHandling.readUrlToString("XML/RESETACTION.txt", Charset.forName("windows-1252"));
+		XML_SPEEDTRIGGER = mFileHandling.readUrlToString("XML/SPEEDTRIGGER.txt", Charset.forName("windows-1252"));
+		XML_SUBLEG = mFileHandling.readUrlToString("XML/SUBLEG.txt", Charset.forName("windows-1252"));
+		XML_TIMERTRIGGER = mFileHandling.readUrlToString("XML/TIMERTRIGGER.txt", Charset.forName("windows-1252"));
+
 		// Create output files
 		Message msgLOC = handleLOC(metaEntry, entries, recept_fileLOC, outFileLOC); // MUST BE FIRST!
 		if (msgLOC != null) {
@@ -1249,11 +1314,6 @@ public class BushMissionGen {
 	private Message handleXML(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile, String pathRoot, String imagesPath) {
 		Charset cs = Charset.forName("windows-1252");
 		String XML_FILE = mFileHandling.readFileToString(inFile, cs);
-		String XML_LEG = mFileHandling.readUrlToString("XML/LEG.txt", cs);
-		String XML_SUBLEG = mFileHandling.readUrlToString("XML/SUBLEG.txt", cs);
-		String XML_CALC = mFileHandling.readUrlToString("XML/CALC.txt", cs);
-		String XML_LANDEDDIALOGS = mFileHandling.readUrlToString("XML/LANDEDDIALOGS.txt", cs);
-		String XML_LANDEDTRIGGER = mFileHandling.readUrlToString("XML/LANDEDTRIGGER.txt", cs);
 		String XML_REGION = System.lineSeparator() +
 				"                <idRegion>##REGION##</idRegion>";
 		String XML_IMAGEPATH = System.lineSeparator() +
@@ -1602,8 +1662,6 @@ public class BushMissionGen {
 
 		StringBuffer sb_DIALOGS = new StringBuffer();
 		if (!metaEntry.poiSpeech.isEmpty() || !metaEntry.poiSpeechBefore.isEmpty()) {
-			String XML_DIALOGS = mFileHandling.readUrlToString("XML/DIALOGS.txt", cs);
-			String XML_DIALOGSEXIT = mFileHandling.readUrlToString("XML/DIALOGSEXIT.txt", cs);
 			sb_DIALOGS.append(System.lineSeparator());
 			int count = 0;
 			DialogEntry de = new DialogEntry(); // To get standard values
@@ -1743,8 +1801,6 @@ public class BushMissionGen {
 		}
 
 		if (!metaEntry.dialogEntries.isEmpty()) {
-			String XML_DIALOGS = mFileHandling.readUrlToString("XML/DIALOGS.txt", cs);
-			String XML_DIALOGSEXIT = mFileHandling.readUrlToString("XML/DIALOGSEXIT.txt", cs);
 			sb_DIALOGS.append(System.lineSeparator());
 			int count = 0;
 			for (DialogEntry de : metaEntry.dialogEntries) {
@@ -1898,13 +1954,6 @@ public class BushMissionGen {
 		if (!failureEntries.isEmpty()) {
 			sb_FAILURES.append(System.lineSeparator());
 
-			String XML_FAILURES = mFileHandling.readUrlToString("XML/FAILURES.txt", cs);
-			String XML_FAILURESEXIT = mFileHandling.readUrlToString("XML/FAILURESEXIT.txt", cs);
-			String XML_ALTITUDETRIGGER = mFileHandling.readUrlToString("XML/ALTITUDETRIGGER.txt", cs);
-			String XML_SPEEDTRIGGER = mFileHandling.readUrlToString("XML/SPEEDTRIGGER.txt", cs);
-			String XML_ALTITUDESPEEDTRIGGER = mFileHandling.readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", cs);
-			String XML_FORMULATRIGGER = mFileHandling.readUrlToString("XML/FORMULATRIGGER.txt", cs);
-			String XML_FAILUREACTION = mFileHandling.readUrlToString("XML/FAILUREACTION.txt", cs);
 			int count = 0;
 			for (FailureEntry fe : failureEntries) {
 				String ss = XML_FAILURES;
@@ -2033,7 +2082,6 @@ public class BushMissionGen {
 
 		StringBuffer sb_INTRODIALOG = new StringBuffer();
 		if (!metaEntry.introSpeeches.isEmpty()) {
-			String XML_INTRODIALOG = mFileHandling.readUrlToString("XML/INTRODIALOG.txt", cs);
 			int count1 = 0;
 
 			for (DelayedText is : metaEntry.introSpeeches) {
@@ -2111,111 +2159,107 @@ public class BushMissionGen {
 				}
 
 				if (we.currentMode == WarningEntryMode.ALTITUDE) {
-					String XML_ALTITUDETRIGGER = mFileHandling.readUrlToString("XML/ALTITUDETRIGGER.txt", cs);
-					String XML_DIALOGACTION = mFileHandling.readUrlToString("XML/DIALOGACTION.txt", cs);
+					String ss = XML_ALTITUDETRIGGER;
 
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##ACTION##", XML_DIALOGACTION);
+					ss = ss.replace("##ACTION##", XML_DIALOGACTION);
 
 					String refId1 = "926B2C33-081B-4D7C-8865-FF2FDB0AF";
 					refId1 += String.format("%03d", count1 + 1);
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##REF_ID_DIALOG##", refId1);
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##DESCR_DIALOG##",  "DialogAltitude" + (count1 + 1));
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##TEXT_DIALOG##", textXML);
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##DELAY_DIALOG##",  "2.000");
+					ss = ss.replace("##REF_ID_DIALOG##", refId1);
+					ss = ss.replace("##DESCR_DIALOG##",  "DialogAltitude" + (count1 + 1));
+					ss = ss.replace("##TEXT_DIALOG##", textXML);
+					ss = ss.replace("##DELAY_DIALOG##",  "2.000");
 
 					String refId2 = "BB9EF18D-07A0-488B-87C2-6F61417D9";
 					refId2 += String.format("%03d", count1 + 1);
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##REF_ID_TRIGGER##", refId2);
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##DESCR_TRIGGER##", "PropertyTriggerAltitude" + (count1 + 1));
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##ALTITUDEMODE##", we.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : we.agl.equals("False") ? "AMSL" : "AGL");
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##HEIGHT_TRIGGER##", we.height);
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##DESCR_ACTION##",  "DialogAltitude" + (count1 + 1));
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##REF_ID_ACTION##", refId1);
+					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
+					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerAltitude" + (count1 + 1));
+					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
+					ss = ss.replace("##ALTITUDEMODE##", we.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : we.agl.equals("False") ? "AMSL" : "AGL");
+					ss = ss.replace("##HEIGHT_TRIGGER##", we.height);
+					ss = ss.replace("##DESCR_ACTION##",  "DialogAltitude" + (count1 + 1));
+					ss = ss.replace("##REF_ID_ACTION##", refId1);
 
 					sb_WARNINGS.append(System.lineSeparator());
 					sb_WARNINGS.append(System.lineSeparator());
-					sb_WARNINGS.append(XML_ALTITUDETRIGGER);
+					sb_WARNINGS.append(ss);
 					count1++;
 				} else if (we.currentMode == WarningEntryMode.SPEED) {
-					String XML_SPEEDTRIGGER = mFileHandling.readUrlToString("XML/SPEEDTRIGGER.txt", cs);
-					String XML_DIALOGACTION = mFileHandling.readUrlToString("XML/DIALOGACTION.txt", cs);
+					String ss = XML_SPEEDTRIGGER;
 
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##ACTION##", XML_DIALOGACTION);
+					ss = ss.replace("##ACTION##", XML_DIALOGACTION);
 
 					String refId1 = "528ADAB1-D26C-45BA-A281-A7CA5D6DD";
 					refId1 += String.format("%03d", count2 + 1);
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##REF_ID_DIALOG##", refId1);
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##DESCR_DIALOG##",  "DialogSpeed" + (count2 + 1));
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##TEXT_DIALOG##", textXML);
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##DELAY_DIALOG##",  "2.000");
+					ss = ss.replace("##REF_ID_DIALOG##", refId1);
+					ss = ss.replace("##DESCR_DIALOG##",  "DialogSpeed" + (count2 + 1));
+					ss = ss.replace("##TEXT_DIALOG##", textXML);
+					ss = ss.replace("##DELAY_DIALOG##",  "2.000");
 
 					String refId2 = "EFCE14C2-ADB7-4F15-9240-35E5B9DE8";
 					refId2 += String.format("%03d", count2 + 1);
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##REF_ID_TRIGGER##", refId2);
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##DESCR_TRIGGER##", "PropertyTriggerSpeed" + (count2 + 1));
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##SPEED_TRIGGER##", we.speed);
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##DESCR_ACTION##",  "DialogSpeed" + (count2 + 1));
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##REF_ID_ACTION##", refId1);
+					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
+					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerSpeed" + (count2 + 1));
+					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
+					ss = ss.replace("##SPEED_TRIGGER##", we.speed);
+					ss = ss.replace("##DESCR_ACTION##",  "DialogSpeed" + (count2 + 1));
+					ss = ss.replace("##REF_ID_ACTION##", refId1);
 
 					sb_WARNINGS.append(System.lineSeparator());
 					sb_WARNINGS.append(System.lineSeparator());
-					sb_WARNINGS.append(XML_SPEEDTRIGGER);
+					sb_WARNINGS.append(ss);
 					count2++;
 				} else if (we.currentMode == WarningEntryMode.ALTITUDE_AND_SPEED) {
-					String XML_ALTITUDESPEEDTRIGGER = mFileHandling.readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", cs);
-					String XML_DIALOGACTION = mFileHandling.readUrlToString("XML/DIALOGACTION.txt", cs);
+					String ss = XML_ALTITUDESPEEDTRIGGER;
 
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##ACTION##", XML_DIALOGACTION);
+					ss = ss.replace("##ACTION##", XML_DIALOGACTION);
 
 					String refId1 = "B9028A6F-3009-449A-850D-FF55FBD24";
 					refId1 += String.format("%03d", count3 + 1);
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##REF_ID_DIALOG##", refId1);
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##DESCR_DIALOG##",  "DialogAltitudeSpeed" + (count3 + 1));
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##TEXT_DIALOG##", textXML);
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##DELAY_DIALOG##",  "2.000");
+					ss = ss.replace("##REF_ID_DIALOG##", refId1);
+					ss = ss.replace("##DESCR_DIALOG##",  "DialogAltitudeSpeed" + (count3 + 1));
+					ss = ss.replace("##TEXT_DIALOG##", textXML);
+					ss = ss.replace("##DELAY_DIALOG##",  "2.000");
 
 					String refId2 = "59E181A7-399D-412E-91DF-6BA1A6987";
 					refId2 += String.format("%03d", count3 + 1);
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##REF_ID_TRIGGER##", refId2);
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##DESCR_TRIGGER##", "PropertyTriggerAltitudeSpeed" + (count3 + 1));
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##ALTITUDEMODE##", we.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : we.agl.equals("False") ? "AMSL" : "AGL");
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##HEIGHT_TRIGGER##", we.height);
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##SPEED_TRIGGER##", we.speed);
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##DESCR_ACTION##",  "DialogAltitudeSpeed" + (count3 + 1));
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##REF_ID_ACTION##", refId1);
+					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
+					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerAltitudeSpeed" + (count3 + 1));
+					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
+					ss = ss.replace("##ALTITUDEMODE##", we.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : we.agl.equals("False") ? "AMSL" : "AGL");
+					ss = ss.replace("##HEIGHT_TRIGGER##", we.height);
+					ss = ss.replace("##SPEED_TRIGGER##", we.speed);
+					ss = ss.replace("##DESCR_ACTION##",  "DialogAltitudeSpeed" + (count3 + 1));
+					ss = ss.replace("##REF_ID_ACTION##", refId1);
 
 					sb_WARNINGS.append(System.lineSeparator());
 					sb_WARNINGS.append(System.lineSeparator());
-					sb_WARNINGS.append(XML_ALTITUDESPEEDTRIGGER);
+					sb_WARNINGS.append(ss);
 					count3++;
 				} else if (we.currentMode == WarningEntryMode.FORMULA) {
-					String XML_FORMULATRIGGER = mFileHandling.readUrlToString("XML/FORMULATRIGGER.txt", cs);
-					String XML_DIALOGACTION = mFileHandling.readUrlToString("XML/DIALOGACTION.txt", cs);
+					String ss = XML_FORMULATRIGGER;
 
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##ACTION##", XML_DIALOGACTION);
+					ss = ss.replace("##ACTION##", XML_DIALOGACTION);
 
 					String refId1 = "00EC366E-9A41-444A-9E42-FC2B11C94";
 					refId1 += String.format("%03d", count1 + 1);
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##REF_ID_DIALOG##", refId1);
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##DESCR_DIALOG##",  "DialogFormula" + (count1 + 1));
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##TEXT_DIALOG##", textXML);
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##DELAY_DIALOG##",  "2.000");
+					ss = ss.replace("##REF_ID_DIALOG##", refId1);
+					ss = ss.replace("##DESCR_DIALOG##",  "DialogFormula" + (count1 + 1));
+					ss = ss.replace("##TEXT_DIALOG##", textXML);
+					ss = ss.replace("##DELAY_DIALOG##",  "2.000");
 
 					String refId2 = "A4C03C2A-9860-484B-83A2-943149B24";
 					refId2 += String.format("%03d", count1 + 1);
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##REF_ID_TRIGGER##", refId2);
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##DESCR_TRIGGER##", "PropertyTriggerFormula" + (count1 + 1));
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##FORMULA_TRIGGER##", we.formula);
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##DESCR_ACTION##",  "DialogFormula" + (count1 + 1));
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##REF_ID_ACTION##", refId1);
+					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
+					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerFormula" + (count1 + 1));
+					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
+					ss = ss.replace("##FORMULA_TRIGGER##", we.formula);
+					ss = ss.replace("##DESCR_ACTION##",  "DialogFormula" + (count1 + 1));
+					ss = ss.replace("##REF_ID_ACTION##", refId1);
 
 					sb_WARNINGS.append(System.lineSeparator());
 					sb_WARNINGS.append(System.lineSeparator());
-					sb_WARNINGS.append(XML_FORMULATRIGGER);
+					sb_WARNINGS.append(ss);
 					count1++;
 				}
 			}
@@ -2227,15 +2271,11 @@ public class BushMissionGen {
 		StringBuffer sb_FINISHEDACTIONS = new StringBuffer();
 		if (!metaEntry.missionFailures.isEmpty()) {
 			int count_MISSIONFAILURES = 0;
-			String XML_OBJECTIVE = mFileHandling.readUrlToString("XML/OBJECTIVE.txt", cs);
-			String XML_GOAL = mFileHandling.readUrlToString("XML/GOAL.txt", cs);
 
 			for (MissionFailureEntry mfe : metaEntry.missionFailures) {
 				count_MISSIONFAILURES++;
 
 				if (mfe.currentMode == MissionFailureEntryMode.AREA) {
-					String XML_PROXIMITYTRIGGER = mFileHandling.readUrlToString("XML/PROXIMITYTRIGGER.txt", cs);
-
 					String ss = XML_PROXIMITYTRIGGER;
 					ss = ss.replace("##ACTION##", "");
 
@@ -2297,8 +2337,6 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.ALTITUDE) {
-					String XML_ALTITUDETRIGGER = mFileHandling.readUrlToString("XML/ALTITUDETRIGGER.txt", cs);
-
 					String ss = XML_ALTITUDETRIGGER;
 					ss = ss.replace("##ACTION##", "");
 
@@ -2344,8 +2382,6 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.SPEED) {
-					String XML_SPEEDTRIGGER = mFileHandling.readUrlToString("XML/SPEEDTRIGGER.txt", cs);
-
 					String ss = XML_SPEEDTRIGGER;
 					ss = ss.replace("##ACTION##", "");
 
@@ -2390,8 +2426,6 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.ALTITUDE_AND_SPEED) {
-					String XML_ALTITUDESPEEDTRIGGER = mFileHandling.readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", cs);
-
 					String ss = XML_ALTITUDESPEEDTRIGGER;
 					ss = ss.replace("##ACTION##", "");
 
@@ -2438,9 +2472,6 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.TIME) {
-					String XML_TIMERTRIGGER = mFileHandling.readUrlToString("XML/TIMERTRIGGER.txt", cs);
-					String XML_RESETACTION = mFileHandling.readUrlToString("XML/RESETACTION.txt", cs);
-
 					String ss = XML_TIMERTRIGGER;
 					ss = ss.replace("##ACTION##", "");
 
@@ -2497,8 +2528,6 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.FORMULA) {
-					String XML_FORMULATRIGGER = mFileHandling.readUrlToString("XML/FORMULATRIGGER.txt", cs);
-
 					String ss = XML_FORMULATRIGGER;
 					ss = ss.replace("##ACTION##", "");
 
@@ -2871,14 +2900,14 @@ public class BushMissionGen {
 		// Airliner bush?
 		String airlinerBushText = "";
 		if (mSimData.airliners.contains(metaEntry.plane)) {
-			airlinerBushText = mFileHandling.readUrlToString("FLT/AIRLINER_BUSH.txt", cs);
+			airlinerBushText = FLT_AIRLINER_BUSH;
 		}
 		FLT_FILE = FLT_FILE.replace("##META_AIRLINER_BUSH##", airlinerBushText);
 
 		// Airliner landing?
 		String airlinerLandText = "";
 		if (mSimData.airliners.contains(metaEntry.plane)) {
-			airlinerLandText = mFileHandling.readUrlToString("FLT/AIRLINER_LAND.txt", cs);
+			airlinerLandText = FLT_AIRLINER_LAND;
 		}
 		FLT_FILE = FLT_FILE.replace("##META_AIRLINER_LAND##", airlinerLandText);
 
@@ -2893,15 +2922,12 @@ public class BushMissionGen {
 	private Message handlePLN(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile) {
 		Charset cs = StandardCharsets.UTF_8;
 		String PLN_FILE = mFileHandling.readFileToString(inFile, cs);
-		String PLN_V1 = mFileHandling.readUrlToString("PLN/ATCWAYPOINTS_V1.txt", cs);
-		String PLN_V2 = mFileHandling.readUrlToString("PLN/ATCWAYPOINTS_V2.txt", cs);
-		String PLN_V3 = mFileHandling.readUrlToString("PLN/ATCWAYPOINTS_V3.txt", cs);
 
 		StringBuffer sb = new StringBuffer();
 		int count_POI = 0;
 		for (MissionEntry entry : entries) {
 			if (entry.type.equals("A")) {
-				String ss = entry.runway.isEmpty() ? PLN_V1 : PLN_V2;
+				String ss = entry.runway.isEmpty() ? PLN_ATCWAYPOINTS_V1 : PLN_ATCWAYPOINTS_V2;
 				ss = ss.replace("##WP_ID##", entry.id);
 				ss = ss.replace("##WP_TYPE##", MissionEntry.TYPE_AIRPORT);
 				ss = ss.replace("##WP_LATLON##", entry.latlon);
@@ -2909,7 +2935,7 @@ public class BushMissionGen {
 				ss = ss.replace("##WP_RUNWAY##", entry.runway);
 				sb.append(ss);
 			} else {
-				String ss = PLN_V3;
+				String ss = PLN_ATCWAYPOINTS_V3;
 				ss = ss.replace("##WP_ID##", "POI" + multiCount(++count_POI, 0));
 				ss = ss.replace("##WP_TYPE##", MissionEntry.TYPE_USER);
 				ss = ss.replace("##WP_LATLON##", entry.latlon);
@@ -2938,8 +2964,6 @@ public class BushMissionGen {
 
 		StringBuffer stringsBuffer = new StringBuffer();
 
-		String LOC_STRING = mFileHandling.readUrlToString("LOC/STRING.txt", cs);
-		String LOC_LANGUAGE = mFileHandling.readUrlToString("LOC/LANGUAGE.txt", cs);
 		int count = 1;
 		String ss = System.lineSeparator();
 		String sl = "";
