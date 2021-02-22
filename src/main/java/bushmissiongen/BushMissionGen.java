@@ -1,54 +1,28 @@
 package bushmissiongen;
 
-import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -62,12 +36,15 @@ import bushmissiongen.entries.MissionFailureEntry;
 import bushmissiongen.entries.MissionFailureEntry.MissionFailureEntryMode;
 import bushmissiongen.entries.WarningEntry;
 import bushmissiongen.entries.WarningEntry.WarningEntryMode;
+import bushmissiongen.handling.FileHandling;
+import bushmissiongen.handling.ImageHandling;
 import bushmissiongen.messages.ErrorMessage;
 import bushmissiongen.messages.InfoMessage;
 import bushmissiongen.messages.Message;
 import bushmissiongen.misc.DelayedText;
+import bushmissiongen.misc.GeoJSON;
 import bushmissiongen.misc.Localization;
-import bushmissiongen.misc.MyGeoPoint;
+import bushmissiongen.misc.SimData;
 
 /**
  * BushMissionGen
@@ -88,10 +65,10 @@ public class BushMissionGen {
 	private static final int META_REQUIRED_ITEMS = 20;
 	private static final int META_SPLIT_LEN = 2;
 
-	private static final int WP_SPLIT_LEN = 9;
-	private static final int WP_EXTRA_SPLIT_LEN = 16;
-	private static final int WP_LANDING_LEN = 6;
-	private static final int WP_LOCALIZATION_LEN = 5;
+	public static final int WP_SPLIT_LEN = 9;
+	public static final int WP_EXTRA_SPLIT_LEN = 16;
+	public static final int WP_LANDING_LEN = 6;
+	public static final int WP_LOCALIZATION_LEN = 5;
 
 	private static final int MAX_COUNT_LEGS = 728;  // 2*26 (!A, ?A, AA, AB, ..)
 	private static final int MAX_COUNT_POIS = 1035; //  (1035 == FF)
@@ -106,70 +83,54 @@ public class BushMissionGen {
 	public String mSavedPreviewFile = null;
 	public boolean mMultipleSameAirports = false;
 	public Integer mPOIs = null;
-	public StringBuffer mGeoJSON;
-	public int mGeoJSONcount;
+	public GeoJSON mGeoJSON = new GeoJSON();
 	public List<String> mSounds = null;
+	public FileHandling mFileHandling = new FileHandling();
+	public ImageHandling mImageHandling = new ImageHandling();
 	public Settings mSettings = new Settings();
+	public SimData mSimData = new SimData();
+
+	private static String FLT_AIRLINER_BUSH;
+	private static String FLT_AIRLINER_LAND;
+
+	private static String LOC_LANGUAGE;
+	private static String LOC_STRING;
+
+	private static String PLN_ATCWAYPOINTS_V1;
+	private static String PLN_ATCWAYPOINTS_V2;
+	private static String PLN_ATCWAYPOINTS_V3;
+
+	private static String XML_ALTITUDESPEEDTRIGGER;
+	private static String XML_ALTITUDETRIGGER;
+	private static String XML_CALC;
+	private static String XML_DIALOGACTION;
+	private static String XML_DIALOGS;
+	private static String XML_DIALOGSEXIT;
+	private static String XML_FAILUREACTION;
+	private static String XML_FAILURES;
+	private static String XML_FAILURESEXIT;
+	private static String XML_FORMULATRIGGER;
+	private static String XML_GOAL;
+	private static String XML_INTRODIALOG;
+	private static String XML_LANDEDDIALOGS;
+	private static String XML_LANDEDTRIGGER;
+	private static String XML_LEG;
+	private static String XML_OBJECTIVE;
+	private static String XML_PROXIMITYTRIGGER;
+	private static String XML_RESETACTION;
+	private static String XML_SPEEDTRIGGER;
+	private static String XML_SUBLEG;
+	private static String XML_TIMERTRIGGER;
 
 	public BushMissionGen(String[] args) {
 		mArgs = args;
 		mGUI = new GUI(this);
 
-		String appDataLocal = System.getProperty("user.home") + File.separator + "AppData\\Local";
-		String appDataRoaming = System.getProperty("user.home") + File.separator + "AppData\\Roaming";
-		List<String> userCfgDirs = new ArrayList<>();
-
-		// Roaming
-		userCfgDirs.add(appDataRoaming + File.separator + "FlightSimulator\\UserCfg.opt");
-		userCfgDirs.add(appDataRoaming + File.separator + "Flight Simulator\\UserCfg.opt");
-		userCfgDirs.add(appDataRoaming + File.separator + "Microsoft Flight Simulator\\UserCfg.opt");
-		userCfgDirs.add(appDataRoaming + File.separator + "Microsoft FlightSimulator\\UserCfg.opt");
-		userCfgDirs.add(appDataRoaming + File.separator + "MicrosoftFlightSimulator\\UserCfg.opt");
-		userCfgDirs.add(appDataRoaming + File.separator + "FlightSimulator_8wekyb3d8bbwe\\UserCfg.opt");
-		userCfgDirs.add(appDataRoaming + File.separator + "FlightSimulatorKHAlpha_8wekyb3d8bbwe\\UserCfg.opt");
-		userCfgDirs.add(appDataRoaming + File.separator + "FlightSimulatorFlightSimDisc_8wekyb3d8bbwe\\UserCfg.opt");
-
-		// Local
-		userCfgDirs.add(appDataLocal + File.separator + "Packages\\Microsoft.FlightSimulator_8wekyb3d8bbwe\\LocalCache\\UserCfg.opt");
-		userCfgDirs.add(appDataLocal + File.separator + "Packages\\Microsoft.FlightSimulatorKHAlpha_8wekyb3d8bbwe\\LocalCache\\UserCfg.opt");
-		userCfgDirs.add(appDataLocal + File.separator + "Packages\\Microsoft.KHAlpha_8wekyb3d8bbwe\\LocalCache\\UserCfg.opt");
-		userCfgDirs.add(appDataLocal + File.separator + "Packages\\Microsoft.FlightSimulatorFlightSimDisc_8wekyb3d8bbwe\\LocalCache\\UserCfg.opt");
-
-		// Now look for it!
-		for (String path : userCfgDirs) {
-			File f = new File(path);
-			if (f.exists()) {
-				String foundPath = findPackagesPath(f);
-				if (foundPath != null)  {
-					COMMUNITY_DIR = foundPath + File.separator + "Community";
-					OFFICIAL_DIR = foundPath + File.separator + "Official";
-				}
-			}
+		String[] simPaths = mSimData.getPaths();
+		if (simPaths != null) {
+			COMMUNITY_DIR = simPaths[0];
+			OFFICIAL_DIR = simPaths[1];
 		}
-	}
-
-	private static String findPackagesPath(File f) {
-		String foundPath = null;
-		Scanner in = null;
-		try {
-			in = new Scanner(new FileReader(f));
-			while(in.hasNextLine()) {
-				String line = in.nextLine();
-				String lineNoSpaces = line.replace(" " ,  "");
-
-				if (lineNoSpaces.indexOf("InstalledPackagesPath\"") == 0) {
-					String[] split = line.split("\"");
-					foundPath = split[1].trim();
-				}
-			}
-		}
-		catch(IOException e) {
-			e.printStackTrace();      
-		}
-		finally {
-			try { in.close() ; } catch(Exception e) { /* ignore */ }  
-		}
-		return foundPath;
 	}
 
 	public String preScan(List<String> list) {
@@ -242,7 +203,7 @@ public class BushMissionGen {
 			if (!recept_file.toLowerCase().endsWith(".xlsx")) {
 				list = Files.readAllLines(path, StandardCharsets.UTF_8);
 			} else {
-				list = readFromXLS(recept_file);
+				list = mFileHandling.readFromXLS(recept_file);
 			}
 
 			String separator = preScan(list);
@@ -895,10 +856,10 @@ public class BushMissionGen {
 		String compiledPath = projectPath + File.separator + "Packages";
 
 		if (mode >= 3 && mode <= 6) {
-			if (mode == 3) return showFolder(projectPath);
-			if (mode == 4) return showFolder(imagesPath);
-			if (mode == 5) return showFolder(soundPath);
-			if (mode == 6) return showFolder(compiledPath);
+			if (mode == 3) return mFileHandling.showFolder(projectPath);
+			if (mode == 4) return mFileHandling.showFolder(imagesPath);
+			if (mode == 5) return mFileHandling.showFolder(soundPath);
+			if (mode == 6) return mFileHandling.showFolder(compiledPath);
 		}
 
 		String outFileXML = fourFilesPath +  File.separator + metaEntry.project + ".xml";
@@ -1138,11 +1099,11 @@ public class BushMissionGen {
 						}
 
 						String imageFile = imagesPath + File.separator + id;
-						Message msgJPG = generateImage(new File(imageFile + ".jpg"), 1920, 1080, "jpg", "LEG - " + entry.id, Font.PLAIN, 1.0d);
+						Message msgJPG = mImageHandling.generateImage(new File(imageFile + ".jpg"), 1920, 1080, "jpg", "LEG - " + entry.id, Font.PLAIN, 1.0d);
 						if (msgJPG != null) {
 							return msgJPG;
 						}
-						Message msgPNG = generateImage(new File(imageFile + ".png"), 1200, 800, "png", "NAVLOG - " + entry.id, Font.PLAIN, 1.0d);
+						Message msgPNG = mImageHandling.generateImage(new File(imageFile + ".png"), 1200, 800, "png", "NAVLOG - " + entry.id, Font.PLAIN, 1.0d);
 						if (msgPNG != null) {
 							return msgPNG;
 						}
@@ -1152,24 +1113,24 @@ public class BushMissionGen {
 			}
 		} else {
 			String imageFileBriefing = imagesPath + File.separator + "Briefing_Screen.jpg";
-			Message msgJPGBriefing = generateImage(new File(imageFileBriefing), 3840, 2160, "jpg", "Briefing", Font.PLAIN, 1.0d);
+			Message msgJPGBriefing = mImageHandling.generateImage(new File(imageFileBriefing), 3840, 2160, "jpg", "Briefing", Font.PLAIN, 1.0d);
 			if (msgJPGBriefing != null) {
 				return msgJPGBriefing;
 			}
 		}
 
 		String imageFile1 = imagesPath + File.separator + "Loading_Screen.jpg";
-		Message msgJPG1 = generateImage(new File(imageFile1), 3840, 2160, "jpg", "Loading", Font.PLAIN, 1.0d);
+		Message msgJPG1 = mImageHandling.generateImage(new File(imageFile1), 3840, 2160, "jpg", "Loading", Font.PLAIN, 1.0d);
 		if (msgJPG1 != null) {
 			return msgJPG1;
 		}
 		String imageFile2 = imagesPath + File.separator + "Activity_Widget.jpg";
-		Message msgJPG2 = generateImage(new File(imageFile2), 816, 626, "jpg", "Generated|in|BushMissionGen v" + BushMissionGen.VERSION, Font.PLAIN, 1.0d);
+		Message msgJPG2 = mImageHandling.generateImage(new File(imageFile2), 816, 626, "jpg", "Generated|in|BushMissionGen v" + BushMissionGen.VERSION, Font.PLAIN, 1.0d);
 		if (msgJPG2 != null) {
 			return msgJPG2;
 		}
 		String imageFile3 = contentInfoPath + File.separator + "Thumbnail.jpg";
-		Message msgJPG3 = generateImage(new File(imageFile3), 412, 170, "jpg", "Generated|in|BushMissionGen v" + BushMissionGen.VERSION, Font.BOLD, 1.5d);
+		Message msgJPG3 = mImageHandling.generateImage(new File(imageFile3), 412, 170, "jpg", "Generated|in|BushMissionGen v" + BushMissionGen.VERSION, Font.BOLD, 1.5d);
 		if (msgJPG3 != null) {
 			return msgJPG3;
 		}
@@ -1208,15 +1169,45 @@ public class BushMissionGen {
 		mDoc.head().appendElement("br");
 		mDoc.body().appendElement("div");
 
-		mGeoJSONcount = 0;
-		mGeoJSON = new StringBuffer();
-		mGeoJSON.append("{").append(System.lineSeparator());
-		mGeoJSON.append("\"type\": \"FeatureCollection\",").append(System.lineSeparator());
-		mGeoJSON.append("\"features\": [").append(System.lineSeparator());
+		// JSON
+		mGeoJSON.reset();
 
 		// Reset POI images count
 		mPOIs = 0;
 		mSounds = new ArrayList<>();
+
+		// Load resource files
+		FLT_AIRLINER_BUSH = mFileHandling.readUrlToString("FLT/AIRLINER_BUSH.txt", StandardCharsets.UTF_8);
+		FLT_AIRLINER_LAND = mFileHandling.readUrlToString("FLT/AIRLINER_LAND.txt", StandardCharsets.UTF_8);
+
+		LOC_STRING = mFileHandling.readUrlToString("LOC/STRING.txt", StandardCharsets.UTF_8);
+		LOC_LANGUAGE = mFileHandling.readUrlToString("LOC/LANGUAGE.txt", StandardCharsets.UTF_8);
+
+		PLN_ATCWAYPOINTS_V1 = mFileHandling.readUrlToString("PLN/ATCWAYPOINTS_V1.txt", StandardCharsets.UTF_8);
+		PLN_ATCWAYPOINTS_V2 = mFileHandling.readUrlToString("PLN/ATCWAYPOINTS_V2.txt", StandardCharsets.UTF_8);
+		PLN_ATCWAYPOINTS_V3 = mFileHandling.readUrlToString("PLN/ATCWAYPOINTS_V3.txt", StandardCharsets.UTF_8);
+
+		XML_ALTITUDESPEEDTRIGGER = mFileHandling.readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", Charset.forName("windows-1252"));
+		XML_ALTITUDETRIGGER = mFileHandling.readUrlToString("XML/ALTITUDETRIGGER.txt", Charset.forName("windows-1252"));
+		XML_CALC = mFileHandling.readUrlToString("XML/CALC.txt", Charset.forName("windows-1252"));
+		XML_DIALOGACTION = mFileHandling.readUrlToString("XML/DIALOGACTION.txt", Charset.forName("windows-1252"));
+		XML_DIALOGS = mFileHandling.readUrlToString("XML/DIALOGS.txt", Charset.forName("windows-1252"));
+		XML_DIALOGSEXIT = mFileHandling.readUrlToString("XML/DIALOGSEXIT.txt", Charset.forName("windows-1252"));
+		XML_FAILUREACTION = mFileHandling.readUrlToString("XML/FAILUREACTION.txt", Charset.forName("windows-1252"));
+		XML_FAILURES = mFileHandling.readUrlToString("XML/FAILURES.txt", Charset.forName("windows-1252"));
+		XML_FAILURESEXIT = mFileHandling.readUrlToString("XML/FAILURESEXIT.txt", Charset.forName("windows-1252"));
+		XML_FORMULATRIGGER = mFileHandling.readUrlToString("XML/FORMULATRIGGER.txt", Charset.forName("windows-1252"));
+		XML_GOAL = mFileHandling.readUrlToString("XML/GOAL.txt", Charset.forName("windows-1252"));
+		XML_INTRODIALOG = mFileHandling.readUrlToString("XML/INTRODIALOG.txt", Charset.forName("windows-1252"));
+		XML_LANDEDDIALOGS = mFileHandling.readUrlToString("XML/LANDEDDIALOGS.txt", Charset.forName("windows-1252"));
+		XML_LANDEDTRIGGER = mFileHandling.readUrlToString("XML/LANDEDTRIGGER.txt", Charset.forName("windows-1252"));
+		XML_LEG = mFileHandling.readUrlToString("XML/LEG.txt", Charset.forName("windows-1252"));
+		XML_OBJECTIVE = mFileHandling.readUrlToString("XML/OBJECTIVE.txt", Charset.forName("windows-1252"));
+		XML_PROXIMITYTRIGGER = mFileHandling.readUrlToString("XML/PROXIMITYTRIGGER.txt", Charset.forName("windows-1252"));
+		XML_RESETACTION = mFileHandling.readUrlToString("XML/RESETACTION.txt", Charset.forName("windows-1252"));
+		XML_SPEEDTRIGGER = mFileHandling.readUrlToString("XML/SPEEDTRIGGER.txt", Charset.forName("windows-1252"));
+		XML_SUBLEG = mFileHandling.readUrlToString("XML/SUBLEG.txt", Charset.forName("windows-1252"));
+		XML_TIMERTRIGGER = mFileHandling.readUrlToString("XML/TIMERTRIGGER.txt", Charset.forName("windows-1252"));
 
 		// Create output files
 		Message msgLOC = handleLOC(metaEntry, entries, recept_fileLOC, outFileLOC); // MUST BE FIRST!
@@ -1239,16 +1230,15 @@ public class BushMissionGen {
 
 			// Write preview HTML to file
 			Charset cs = StandardCharsets.UTF_8;
-			Message msg = writeStringToFile(outFilePreview, mDoc.toString(), cs);
+			Message msg = mFileHandling.writeStringToFile(outFilePreview, mDoc.toString(), cs);
 			if (msg != null) {
 				return msg;
 			}
 			mSavedPreviewFile = outFilePreview;
 
 			// JSON
-			mGeoJSON.append("]").append(System.lineSeparator());
-			mGeoJSON.append("}").append(System.lineSeparator());
-			Message msgJSON = writeStringToFile(outFileJSON, mGeoJSON.toString(), cs);
+			mGeoJSON.finish();
+			Message msgJSON = mFileHandling.writeStringToFile(outFileJSON, mGeoJSON.toString(), cs);
 			if (msgJSON != null) {
 				return msgJSON;
 			}
@@ -1323,12 +1313,7 @@ public class BushMissionGen {
 
 	private Message handleXML(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile, String pathRoot, String imagesPath) {
 		Charset cs = Charset.forName("windows-1252");
-		String XML_FILE = readFileToString(inFile, cs);
-		String XML_LEG = readUrlToString("XML/LEG.txt", cs);
-		String XML_SUBLEG = readUrlToString("XML/SUBLEG.txt", cs);
-		String XML_CALC = readUrlToString("XML/CALC.txt", cs);
-		String XML_LANDEDDIALOGS = readUrlToString("XML/LANDEDDIALOGS.txt", cs);
-		String XML_LANDEDTRIGGER = readUrlToString("XML/LANDEDTRIGGER.txt", cs);
+		String XML_FILE = mFileHandling.readFileToString(inFile, cs);
 		String XML_REGION = System.lineSeparator() +
 				"                <idRegion>##REGION##</idRegion>";
 		String XML_IMAGEPATH = System.lineSeparator() +
@@ -1408,20 +1393,7 @@ public class BushMissionGen {
 					sb.append(System.lineSeparator());
 
 					// JSON
-					mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-					mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-					mGeoJSON.append("\"properties\": {},").append(System.lineSeparator());
-					mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-					mGeoJSON.append("\"type\": \"LineString\",").append(System.lineSeparator());
-					mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-					double[] coord1 = MissionEntry.convertCoordinate(lastEntry.latlon);
-					double[] coord2 = MissionEntry.convertCoordinate(entry.latlon);
-					mGeoJSON.append("[" + coord1[0] + "," + coord1[1] + "],").append(System.lineSeparator());
-					mGeoJSON.append("[" + coord2[0] + "," + coord2[1] + "]").append(System.lineSeparator());
-					mGeoJSON.append("]").append(System.lineSeparator());
-					mGeoJSON.append("}").append(System.lineSeparator());
-					mGeoJSON.append("}").append(System.lineSeparator());
-					mGeoJSONcount++;
+					mGeoJSON.appendLine(lastEntry.latlon, entry.latlon);
 
 					string_CURRENTLEG = "";
 					list_subLegs.clear();
@@ -1623,22 +1595,7 @@ public class BushMissionGen {
 				}
 
 				// JSON
-				mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-				mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"marker-color\": \"#ff0000\",").append(System.lineSeparator());
-				mGeoJSON.append("\"marker-size\": \"medium\",").append(System.lineSeparator());
-				mGeoJSON.append("\"marker-symbol\": \"\"").append(System.lineSeparator());
-				mGeoJSON.append("},").append(System.lineSeparator());
-				mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Point\",").append(System.lineSeparator());
-				mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-				double[] coord = MissionEntry.convertCoordinate(entry.latlon);
-				mGeoJSON.append(coord[0] + "," + coord[1]).append(System.lineSeparator());
-				mGeoJSON.append("]").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSONcount++;
+				mGeoJSON.appendPoint(entry.latlon, "#ff0000");
 
 				lastRefId = refId;
 				count_AIRPORT++;
@@ -1696,43 +1653,8 @@ public class BushMissionGen {
 				poiBefore = true;
 
 				// JSON
-				mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-				mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"marker-color\": \"#000000\",").append(System.lineSeparator());
-				mGeoJSON.append("\"marker-size\": \"medium\",").append(System.lineSeparator());
-				mGeoJSON.append("\"marker-symbol\": \"\"").append(System.lineSeparator());
-				mGeoJSON.append("},").append(System.lineSeparator());
-				mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Point\",").append(System.lineSeparator());
-				mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-				double[] coord = MissionEntry.convertCoordinate(entry.latlon);
-
-				if (coord == null || coord.length < 2) {
-					System.out.println("HEJ!");
-				}
-
-				mGeoJSON.append(coord[0] + "," + coord[1]).append(System.lineSeparator());
-				mGeoJSON.append("]").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSONcount++;
-
-				// JSON
-				mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-				mGeoJSON.append("\"properties\": {},").append(System.lineSeparator());
-				mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"LineString\",").append(System.lineSeparator());
-				mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-				double[] coord1 = MissionEntry.convertCoordinate(lastEntry.latlon);
-				double[] coord2 = MissionEntry.convertCoordinate(entry.latlon);
-				mGeoJSON.append("[" + coord1[0] + "," + coord1[1] + "],").append(System.lineSeparator());
-				mGeoJSON.append("[" + coord2[0] + "," + coord2[1] + "]").append(System.lineSeparator());
-				mGeoJSON.append("]").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSONcount++;
+				mGeoJSON.appendPoint(entry.latlon, "#000000");
+				mGeoJSON.appendLine(lastEntry.latlon, entry.latlon);
 			}
 			count_ENTRY++;
 			lastEntry = entry;			
@@ -1740,8 +1662,6 @@ public class BushMissionGen {
 
 		StringBuffer sb_DIALOGS = new StringBuffer();
 		if (!metaEntry.poiSpeech.isEmpty() || !metaEntry.poiSpeechBefore.isEmpty()) {
-			String XML_DIALOGS = readUrlToString("XML/DIALOGS.txt", cs);
-			String XML_DIALOGSEXIT = readUrlToString("XML/DIALOGSEXIT.txt", cs);
 			sb_DIALOGS.append(System.lineSeparator());
 			int count = 0;
 			DialogEntry de = new DialogEntry(); // To get standard values
@@ -1794,30 +1714,7 @@ public class BushMissionGen {
 					ss = ss.replace("##USE_AGL##", de.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : de.agl);
 
 					// JSON
-					mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-					mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-					mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-					mGeoJSON.append("\"stroke\": \"#555555\",").append(System.lineSeparator());
-					mGeoJSON.append("\"stroke-width\": 2,").append(System.lineSeparator());
-					mGeoJSON.append("\"stroke-opacity\": 1,").append(System.lineSeparator());
-					mGeoJSON.append("\"fill\": \"#007700\",").append(System.lineSeparator());
-					mGeoJSON.append("\"fill-opacity\": 0.5").append(System.lineSeparator());
-					mGeoJSON.append("},").append(System.lineSeparator());
-					mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-					mGeoJSON.append("\"type\": \"Polygon\",").append(System.lineSeparator());
-					mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-					mGeoJSON.append("[").append(System.lineSeparator());
-					double[] coord = MissionEntry.convertCoordinate(me.latlon);
-					MyGeoPoint[] box = MissionEntry.getBoundingBox(coord, Double.parseDouble(boxSideSize), Double.parseDouble(boxSideSize), Double.parseDouble(de.heading));
-					mGeoJSON.append("[" + box[0].longitude + "," + box[0].latitude + "],").append(System.lineSeparator());
-					mGeoJSON.append("[" + box[1].longitude + "," + box[1].latitude + "],").append(System.lineSeparator());
-					mGeoJSON.append("[" + box[2].longitude + "," + box[2].latitude + "],").append(System.lineSeparator());
-					mGeoJSON.append("[" + box[3].longitude + "," + box[3].latitude + "]").append(System.lineSeparator());
-					mGeoJSON.append("]").append(System.lineSeparator());
-					mGeoJSON.append("]").append(System.lineSeparator());
-					mGeoJSON.append("}").append(System.lineSeparator());
-					mGeoJSON.append("}").append(System.lineSeparator());
-					mGeoJSONcount++;
+					mGeoJSON.appendPolygon(de.latlon, boxSideSize, boxSideSize, de.heading, "#555555", "#007700");
 
 					sb_DIALOGS.append(ss);
 					sb_DIALOGS.append(System.lineSeparator());
@@ -1876,30 +1773,7 @@ public class BushMissionGen {
 						ss = ss.replace("##HEIGHT_AREA##", de.height);
 
 						// JSON
-						mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-						mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-						mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-						mGeoJSON.append("\"stroke\": \"#555555\",").append(System.lineSeparator());
-						mGeoJSON.append("\"stroke-width\": 2,").append(System.lineSeparator());
-						mGeoJSON.append("\"stroke-opacity\": 1,").append(System.lineSeparator());
-						mGeoJSON.append("\"fill\": \"#00ff00\",").append(System.lineSeparator());
-						mGeoJSON.append("\"fill-opacity\": 0.5").append(System.lineSeparator());
-						mGeoJSON.append("},").append(System.lineSeparator());
-						mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-						mGeoJSON.append("\"type\": \"Polygon\",").append(System.lineSeparator());
-						mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-						mGeoJSON.append("[").append(System.lineSeparator());
-						double[] coord = MissionEntry.convertCoordinate(prevMe.latlon);
-						MyGeoPoint[] box = MissionEntry.getBoundingBox(coord, Double.parseDouble(boxSideSize), Double.parseDouble(boxSideSize), Double.parseDouble(de.heading));
-						mGeoJSON.append("[" + box[0].longitude + "," + box[0].latitude + "],").append(System.lineSeparator());
-						mGeoJSON.append("[" + box[1].longitude + "," + box[1].latitude + "],").append(System.lineSeparator());
-						mGeoJSON.append("[" + box[2].longitude + "," + box[2].latitude + "],").append(System.lineSeparator());
-						mGeoJSON.append("[" + box[3].longitude + "," + box[3].latitude + "]").append(System.lineSeparator());
-						mGeoJSON.append("]").append(System.lineSeparator());
-						mGeoJSON.append("]").append(System.lineSeparator());
-						mGeoJSON.append("}").append(System.lineSeparator());
-						mGeoJSON.append("}").append(System.lineSeparator());
-						mGeoJSONcount++;
+						mGeoJSON.appendPolygon(prevMe.latlon, boxSideSize, boxSideSize, de.heading, "#555555", "#00ff00");
 					} else {
 						String boxSideSize = de.width;
 						if (!metaEntry.standardEnterAreaSideLength.isEmpty()) {
@@ -1911,30 +1785,7 @@ public class BushMissionGen {
 						ss = ss.replace("##HEIGHT_AREA##", de.height);
 
 						// JSON
-						mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-						mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-						mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-						mGeoJSON.append("\"stroke\": \"#555555\",").append(System.lineSeparator());
-						mGeoJSON.append("\"stroke-width\": 2,").append(System.lineSeparator());
-						mGeoJSON.append("\"stroke-opacity\": 1,").append(System.lineSeparator());
-						mGeoJSON.append("\"fill\": \"#007700\",").append(System.lineSeparator());
-						mGeoJSON.append("\"fill-opacity\": 0.5").append(System.lineSeparator());
-						mGeoJSON.append("},").append(System.lineSeparator());
-						mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-						mGeoJSON.append("\"type\": \"Polygon\",").append(System.lineSeparator());
-						mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-						mGeoJSON.append("[").append(System.lineSeparator());
-						double[] coord = MissionEntry.convertCoordinate(prevMe.latlon);
-						MyGeoPoint[] box = MissionEntry.getBoundingBox(coord, Double.parseDouble(boxSideSize), Double.parseDouble(boxSideSize), Double.parseDouble(de.heading));
-						mGeoJSON.append("[" + box[0].longitude + "," + box[0].latitude + "],").append(System.lineSeparator());
-						mGeoJSON.append("[" + box[1].longitude + "," + box[1].latitude + "],").append(System.lineSeparator());
-						mGeoJSON.append("[" + box[2].longitude + "," + box[2].latitude + "],").append(System.lineSeparator());
-						mGeoJSON.append("[" + box[3].longitude + "," + box[3].latitude + "]").append(System.lineSeparator());
-						mGeoJSON.append("]").append(System.lineSeparator());
-						mGeoJSON.append("]").append(System.lineSeparator());
-						mGeoJSON.append("}").append(System.lineSeparator());
-						mGeoJSON.append("}").append(System.lineSeparator());
-						mGeoJSONcount++;
+						mGeoJSON.appendPolygon(prevMe.latlon, boxSideSize, boxSideSize, de.heading, "#555555", "#007700");
 					}
 					ss = ss.replace("##HEADING_AREA##", de.heading);
 					ss = ss.replace("##LLA_AREA##", prevMe.latlon + ",-000200.00");
@@ -1950,8 +1801,6 @@ public class BushMissionGen {
 		}
 
 		if (!metaEntry.dialogEntries.isEmpty()) {
-			String XML_DIALOGS = readUrlToString("XML/DIALOGS.txt", cs);
-			String XML_DIALOGSEXIT = readUrlToString("XML/DIALOGSEXIT.txt", cs);
 			sb_DIALOGS.append(System.lineSeparator());
 			int count = 0;
 			for (DialogEntry de : metaEntry.dialogEntries) {
@@ -2016,34 +1865,7 @@ public class BushMissionGen {
 				ss = ss.replace("##USE_AGL##", de.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : de.agl);
 
 				// JSON
-				mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-				mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"stroke\": \"#555555\",").append(System.lineSeparator());
-				mGeoJSON.append("\"stroke-width\": 2,").append(System.lineSeparator());
-				mGeoJSON.append("\"stroke-opacity\": 1,").append(System.lineSeparator());
-				if (de.exit) {
-					mGeoJSON.append("\"fill\": \"#0000ff\",").append(System.lineSeparator());
-				} else {
-					mGeoJSON.append("\"fill\": \"#000077\",").append(System.lineSeparator());
-				}
-				mGeoJSON.append("\"fill-opacity\": 0.5").append(System.lineSeparator());
-				mGeoJSON.append("},").append(System.lineSeparator());
-				mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Polygon\",").append(System.lineSeparator());
-				mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-				mGeoJSON.append("[").append(System.lineSeparator());
-				double[] coord = MissionEntry.convertCoordinate(de.latlon);
-				MyGeoPoint[] box = MissionEntry.getBoundingBox(coord, Double.parseDouble(de.width), Double.parseDouble(de.length), Double.parseDouble(de.heading));
-				mGeoJSON.append("[" + box[0].longitude + "," + box[0].latitude + "],").append(System.lineSeparator());
-				mGeoJSON.append("[" + box[1].longitude + "," + box[1].latitude + "],").append(System.lineSeparator());
-				mGeoJSON.append("[" + box[2].longitude + "," + box[2].latitude + "],").append(System.lineSeparator());
-				mGeoJSON.append("[" + box[3].longitude + "," + box[3].latitude + "]").append(System.lineSeparator());
-				mGeoJSON.append("]").append(System.lineSeparator());
-				mGeoJSON.append("]").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSONcount++;
+				mGeoJSON.appendPolygon(de.latlon, de.width, de.length, de.heading, "#555555", de.exit ? "#0000ff" : "#000077");
 
 				sb_DIALOGS.append(ss);
 				sb_DIALOGS.append(System.lineSeparator());
@@ -2060,56 +1882,6 @@ public class BushMissionGen {
 		Pattern patternAltitudeSpeedFail1 = Pattern.compile("^[a][l][t][i][t][u][d][e][A][n][d][S][p][e][e][d][F][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
 		Pattern patternAltitudeSpeedFail2 = Pattern.compile("^[a][l][t][i][t][u][d][e][S][p][e][e][d][F][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
 		Pattern patternFormulaFail = Pattern.compile("^[f][o][r][m][u][l][a][F][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
-		List<String> systemsList = new ArrayList<>();
-		systemsList.add("Engine");
-		systemsList.add("EngineFire");
-		systemsList.add("Cylinder");
-		systemsList.add("Coolant");
-		systemsList.add("OilSystem");
-		systemsList.add("OilLeak");
-		systemsList.add("VacuumSystem");
-		systemsList.add("Pitot");
-		systemsList.add("Static");
-		systemsList.add("ElectricalSystem");
-		systemsList.add("Generator");
-		systemsList.add("FuelPump");
-		systemsList.add("FuelLeak");
-		systemsList.add("APU");
-		systemsList.add("APUFire");
-		systemsList.add("TurbineIgnition");
-		systemsList.add("HydraulicPump");
-		systemsList.add("HydraulicLeak");
-		systemsList.add("LeftMagneto");
-		systemsList.add("RightMagneto");
-		systemsList.add("Elevator");
-		systemsList.add("LeftAileron");
-		systemsList.add("RightAileron");
-		systemsList.add("Rudder");
-		systemsList.add("RearTail");
-		systemsList.add("LeftFlap");
-		systemsList.add("RightFlap");
-		systemsList.add("LeftWing");
-		systemsList.add("LeftWingTip");
-		systemsList.add("RightWing");
-		systemsList.add("RightWingTip");
-		systemsList.add("CenterGear");
-		systemsList.add("RightGear");
-		systemsList.add("LeftGear");
-		systemsList.add("AuxGear");
-		systemsList.add("LeftBrake");
-		systemsList.add("RightBrake");
-		systemsList.add("BrakeSystemHydraulicSource");
-		systemsList.add("AttitudeIndicator");
-		systemsList.add("AirspeedIndicator");
-		systemsList.add("Altimeter");
-		systemsList.add("DirectionalGyro");
-		systemsList.add("Compass");
-		systemsList.add("TurnCoordinator");
-		systemsList.add("VSI");
-		systemsList.add("COMRadios");
-		systemsList.add("NavRadios");
-		systemsList.add("ADFRadios");
-		systemsList.add("Transponder");
 		for (String failureItem : metaEntry.failures) {
 			String system = "";
 			String subIndex = "";
@@ -2163,7 +1935,7 @@ public class BushMissionGen {
 			}
 
 			if (!system.isEmpty()) {				
-				boolean wasFound = systemsList.contains(system);
+				boolean wasFound = mSimData.systemsList.contains(system);
 
 				if (wasFound) {
 					FailureEntry fe = new FailureEntry("Failure", value.trim(), system, subIndex, exit, mode);
@@ -2182,13 +1954,6 @@ public class BushMissionGen {
 		if (!failureEntries.isEmpty()) {
 			sb_FAILURES.append(System.lineSeparator());
 
-			String XML_FAILURES = readUrlToString("XML/FAILURES.txt", cs);
-			String XML_FAILURESEXIT = readUrlToString("XML/FAILURESEXIT.txt", cs);
-			String XML_ALTITUDETRIGGER = readUrlToString("XML/ALTITUDETRIGGER.txt", cs);
-			String XML_SPEEDTRIGGER = readUrlToString("XML/SPEEDTRIGGER.txt", cs);
-			String XML_ALTITUDESPEEDTRIGGER = readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", cs);
-			String XML_FORMULATRIGGER = readUrlToString("XML/FORMULATRIGGER.txt", cs);
-			String XML_FAILUREACTION = readUrlToString("XML/FAILUREACTION.txt", cs);
 			int count = 0;
 			for (FailureEntry fe : failureEntries) {
 				String ss = XML_FAILURES;
@@ -2306,31 +2071,7 @@ public class BushMissionGen {
 					ss = ss.replace("##USE_AGL##", fe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : fe.agl);
 
 					// JSON
-					mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-					mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-					mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-					mGeoJSON.append("\"stroke\": \"#555555\",").append(System.lineSeparator());
-					mGeoJSON.append("\"stroke-width\": 2,").append(System.lineSeparator());
-					mGeoJSON.append("\"stroke-opacity\": 1,").append(System.lineSeparator());
-					mGeoJSON.append("\"fill\": \"#ff0000\",").append(System.lineSeparator());
-					mGeoJSON.append("\"fill-opacity\": 0.5").append(System.lineSeparator());
-					mGeoJSON.append("},").append(System.lineSeparator());
-					mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-					mGeoJSON.append("\"type\": \"Polygon\",").append(System.lineSeparator());
-					mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-					mGeoJSON.append("[").append(System.lineSeparator());
-					double[] coord = MissionEntry.convertCoordinate(fe.latlon);
-
-					MyGeoPoint[] box = MissionEntry.getBoundingBox(coord, Double.parseDouble(fe.width), Double.parseDouble(fe.length), Double.parseDouble(fe.heading));
-					mGeoJSON.append("[" + box[0].longitude + "," + box[0].latitude + "],").append(System.lineSeparator());
-					mGeoJSON.append("[" + box[1].longitude + "," + box[1].latitude + "],").append(System.lineSeparator());
-					mGeoJSON.append("[" + box[2].longitude + "," + box[2].latitude + "],").append(System.lineSeparator());
-					mGeoJSON.append("[" + box[3].longitude + "," + box[3].latitude + "]").append(System.lineSeparator());
-					mGeoJSON.append("]").append(System.lineSeparator());
-					mGeoJSON.append("]").append(System.lineSeparator());
-					mGeoJSON.append("}").append(System.lineSeparator());
-					mGeoJSON.append("}").append(System.lineSeparator());
-					mGeoJSONcount++;
+					mGeoJSON.appendPolygon(fe.latlon, fe.width, fe.length, fe.heading, "#555555", "#ff0000");
 				}
 
 				sb_FAILURES.append(ss);
@@ -2341,7 +2082,6 @@ public class BushMissionGen {
 
 		StringBuffer sb_INTRODIALOG = new StringBuffer();
 		if (!metaEntry.introSpeeches.isEmpty()) {
-			String XML_INTRODIALOG = readUrlToString("XML/INTRODIALOG.txt", cs);
 			int count1 = 0;
 
 			for (DelayedText is : metaEntry.introSpeeches) {
@@ -2382,30 +2122,7 @@ public class BushMissionGen {
 				ss = ss.replace("##DELAY_TRIGGER##", is.delay);
 
 				// JSON
-				mGeoJSON.append(mGeoJSONcount==0 ? "{" : ",{").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Feature\",").append(System.lineSeparator());
-				mGeoJSON.append("\"properties\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"stroke\": \"#555555\",").append(System.lineSeparator());
-				mGeoJSON.append("\"stroke-width\": 2,").append(System.lineSeparator());
-				mGeoJSON.append("\"stroke-opacity\": 1,").append(System.lineSeparator());
-				mGeoJSON.append("\"fill\": \"#00ffff\",").append(System.lineSeparator());
-				mGeoJSON.append("\"fill-opacity\": 0.5").append(System.lineSeparator());
-				mGeoJSON.append("},").append(System.lineSeparator());
-				mGeoJSON.append("\"geometry\": {").append(System.lineSeparator());
-				mGeoJSON.append("\"type\": \"Polygon\",").append(System.lineSeparator());
-				mGeoJSON.append("\"coordinates\": [").append(System.lineSeparator());
-				mGeoJSON.append("[").append(System.lineSeparator());
-				double[] coord = MissionEntry.convertCoordinate(entries.get(0).latlon);
-				MyGeoPoint[] box = MissionEntry.getBoundingBox(coord, Double.parseDouble("150.000"), Double.parseDouble("150.000"), Double.parseDouble("0.000"));
-				mGeoJSON.append("[" + box[0].longitude + "," + box[0].latitude + "],").append(System.lineSeparator());
-				mGeoJSON.append("[" + box[1].longitude + "," + box[1].latitude + "],").append(System.lineSeparator());
-				mGeoJSON.append("[" + box[2].longitude + "," + box[2].latitude + "],").append(System.lineSeparator());
-				mGeoJSON.append("[" + box[3].longitude + "," + box[3].latitude + "]").append(System.lineSeparator());
-				mGeoJSON.append("]").append(System.lineSeparator());
-				mGeoJSON.append("]").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSON.append("}").append(System.lineSeparator());
-				mGeoJSONcount++;
+				mGeoJSON.appendPolygon(entries.get(0).latlon, "150.000", "150.000", "0.000", "#555555", "#00ffff");
 
 				sb_INTRODIALOG.append(System.lineSeparator());
 				sb_INTRODIALOG.append(System.lineSeparator());
@@ -2442,111 +2159,107 @@ public class BushMissionGen {
 				}
 
 				if (we.currentMode == WarningEntryMode.ALTITUDE) {
-					String XML_ALTITUDETRIGGER = readUrlToString("XML/ALTITUDETRIGGER.txt", cs);
-					String XML_DIALOGACTION = readUrlToString("XML/DIALOGACTION.txt", cs);
+					String ss = XML_ALTITUDETRIGGER;
 
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##ACTION##", XML_DIALOGACTION);
+					ss = ss.replace("##ACTION##", XML_DIALOGACTION);
 
 					String refId1 = "926B2C33-081B-4D7C-8865-FF2FDB0AF";
 					refId1 += String.format("%03d", count1 + 1);
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##REF_ID_DIALOG##", refId1);
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##DESCR_DIALOG##",  "DialogAltitude" + (count1 + 1));
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##TEXT_DIALOG##", textXML);
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##DELAY_DIALOG##",  "2.000");
+					ss = ss.replace("##REF_ID_DIALOG##", refId1);
+					ss = ss.replace("##DESCR_DIALOG##",  "DialogAltitude" + (count1 + 1));
+					ss = ss.replace("##TEXT_DIALOG##", textXML);
+					ss = ss.replace("##DELAY_DIALOG##",  "2.000");
 
 					String refId2 = "BB9EF18D-07A0-488B-87C2-6F61417D9";
 					refId2 += String.format("%03d", count1 + 1);
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##REF_ID_TRIGGER##", refId2);
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##DESCR_TRIGGER##", "PropertyTriggerAltitude" + (count1 + 1));
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##ALTITUDEMODE##", we.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : we.agl.equals("False") ? "AMSL" : "AGL");
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##HEIGHT_TRIGGER##", we.height);
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##DESCR_ACTION##",  "DialogAltitude" + (count1 + 1));
-					XML_ALTITUDETRIGGER = XML_ALTITUDETRIGGER.replace("##REF_ID_ACTION##", refId1);
+					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
+					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerAltitude" + (count1 + 1));
+					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
+					ss = ss.replace("##ALTITUDEMODE##", we.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : we.agl.equals("False") ? "AMSL" : "AGL");
+					ss = ss.replace("##HEIGHT_TRIGGER##", we.height);
+					ss = ss.replace("##DESCR_ACTION##",  "DialogAltitude" + (count1 + 1));
+					ss = ss.replace("##REF_ID_ACTION##", refId1);
 
 					sb_WARNINGS.append(System.lineSeparator());
 					sb_WARNINGS.append(System.lineSeparator());
-					sb_WARNINGS.append(XML_ALTITUDETRIGGER);
+					sb_WARNINGS.append(ss);
 					count1++;
 				} else if (we.currentMode == WarningEntryMode.SPEED) {
-					String XML_SPEEDTRIGGER = readUrlToString("XML/SPEEDTRIGGER.txt", cs);
-					String XML_DIALOGACTION = readUrlToString("XML/DIALOGACTION.txt", cs);
+					String ss = XML_SPEEDTRIGGER;
 
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##ACTION##", XML_DIALOGACTION);
+					ss = ss.replace("##ACTION##", XML_DIALOGACTION);
 
 					String refId1 = "528ADAB1-D26C-45BA-A281-A7CA5D6DD";
 					refId1 += String.format("%03d", count2 + 1);
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##REF_ID_DIALOG##", refId1);
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##DESCR_DIALOG##",  "DialogSpeed" + (count2 + 1));
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##TEXT_DIALOG##", textXML);
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##DELAY_DIALOG##",  "2.000");
+					ss = ss.replace("##REF_ID_DIALOG##", refId1);
+					ss = ss.replace("##DESCR_DIALOG##",  "DialogSpeed" + (count2 + 1));
+					ss = ss.replace("##TEXT_DIALOG##", textXML);
+					ss = ss.replace("##DELAY_DIALOG##",  "2.000");
 
 					String refId2 = "EFCE14C2-ADB7-4F15-9240-35E5B9DE8";
 					refId2 += String.format("%03d", count2 + 1);
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##REF_ID_TRIGGER##", refId2);
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##DESCR_TRIGGER##", "PropertyTriggerSpeed" + (count2 + 1));
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##SPEED_TRIGGER##", we.speed);
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##DESCR_ACTION##",  "DialogSpeed" + (count2 + 1));
-					XML_SPEEDTRIGGER = XML_SPEEDTRIGGER.replace("##REF_ID_ACTION##", refId1);
+					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
+					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerSpeed" + (count2 + 1));
+					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
+					ss = ss.replace("##SPEED_TRIGGER##", we.speed);
+					ss = ss.replace("##DESCR_ACTION##",  "DialogSpeed" + (count2 + 1));
+					ss = ss.replace("##REF_ID_ACTION##", refId1);
 
 					sb_WARNINGS.append(System.lineSeparator());
 					sb_WARNINGS.append(System.lineSeparator());
-					sb_WARNINGS.append(XML_SPEEDTRIGGER);
+					sb_WARNINGS.append(ss);
 					count2++;
 				} else if (we.currentMode == WarningEntryMode.ALTITUDE_AND_SPEED) {
-					String XML_ALTITUDESPEEDTRIGGER = readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", cs);
-					String XML_DIALOGACTION = readUrlToString("XML/DIALOGACTION.txt", cs);
+					String ss = XML_ALTITUDESPEEDTRIGGER;
 
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##ACTION##", XML_DIALOGACTION);
+					ss = ss.replace("##ACTION##", XML_DIALOGACTION);
 
 					String refId1 = "B9028A6F-3009-449A-850D-FF55FBD24";
 					refId1 += String.format("%03d", count3 + 1);
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##REF_ID_DIALOG##", refId1);
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##DESCR_DIALOG##",  "DialogAltitudeSpeed" + (count3 + 1));
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##TEXT_DIALOG##", textXML);
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##DELAY_DIALOG##",  "2.000");
+					ss = ss.replace("##REF_ID_DIALOG##", refId1);
+					ss = ss.replace("##DESCR_DIALOG##",  "DialogAltitudeSpeed" + (count3 + 1));
+					ss = ss.replace("##TEXT_DIALOG##", textXML);
+					ss = ss.replace("##DELAY_DIALOG##",  "2.000");
 
 					String refId2 = "59E181A7-399D-412E-91DF-6BA1A6987";
 					refId2 += String.format("%03d", count3 + 1);
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##REF_ID_TRIGGER##", refId2);
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##DESCR_TRIGGER##", "PropertyTriggerAltitudeSpeed" + (count3 + 1));
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##ALTITUDEMODE##", we.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : we.agl.equals("False") ? "AMSL" : "AGL");
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##HEIGHT_TRIGGER##", we.height);
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##SPEED_TRIGGER##", we.speed);
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##DESCR_ACTION##",  "DialogAltitudeSpeed" + (count3 + 1));
-					XML_ALTITUDESPEEDTRIGGER = XML_ALTITUDESPEEDTRIGGER.replace("##REF_ID_ACTION##", refId1);
+					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
+					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerAltitudeSpeed" + (count3 + 1));
+					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
+					ss = ss.replace("##ALTITUDEMODE##", we.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : we.agl.equals("False") ? "AMSL" : "AGL");
+					ss = ss.replace("##HEIGHT_TRIGGER##", we.height);
+					ss = ss.replace("##SPEED_TRIGGER##", we.speed);
+					ss = ss.replace("##DESCR_ACTION##",  "DialogAltitudeSpeed" + (count3 + 1));
+					ss = ss.replace("##REF_ID_ACTION##", refId1);
 
 					sb_WARNINGS.append(System.lineSeparator());
 					sb_WARNINGS.append(System.lineSeparator());
-					sb_WARNINGS.append(XML_ALTITUDESPEEDTRIGGER);
+					sb_WARNINGS.append(ss);
 					count3++;
 				} else if (we.currentMode == WarningEntryMode.FORMULA) {
-					String XML_FORMULATRIGGER = readUrlToString("XML/FORMULATRIGGER.txt", cs);
-					String XML_DIALOGACTION = readUrlToString("XML/DIALOGACTION.txt", cs);
+					String ss = XML_FORMULATRIGGER;
 
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##ACTION##", XML_DIALOGACTION);
+					ss = ss.replace("##ACTION##", XML_DIALOGACTION);
 
 					String refId1 = "00EC366E-9A41-444A-9E42-FC2B11C94";
 					refId1 += String.format("%03d", count1 + 1);
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##REF_ID_DIALOG##", refId1);
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##DESCR_DIALOG##",  "DialogFormula" + (count1 + 1));
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##TEXT_DIALOG##", textXML);
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##DELAY_DIALOG##",  "2.000");
+					ss = ss.replace("##REF_ID_DIALOG##", refId1);
+					ss = ss.replace("##DESCR_DIALOG##",  "DialogFormula" + (count1 + 1));
+					ss = ss.replace("##TEXT_DIALOG##", textXML);
+					ss = ss.replace("##DELAY_DIALOG##",  "2.000");
 
 					String refId2 = "A4C03C2A-9860-484B-83A2-943149B24";
 					refId2 += String.format("%03d", count1 + 1);
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##REF_ID_TRIGGER##", refId2);
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##DESCR_TRIGGER##", "PropertyTriggerFormula" + (count1 + 1));
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##FORMULA_TRIGGER##", we.formula);
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##DESCR_ACTION##",  "DialogFormula" + (count1 + 1));
-					XML_FORMULATRIGGER = XML_FORMULATRIGGER.replace("##REF_ID_ACTION##", refId1);
+					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
+					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerFormula" + (count1 + 1));
+					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
+					ss = ss.replace("##FORMULA_TRIGGER##", we.formula);
+					ss = ss.replace("##DESCR_ACTION##",  "DialogFormula" + (count1 + 1));
+					ss = ss.replace("##REF_ID_ACTION##", refId1);
 
 					sb_WARNINGS.append(System.lineSeparator());
 					sb_WARNINGS.append(System.lineSeparator());
-					sb_WARNINGS.append(XML_FORMULATRIGGER);
+					sb_WARNINGS.append(ss);
 					count1++;
 				}
 			}
@@ -2563,8 +2276,6 @@ public class BushMissionGen {
 				count_MISSIONFAILURES++;
 
 				if (mfe.currentMode == MissionFailureEntryMode.AREA) {
-					String XML_PROXIMITYTRIGGER = readUrlToString("XML/PROXIMITYTRIGGER.txt", cs);
-
 					String ss = XML_PROXIMITYTRIGGER;
 					ss = ss.replace("##ACTION##", "");
 
@@ -2605,32 +2316,20 @@ public class BushMissionGen {
 					sb_ACTIONS.append(ss);
 
 					// OBJECTIVES
+					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
-					sb_OBJECTIVES.append("        <Objective UniqueRefId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <Descr>End mission</Descr>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <FailureText>ILLEGAL AREA!</FailureText>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("        </Objective>");
+					st = st.replace("##REF_ID_GOAL##", refId2);
+					st = st.replace("##FAILURETEXT_GOAL##", "ILLEGAL AREA!");
+					sb_OBJECTIVES.append(st);
 
 					// GOALS
 					sb_GOALS.append(System.lineSeparator());
 					sb_GOALS.append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.Goal InstanceId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Activated>false</Activated>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.Goal>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId4 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Resolve Goal End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId3 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Failure</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <GoalResolution>failed</GoalResolution>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>");
+					String su = XML_GOAL;
+					su = su.replace("##REF_ID_GOAL##", refId2);
+					su = su.replace("##REF_ID_GOALPASSACTION##", refId4);
+					su = su.replace("##REF_ID_GOALFAILACTION##", refId3);
+					sb_GOALS.append(su);
 
 					// Finished actions
 					sb_FINISHEDACTIONS.append(System.lineSeparator());
@@ -2638,8 +2337,6 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.ALTITUDE) {
-					String XML_ALTITUDETRIGGER = readUrlToString("XML/ALTITUDETRIGGER.txt", cs);
-
 					String ss = XML_ALTITUDETRIGGER;
 					ss = ss.replace("##ACTION##", "");
 
@@ -2664,32 +2361,20 @@ public class BushMissionGen {
 					sb_ACTIONS.append(ss);
 
 					// OBJECTIVES
+					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
-					sb_OBJECTIVES.append("        <Objective UniqueRefId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <Descr>End mission</Descr>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <FailureText>TOO HIGH UP!</FailureText>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("        </Objective>");
+					st = st.replace("##REF_ID_GOAL##", refId2);
+					st = st.replace("##FAILURETEXT_GOAL##", "TOO HIGH UP!");
+					sb_OBJECTIVES.append(st);
 
 					// GOALS
 					sb_GOALS.append(System.lineSeparator());
 					sb_GOALS.append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.Goal InstanceId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Activated>false</Activated>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.Goal>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId4 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Resolve Goal End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId3 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Failure</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <GoalResolution>failed</GoalResolution>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>");
+					String su = XML_GOAL;
+					su = su.replace("##REF_ID_GOAL##", refId2);
+					su = su.replace("##REF_ID_GOALPASSACTION##", refId4);
+					su = su.replace("##REF_ID_GOALFAILACTION##", refId3);
+					sb_GOALS.append(su);
 
 					// Finished actions
 					sb_FINISHEDACTIONS.append(System.lineSeparator());
@@ -2697,8 +2382,6 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.SPEED) {
-					String XML_SPEEDTRIGGER = readUrlToString("XML/SPEEDTRIGGER.txt", cs);
-
 					String ss = XML_SPEEDTRIGGER;
 					ss = ss.replace("##ACTION##", "");
 
@@ -2722,32 +2405,20 @@ public class BushMissionGen {
 					sb_ACTIONS.append(ss);
 
 					// OBJECTIVES
+					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
-					sb_OBJECTIVES.append("        <Objective UniqueRefId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <Descr>End mission</Descr>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <FailureText>TOO FAST!</FailureText>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("        </Objective>");
+					st = st.replace("##REF_ID_GOAL##", refId2);
+					st = st.replace("##FAILURETEXT_GOAL##", "TOO FAST!");
+					sb_OBJECTIVES.append(st);
 
 					// GOALS
 					sb_GOALS.append(System.lineSeparator());
 					sb_GOALS.append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.Goal InstanceId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Activated>false</Activated>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.Goal>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId4 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Resolve Goal End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId3 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Failure</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <GoalResolution>failed</GoalResolution>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>");
+					String su = XML_GOAL;
+					su = su.replace("##REF_ID_GOAL##", refId2);
+					su = su.replace("##REF_ID_GOALPASSACTION##", refId4);
+					su = su.replace("##REF_ID_GOALFAILACTION##", refId3);
+					sb_GOALS.append(su);
 
 					// Finished actions
 					sb_FINISHEDACTIONS.append(System.lineSeparator());
@@ -2755,8 +2426,6 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.ALTITUDE_AND_SPEED) {
-					String XML_ALTITUDESPEEDTRIGGER = readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", cs);
-
 					String ss = XML_ALTITUDESPEEDTRIGGER;
 					ss = ss.replace("##ACTION##", "");
 
@@ -2782,32 +2451,20 @@ public class BushMissionGen {
 					sb_ACTIONS.append(ss);
 
 					// OBJECTIVES
+					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
-					sb_OBJECTIVES.append("        <Objective UniqueRefId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <Descr>End mission</Descr>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <FailureText>TOO HIGH UP AND TOO FAST!</FailureText>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("        </Objective>");
+					st = st.replace("##REF_ID_GOAL##", refId2);
+					st = st.replace("##FAILURETEXT_GOAL##", "TOO HIGH UP AND TOO FAST!");
+					sb_OBJECTIVES.append(st);
 
 					// GOALS
 					sb_GOALS.append(System.lineSeparator());
 					sb_GOALS.append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.Goal InstanceId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Activated>false</Activated>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.Goal>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId4 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Resolve Goal End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId3 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Failure</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <GoalResolution>failed</GoalResolution>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>");
+					String su = XML_GOAL;
+					su = su.replace("##REF_ID_GOAL##", refId2);
+					su = su.replace("##REF_ID_GOALPASSACTION##", refId4);
+					su = su.replace("##REF_ID_GOALFAILACTION##", refId3);
+					sb_GOALS.append(su);
 
 					// Finished actions
 					sb_FINISHEDACTIONS.append(System.lineSeparator());
@@ -2815,8 +2472,6 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.TIME) {
-					String XML_TIMERTRIGGER = readUrlToString("XML/TIMERTRIGGER.txt", cs);
-
 					String ss = XML_TIMERTRIGGER;
 					ss = ss.replace("##ACTION##", "");
 
@@ -2842,42 +2497,30 @@ public class BushMissionGen {
 					sb_ACTIONS.append(ss);
 
 					// OBJECTIVES
+					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
-					sb_OBJECTIVES.append("        <Objective UniqueRefId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <Descr>End mission</Descr>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <FailureText>TIME OUT!</FailureText>").append(System.lineSeparator());
-					sb_OBJECTIVES.append("        </Objective>");
+					st = st.replace("##REF_ID_GOAL##", refId2);
+					st = st.replace("##FAILURETEXT_GOAL##", "TIME OUT!");
+					sb_OBJECTIVES.append(st);
 
 					// GOALS
 					sb_GOALS.append(System.lineSeparator());
 					sb_GOALS.append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.Goal InstanceId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Activated>false</Activated>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.Goal>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId4 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Resolve Goal End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId3 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Failure</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <GoalResolution>failed</GoalResolution>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>");
+					String su = XML_GOAL;
+					su = su.replace("##REF_ID_GOAL##", refId2);
+					su = su.replace("##REF_ID_GOALPASSACTION##", refId4);
+					su = su.replace("##REF_ID_GOALFAILACTION##", refId3);
+					sb_GOALS.append(su);
 
 					// Reset action!
 					sb_GOALS.append(System.lineSeparator());
 					sb_GOALS.append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.ResetTimerAction InstanceId=\"{" + refId5 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>ResetTimerAction" + count_MISSIONFAILURES + "</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Triggers>").append(System.lineSeparator());
-					sb_GOALS.append("        <ObjectReference id=\"TimerTriggerLimit" + count_MISSIONFAILURES + "\" InstanceId=\"{" + refId1 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Triggers>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.ResetTimerAction>");
+					String sv = XML_RESETACTION;
+					sv = sv.replace("##REF_ID_RESET##", refId5);
+					sv = sv.replace("##DESCR_RESET##", "ResetTimerAction" + count_MISSIONFAILURES);
+					sv = sv.replace("##DESCR_TRIGGER##", "TimerTriggerLimit" + count_MISSIONFAILURES);
+					sv = sv.replace("##REF_ID_TRIGGER##", refId1);
+					sb_GOALS.append(sv);
 
 					// Finished actions
 					sb_FINISHEDACTIONS.append(System.lineSeparator());
@@ -2885,8 +2528,6 @@ public class BushMissionGen {
 				}
 
 				if (mfe.currentMode == MissionFailureEntryMode.FORMULA) {
-					String XML_FORMULATRIGGER = readUrlToString("XML/FORMULATRIGGER.txt", cs);
-
 					String ss = XML_FORMULATRIGGER;
 					ss = ss.replace("##ACTION##", "");
 
@@ -2910,36 +2551,24 @@ public class BushMissionGen {
 					sb_ACTIONS.append(ss);
 
 					// OBJECTIVES
+					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
-					sb_OBJECTIVES.append("        <Objective UniqueRefId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_OBJECTIVES.append("          <Descr>End mission</Descr>").append(System.lineSeparator());
+					st = st.replace("##REF_ID_GOAL##", refId2);
 					if (!mfe.value2.isEmpty()) {
-						sb_OBJECTIVES.append("          <FailureText>" + mfe.value2 + "</FailureText>").append(System.lineSeparator());
+						st = st.replace("##FAILURETEXT_GOAL##", mfe.value2);
 					} else {
-						sb_OBJECTIVES.append("          <FailureText>Formula triggered!</FailureText>").append(System.lineSeparator());
+						st = st.replace("##FAILURETEXT_GOAL##", "Formula triggered!");
 					}
-					sb_OBJECTIVES.append("        </Objective>");
+					sb_OBJECTIVES.append(st);
 
 					// GOALS
 					sb_GOALS.append(System.lineSeparator());
 					sb_GOALS.append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.Goal InstanceId=\"{" + refId2 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Activated>false</Activated>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.Goal>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId4 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Resolve Goal End of mission</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>").append(System.lineSeparator());
-					sb_GOALS.append("    <SimMission.GoalResolutionAction InstanceId=\"{" + refId3 + "}\">").append(System.lineSeparator());
-					sb_GOALS.append("      <Descr>Failure</Descr>").append(System.lineSeparator());
-					sb_GOALS.append("      <GoalResolution>failed</GoalResolution>").append(System.lineSeparator());
-					sb_GOALS.append("      <Goals>").append(System.lineSeparator());
-					sb_GOALS.append("        <WorldBase.ObjectReference id=\"Mission END\" InstanceId=\"{" + refId2 + "}\" />").append(System.lineSeparator());
-					sb_GOALS.append("      </Goals>").append(System.lineSeparator());
-					sb_GOALS.append("    </SimMission.GoalResolutionAction>");
+					String su = XML_GOAL;
+					su = su.replace("##REF_ID_GOAL##", refId2);
+					su = su.replace("##REF_ID_GOALPASSACTION##", refId4);
+					su = su.replace("##REF_ID_GOALFAILACTION##", refId3);
+					sb_GOALS.append(su);
 
 					// Finished actions
 					sb_FINISHEDACTIONS.append(System.lineSeparator());
@@ -3019,7 +2648,7 @@ public class BushMissionGen {
 		XML_FILE = XML_FILE.replace("##CALCULATOR_STUFF##", sb_CALCULATOR_STUFF);
 		XML_FILE = XML_FILE.replace("##FLOWEVENT_STUFF##", sb_FLOWEVENT_STUFF);
 
-		Message msg = writeStringToFile(outFile, XML_FILE, cs);
+		Message msg = mFileHandling.writeStringToFile(outFile, XML_FILE, cs);
 		if (msg != null) {
 			return msg;
 		}
@@ -3029,7 +2658,7 @@ public class BushMissionGen {
 
 	private Message handleFLT(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile) {
 		Charset cs = Charset.forName("windows-1252");
-		String FLT_FILE = readFileToString(inFile, cs);
+		String FLT_FILE = mFileHandling.readFileToString(inFile, cs);
 
 		StringBuffer sb_BRIEFINGIMAGES = new StringBuffer();
 		StringBuffer sb_WAYPOINTS = new StringBuffer();
@@ -3187,64 +2816,6 @@ public class BushMissionGen {
 		}
 
 		// Failures
-		Map<String, String> systemToFailureCodeMap = new HashMap<>();
-		systemToFailureCodeMap.put("EngineSystem",	"D8E878B03ED5314E80CD7F7C8E88914D");
-		systemToFailureCodeMap.put("EngineFire", "7560338230229542B1FDD38DC1C66E16");
-		systemToFailureCodeMap.put("ApuFire", "6DE7E05C3EC8A44FB7DC30B258355CCF");
-		systemToFailureCodeMap.put("ApuSystem", "EA5CCD0C0F952A48B6BCF40820FA77FC");
-		systemToFailureCodeMap.put("PitotSystem", "EFCDD611FE9E20458D492844093EFF9A");
-		systemToFailureCodeMap.put("VacuumSystem", "68C7173F8652AC40B080EA160D38A554");
-		systemToFailureCodeMap.put("NavSystem", "B23C937B4B84A64F9D06416007ED4AF7");
-		systemToFailureCodeMap.put("ComSystem", "6415DB341282EE46A3B2CB3B3E95AC4E");
-		systemToFailureCodeMap.put("ADFSystem", "A55DB93B35664A4B90D6801273934018");
-		systemToFailureCodeMap.put("TransponderSystem", "1234B6A9747D1144B0E842E32C5AD3B0");
-		systemToFailureCodeMap.put("GPSSystem", "AE5F6115E438D90D3A839CA92B6DC3");
-		systemToFailureCodeMap.put("LeftAileronSystem", "6D2CE23C4D3B0449AA2815BDF9169527");
-		systemToFailureCodeMap.put("RightAileronSystem", "1E612FE63C9FC740A0BD756DCF8A86A2");
-		systemToFailureCodeMap.put("ElevatorSystem", "30DDFE695CBB8040A58489B8954F7C17");
-		systemToFailureCodeMap.put("RudderSystem", "912F51490DC40243BFB1655CD031E35A");
-		systemToFailureCodeMap.put("LeftWingSystem", "3B9EC4840BC0E44D826A81E1AF7A11CD");
-		systemToFailureCodeMap.put("LeftFlapSystem", "61F24A643F60154FA7D301B40C4F2686");
-		systemToFailureCodeMap.put("LeftWingTipSystem", "30CB57184BB48F409CE378797CC1F934");
-		systemToFailureCodeMap.put("RightWingSystem", "6089EA6411A7504C84C4C981FBDEFE9");
-		systemToFailureCodeMap.put("RightFlapSystem", "138575C0ADB52240A04B797FD6A12135");
-		systemToFailureCodeMap.put("RightWingTipSystem", "09DE7461A56C8442AC0B735C5B1F0B1");
-		systemToFailureCodeMap.put("RearTailSystem", "3DF24F6BC22BC74FAEB0EFADF7915EC");
-		systemToFailureCodeMap.put("ElectricalSystem", "8DBAC47552B96545BACC76849A654616");
-		systemToFailureCodeMap.put("Generator", "BFADE0210473CBFF23012EB6AAF749");
-		systemToFailureCodeMap.put("EngineFuelPump", "9A3FD510474C9943BECA62624C95FA7E");
-		systemToFailureCodeMap.put("FuelLeak", "91CF40E7685C8941AFEAAC3CDAF7B223");
-		systemToFailureCodeMap.put("OilSystem", "83461181C2F8224DBAE0BE528D890A1E");
-		systemToFailureCodeMap.put("OilLeak", "1113B63BDD3B92498A98CD2E9F0C19E5");
-		systemToFailureCodeMap.put("TurbineIgnition", "C2C18DC111DB124DAA194AD938471C2");
-		systemToFailureCodeMap.put("LeftBrakeSystem", "599A3810A48BA14090B52156EF4A35C5");
-		systemToFailureCodeMap.put("RightBrakeSystem", "73E8072D9A94AA40A18F2CC189A6601E");
-		systemToFailureCodeMap.put("BrakeSystemHydraulicSource", "BF9751430FA5FF47ABC538816080489B");
-		systemToFailureCodeMap.put("CenterGearSystem", "368B8A9CA2DBB942B509DDE8B9AD59FA");
-		systemToFailureCodeMap.put("LeftGearSystem", "0345E01CF415081ADFEEABE5B63C44B");
-		systemToFailureCodeMap.put("RightGearSystem", "0D617D2B58966A4184FD3476918977");
-		systemToFailureCodeMap.put("AuxGearSystem", "B303FBA304A32A8418295218B15FB");
-		systemToFailureCodeMap.put("HydraulicPumpFailure", "F9CB7A7FB2A52E4E9D7D8F30FBF262C2");
-		systemToFailureCodeMap.put("HydraulicLeak", "8B5B1849E34DFE47834EA03564E3621C");
-		systemToFailureCodeMap.put("CoolantSystem", "35B690B4859EAD49ACDB01DBEECFF237");
-		systemToFailureCodeMap.put("LeftMagneto", "9A313BA594DB2A4DA3DC38DFBD9091A4");
-		systemToFailureCodeMap.put("RightMagneto", "23B5CD11E4C51A068A3DFF2E6858AC");
-		systemToFailureCodeMap.put("StaticSystem", "2C4143A26D954447929028EFD0634A8B");
-		systemToFailureCodeMap.put("FlyByWire_ELAC", "E5F9A2BD86B3FE4B89D3E1E61E48B6C");
-		systemToFailureCodeMap.put("FlyByWire_FAC", "783497C19E53FB48AEB881FA2B5710AB");
-		systemToFailureCodeMap.put("FlyByWire_SEC", "C539839D9022484CA7AF4575B49EAD3A");
-		systemToFailureCodeMap.put("HoistMotor", "F4FE39AD7630E6418C7791D08B1C660");
-		systemToFailureCodeMap.put("SlingCable", "F4637D4668470A4A96BF87BED627811D");
-		systemToFailureCodeMap.put("Cylinder", "C37D80E3C7DEEC4CA53E8B2FD2FF9F21");
-		systemToFailureCodeMap.put("AirspeedGauge", "816DCB2925F98B44AE0AE496E8217BC3");
-		systemToFailureCodeMap.put("AltimeterGauge", "0FE25A6F5BC75E4CA45A02DF04AE01A0");
-		systemToFailureCodeMap.put("AttitudeGauge", "F3C0CD056C26AE43B92BA50816ECDB23");
-		systemToFailureCodeMap.put("FuelGauge", "40E80DE5C3B34A4381B1D50060EF7D23");
-		systemToFailureCodeMap.put("DGGauge", "5D7C0C1B7E910D46BCEB6A60EDE60B59");
-		systemToFailureCodeMap.put("CompassGauge", "DD4CC891F18BE04AB46BD2702DA4D460");
-		systemToFailureCodeMap.put("TurncoordGauge", "61A7C72937FD9F4AB0607041F1AE0561");
-		systemToFailureCodeMap.put("VSIGauge", "B877841ED460654AAC060D81AA4A1A57");
-
 		String failureTemplate = "[SystemFailure##FAILURE_COUNT##.0]" + System.lineSeparator() +
 				"ID=##FAILURE_ID##" + System.lineSeparator() +
 				"SubIndex=##FAILURE_SUBINDEX##" + System.lineSeparator() +
@@ -3260,7 +2831,7 @@ public class BushMissionGen {
 			Matcher matcherFailure = patternArm.matcher(failureItem);
 			if (matcherFailure.find())
 			{
-				String failureCode = systemToFailureCodeMap.get(matcherFailure.group(1));
+				String failureCode = mSimData.systemToFailureCodeMap.get(matcherFailure.group(1));
 
 				if (failureCode != null) {
 					String failure = failureTemplate.replace("##FAILURE_COUNT##", String.valueOf(count_FAILURES++));
@@ -3328,19 +2899,19 @@ public class BushMissionGen {
 
 		// Airliner bush?
 		String airlinerBushText = "";
-		if (metaEntry.airliners.contains(metaEntry.plane)) {
-			airlinerBushText = readUrlToString("FLT/AIRLINER_BUSH.txt", cs);
+		if (mSimData.airliners.contains(metaEntry.plane)) {
+			airlinerBushText = FLT_AIRLINER_BUSH;
 		}
 		FLT_FILE = FLT_FILE.replace("##META_AIRLINER_BUSH##", airlinerBushText);
 
 		// Airliner landing?
 		String airlinerLandText = "";
-		if (metaEntry.airliners.contains(metaEntry.plane)) {
-			airlinerLandText = readUrlToString("FLT/AIRLINER_LAND.txt", cs);
+		if (mSimData.airliners.contains(metaEntry.plane)) {
+			airlinerLandText = FLT_AIRLINER_LAND;
 		}
 		FLT_FILE = FLT_FILE.replace("##META_AIRLINER_LAND##", airlinerLandText);
 
-		Message msg = writeStringToFile(outFile, FLT_FILE, cs);
+		Message msg = mFileHandling.writeStringToFile(outFile, FLT_FILE, cs);
 		if (msg != null) {
 			return msg;
 		}
@@ -3350,16 +2921,13 @@ public class BushMissionGen {
 
 	private Message handlePLN(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile) {
 		Charset cs = StandardCharsets.UTF_8;
-		String PLN_FILE = readFileToString(inFile, cs);
-		String PLN_V1 = readUrlToString("PLN/ATCWAYPOINTS_V1.txt", cs);
-		String PLN_V2 = readUrlToString("PLN/ATCWAYPOINTS_V2.txt", cs);
-		String PLN_V3 = readUrlToString("PLN/ATCWAYPOINTS_V3.txt", cs);
+		String PLN_FILE = mFileHandling.readFileToString(inFile, cs);
 
 		StringBuffer sb = new StringBuffer();
 		int count_POI = 0;
 		for (MissionEntry entry : entries) {
 			if (entry.type.equals("A")) {
-				String ss = entry.runway.isEmpty() ? PLN_V1 : PLN_V2;
+				String ss = entry.runway.isEmpty() ? PLN_ATCWAYPOINTS_V1 : PLN_ATCWAYPOINTS_V2;
 				ss = ss.replace("##WP_ID##", entry.id);
 				ss = ss.replace("##WP_TYPE##", MissionEntry.TYPE_AIRPORT);
 				ss = ss.replace("##WP_LATLON##", entry.latlon);
@@ -3367,7 +2935,7 @@ public class BushMissionGen {
 				ss = ss.replace("##WP_RUNWAY##", entry.runway);
 				sb.append(ss);
 			} else {
-				String ss = PLN_V3;
+				String ss = PLN_ATCWAYPOINTS_V3;
 				ss = ss.replace("##WP_ID##", "POI" + multiCount(++count_POI, 0));
 				ss = ss.replace("##WP_TYPE##", MissionEntry.TYPE_USER);
 				ss = ss.replace("##WP_LATLON##", entry.latlon);
@@ -3382,7 +2950,7 @@ public class BushMissionGen {
 		PLN_FILE = PLN_FILE.replace("##START_LLA##", metaEntry.lat + "," + metaEntry.lon + "," + metaEntry.alt);
 		PLN_FILE = PLN_FILE.replace("##STOP_ICAO##", entries.get(entries.size()-1).id);
 		PLN_FILE = PLN_FILE.replace("##STOP_LLA##", entries.get(entries.size()-1).latlon + "," + entries.get(entries.size()-1).alt);
-		Message msg = writeStringToFile(outFile, PLN_FILE, cs);
+		Message msg = mFileHandling.writeStringToFile(outFile, PLN_FILE, cs);
 		if (msg != null) {
 			return msg;
 		}
@@ -3392,12 +2960,10 @@ public class BushMissionGen {
 
 	private Message handleLOC(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile) {
 		Charset cs = StandardCharsets.UTF_8;
-		String LOC_FILE = readFileToString(inFile, cs);
+		String LOC_FILE = mFileHandling.readFileToString(inFile, cs);
 
 		StringBuffer stringsBuffer = new StringBuffer();
 
-		String LOC_STRING = readUrlToString("LOC/STRING.txt", cs);
-		String LOC_LANGUAGE = readUrlToString("LOC/LANGUAGE.txt", cs);
 		int count = 1;
 		String ss = System.lineSeparator();
 		String sl = "";
@@ -3588,7 +3154,7 @@ public class BushMissionGen {
 		LOC_FILE = LOC_FILE.replace("##META_INTRO##", metaEntry.intro);
 		LOC_FILE = LOC_FILE.replace("##META_AUTHOR##", metaEntry.author);
 
-		Message msg = writeStringToFile(outFile, LOC_FILE, cs);
+		Message msg = mFileHandling.writeStringToFile(outFile, LOC_FILE, cs);
 		if (msg != null) {
 			return msg;
 		}
@@ -3598,12 +3164,12 @@ public class BushMissionGen {
 
 	private Message handleHTM(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile) {
 		Charset cs = StandardCharsets.UTF_8;
-		String OVERVIEW_FILE = readFileToString(inFile, cs);
+		String OVERVIEW_FILE = mFileHandling.readFileToString(inFile, cs);
 
 		OVERVIEW_FILE = OVERVIEW_FILE.replace("##META_TITLE##", metaEntry.title);
 		OVERVIEW_FILE = OVERVIEW_FILE.replace("##META_DESCR##", metaEntry.description);
 
-		Message msg = writeStringToFile(outFile, OVERVIEW_FILE, cs);
+		Message msg = mFileHandling.writeStringToFile(outFile, OVERVIEW_FILE, cs);
 		if (msg != null) {
 			return msg;
 		}
@@ -3613,12 +3179,12 @@ public class BushMissionGen {
 
 	private Message handleProject(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile) {
 		Charset cs = StandardCharsets.UTF_8;
-		String PROJECT_FILE = readFileToString(inFile, cs);
+		String PROJECT_FILE = mFileHandling.readFileToString(inFile, cs);
 
 		PROJECT_FILE = PROJECT_FILE.replace("##META_PROJECT##", metaEntry.project);
 		PROJECT_FILE = PROJECT_FILE.replace("##META_AUTHOR##", metaEntry.author);
 
-		Message msg = writeStringToFile(outFile, PROJECT_FILE, cs);
+		Message msg = mFileHandling.writeStringToFile(outFile, PROJECT_FILE, cs);
 		if (msg != null) {
 			return msg;
 		}
@@ -3628,319 +3194,16 @@ public class BushMissionGen {
 
 	private Message handlPackage(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile) {
 		Charset cs = StandardCharsets.UTF_8;
-		String PACKAGE_FILE = readFileToString(inFile, cs);
+		String PACKAGE_FILE = mFileHandling.readFileToString(inFile, cs);
 
 		PACKAGE_FILE = PACKAGE_FILE.replace("##META_PROJECT##", metaEntry.project);
 		PACKAGE_FILE = PACKAGE_FILE.replace("##META_AUTHOR##", metaEntry.author);
 		PACKAGE_FILE = PACKAGE_FILE.replace("##META_TITLE##", metaEntry.title);
 		PACKAGE_FILE = PACKAGE_FILE.replace("##META_VERSION##", metaEntry.version);
 
-		Message msg = writeStringToFile(outFile, PACKAGE_FILE, cs);
+		Message msg = mFileHandling.writeStringToFile(outFile, PACKAGE_FILE, cs);
 		if (msg != null) {
 			return msg;
-		}
-
-		return null;
-	}
-
-	public String readUrlToString(String url, Charset cs) {
-		ClassLoader loader = BushMissionGen.class.getClassLoader();
-		InputStream in = loader.getResourceAsStream(url);
-		BufferedReader br = new BufferedReader(new InputStreamReader(in, cs));
-		String file = "";
-		String str;
-		String kept_str = null;
-		try {
-			while ((str = br.readLine()) != null) {
-
-				if (kept_str == null) {
-					kept_str = str;
-				} else {
-					file += kept_str + System.lineSeparator();
-					kept_str = str;
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "";
-		}
-		file += kept_str;
-
-		return file;
-	}
-
-	public String readFileToString(String filename, Charset cs) {
-		try {
-			Path path = FileSystems.getDefault().getPath(filename);
-			List<String> list = Files.readAllLines(path, cs);
-			return list.stream().map(Object::toString).collect(Collectors.joining(System.lineSeparator()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
-
-	public Message writeStringToFile(String filename, String str, Charset cs) {
-		try {
-			Files.write(Paths.get(filename), Collections.singleton(str), cs);
-			//System.out.println("File written to: " + filename);
-		} catch (IOException e) {
-			return new ErrorMessage("Could not write the output file!");
-		}
-
-		return null;
-	}
-
-	public Message writeStringToFile(String filename, StringBuffer sb1, StringBuffer sb2WpHeader, StringBuffer sb2, Charset cs) {
-		String str = sb1.append(sb2WpHeader).append(sb2).toString();
-
-		try {
-			Files.write(Paths.get(filename), Collections.singleton(str), cs);
-		} catch (IOException e) {
-			return new ErrorMessage("Could not write the output file!");
-		}
-
-		return null;
-	}
-
-	public List<String> readFromXLS(String recept_file) {
-		List<String> list = new ArrayList<>();
-		try {
-			FileInputStream inputStream = new FileInputStream(new File(recept_file));
-
-			Workbook workbook;
-			workbook = new XSSFWorkbook(inputStream);
-			Sheet firstSheet = workbook.getSheetAt(0);
-
-			// Decide which rows to process
-			int rowStart = Math.min(15, firstSheet.getFirstRowNum());
-			int rowEnd = Math.max(1400, firstSheet.getLastRowNum());
-
-			boolean foundMeta = false;
-			boolean foundWps = false;
-			boolean foundLoc = false;
-			boolean landing = false;
-
-			for (int rowNum = rowStart; rowNum < rowEnd; rowNum++) {
-				Row r = firstSheet.getRow(rowNum);
-				if (r==null) {
-					continue;
-				}
-				int lastColumn = foundLoc ? WP_LOCALIZATION_LEN : (landing ? WP_LANDING_LEN : WP_EXTRA_SPLIT_LEN);
-				StringBuffer sb = new StringBuffer();
-
-				boolean firstCell = true;
-
-				for (int cn = 0; cn < lastColumn; cn++) {
-					Cell cell = r.getCell(cn, MissingCellPolicy.RETURN_BLANK_AS_NULL);
-
-					if (!firstCell && foundWps) {
-						sb.append("|");
-					}
-
-					if (cell == null) {
-						// VOID
-					} else if (cell.getCellType() == CellType.STRING) {					
-						sb.append(cell.getStringCellValue());
-
-						if (cell.getStringCellValue().trim().equalsIgnoreCase("missiontype=landing")) {
-							landing = true;
-						}
-
-						if (foundMeta && foundWps && cell.getStringCellValue().trim().equalsIgnoreCase("meta")) {
-							foundLoc = true;
-							lastColumn = WP_LOCALIZATION_LEN;
-						}
-
-						if (foundMeta && !foundWps && cell.getStringCellValue().trim().length()>0 && cell.getStringCellValue().contains("#icao")) {
-							foundWps = true;
-						}
-
-						if (!foundMeta && !foundWps && cell.getStringCellValue().contains("=")) {
-							foundMeta = true;
-						}
-					} else if (cell.getCellType() == CellType.NUMERIC) {					
-						sb.append(String.valueOf(cell.getNumericCellValue()));
-					}
-
-					firstCell = false;
-				}
-
-				String candidateItem = sb.toString();
-				if (!candidateItem.replace("|", "").trim().isEmpty()) {
-					list.add(candidateItem);
-				}
-			}
-
-			workbook.close();
-			inputStream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return list;
-	}
-
-	private Message writeToXLS(String filename, StringBuffer sb1, StringBuffer sb3WpHeader, List<String[]> listWps) {
-		XSSFWorkbook workbook = new XSSFWorkbook();
-		XSSFSheet sheet = workbook.createSheet("Mission");
-
-		List<String> list1 = new ArrayList<String>();
-		String[] splitStr1 = sb1.toString().split(System.lineSeparator());
-		for (String s : splitStr1) {
-			list1.add(s);
-		}
-
-		List<String[]> listHeader = new ArrayList<String[]>();
-		String[] splitStrHeader = sb3WpHeader.toString().split("\\|");
-		for (int i=0; i<splitStrHeader.length; i++) {
-			splitStrHeader[i] = splitStrHeader[i].trim();
-		}
-		listHeader.add(splitStrHeader);
-
-		int rowCount = 0;
-
-		// Write metadata
-		for (String field : list1) {
-			Row row = sheet.createRow(rowCount++);
-
-			int columnCount = 0;
-			Cell cell = row.createCell(columnCount++);
-			cell.setCellValue(field);
-		}
-
-		// Write Wp header
-		for (String[] items : listHeader) {
-			Row row = sheet.createRow(rowCount++);
-
-			int columnCount = 0;
-			for (int i=0; i<items.length; i++) {
-				String field = items[i];
-				Cell cell = row.createCell(columnCount++);
-				cell.setCellValue(field);
-			}
-		}
-
-		// Write Wps
-		for (String[] items : listWps) {
-			Row row = sheet.createRow(rowCount++);
-
-			int columnCount = 0;
-			for (int i=0; i<items.length; i++) {
-				String field = items[i];
-				if (i==6) {
-					String[] split = field.split(",");
-					for (String s : split) {
-						Cell cell = row.createCell(columnCount++);
-						cell.setCellValue(s);
-					}
-				} else {
-					Cell cell = row.createCell(columnCount++);
-					cell.setCellValue(field);
-				}
-			}
-		}
-
-		String error = null;
-		try (FileOutputStream outputStream = new FileOutputStream(filename)) {
-			workbook.write(outputStream);
-		} catch (FileNotFoundException e) {
-			error = "Could not write the output file!";
-		} catch (IOException e) {
-			error = "Could not write the output file!";
-		}
-
-		try {
-			workbook.close();
-		} catch (IOException e) {
-			if (error != null) {
-				return new ErrorMessage(error);
-			} else {
-				return new ErrorMessage("Could not close the XLSX file!");
-			}
-		}
-
-		return null;
-	}
-
-	public static Color getContrastColor(Color color) {
-		double y = (299 * color.getRed() + 587 * color.getGreen() + 114 * color.getBlue()) / 1000;
-		return y >= 128 ? Color.black : Color.white;
-	}
-
-	public int drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
-		int lastY = 0;
-
-		// Get the FontMetrics
-		FontMetrics metrics = g.getFontMetrics(font);
-		// Set the font
-		g.setFont(font);
-
-		String[] textSplit = text.split("\\|", -1);
-		int count = 0;
-		double startF = -(textSplit.length-1)/2.0;
-		for (String s : textSplit) {
-			// Determine the X coordinate for the text
-			int x = rect.x + (rect.width - metrics.stringWidth(s)) / 2;
-			// Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-			int term = (int)Math.round((startF + count)*(metrics.getAscent()*2));
-			int y = term + rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
-			lastY = y;
-
-			// Draw the String
-			g.drawString(s, x, y);
-			count++;
-		}
-
-		return lastY;
-	}
-
-	public Message generateImage(File file, int width, int height, String format, String text, int style, double scale) {
-		// Never ovewrite!
-		if (file.exists()) {
-			return null;
-		}
-
-		// Constructs a BufferedImage of one of the predefined image types.
-		BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-		// Create a graphics which can be used to draw into the buffered image
-		Graphics2D g2d = bufferedImage.createGraphics();
-
-		// fill all the image with a random color
-		Color backColor = Color.getHSBColor((float)Math.random(), (float)Math.random(), (float)(0.2+0.6*Math.random()));
-		g2d.setColor(backColor);
-		g2d.fillRect(0, 0, width, height);
-
-		// create a high contrast color
-		Color textColor = getContrastColor(backColor);
-		g2d.setColor(textColor);
-
-		// create a string to output
-		Font textFont = new Font("Arial", style, (int)Math.round(scale*height/10.0));
-		g2d.setFont(textFont);
-		int lastY = drawCenteredString(g2d, text, new Rectangle(width, height), textFont);
-
-		// draw format information
-		textFont = new Font("Arial", style, (int)Math.round(scale*height/15.0));
-		g2d.setFont(textFont);
-		drawCenteredString(g2d, format.toUpperCase() + " " + width + " X " + height, new Rectangle(0, lastY, width, height-lastY), textFont);
-
-		// Disposes of this graphics context and releases any system resources that it is using. 
-		g2d.dispose();
-
-		try {
-			if (format.equals("png")) {
-				// Save as PNG
-				ImageIO.write(bufferedImage, "png", file);
-			}
-
-			// Save as JPEG
-			if (format.equals("jpg")) {
-				ImageIO.write(bufferedImage, "jpg", file);
-			}
-		} catch (IOException e) {
-			return new ErrorMessage("Could not create image.\n\n" + file.getAbsolutePath());
 		}
 
 		return null;
@@ -3957,7 +3220,7 @@ public class BushMissionGen {
 		int count = 0;
 		while (true) {
 			if (new File(compilerExe).exists()) {
-				Message msg = execCmd(compilerExe, "\"" + source + "\"");
+				Message msg = mFileHandling.execCmd(compilerExe, "\"" + source + "\"");
 				if (msg instanceof InfoMessage) {
 					if (BushMissionGen.COMMUNITY_DIR != null) {
 						String useCommunityDir = BushMissionGen.COMMUNITY_DIR;
@@ -3974,8 +3237,8 @@ public class BushMissionGen {
 							String communityProjectDir = useCommunityDir + File.separator + metaEntry.project;
 							File communityProjectPath = new File(communityProjectDir);
 							if (packageDirPath.exists()) {
-								deleteDirectory(communityProjectPath);
-								copyDirectoryRecursively(packageDir, communityProjectDir);
+								mFileHandling.deleteDirectory(communityProjectPath);
+								mFileHandling.copyDirectoryRecursively(packageDir, communityProjectDir);
 
 								String saveFolder = useCommunityPath.getParentFile().getParentFile().getParentFile().getAbsolutePath() + File.separator + "LocalState\\MISSIONS\\ACTIVITIES\\" + metaEntry.project.toUpperCase() + "_SAVE";
 								File saveFolderPath = new File(saveFolder);
@@ -3986,7 +3249,7 @@ public class BushMissionGen {
 											"Compile",
 											JOptionPane.YES_NO_OPTION);
 									if (nSAVE==0) {
-										deleteDirectory(saveFolderPath);									
+										mFileHandling.deleteDirectory(saveFolderPath);									
 									}
 								}
 							} else {
@@ -4013,80 +3276,13 @@ public class BushMissionGen {
 		return new ErrorMessage("Compiler not found on any drive.\nPlease install the SDK in the root folder of a drive.");
 	}
 
-	public boolean copyDirectoryRecursively(String source, String destination) {
-		Path sourceDir = Paths.get(source);
-		Path destinationDir = Paths.get(destination);
-
-		// Traverse the file tree and copy each file/directory.
-		try {
-			Files.walk(sourceDir)
-			.forEach(sourcePath -> {
-				try {
-					Path targetPath = destinationDir.resolve(sourceDir.relativize(sourcePath));
-					Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
-				} catch (IOException ex) {
-					return;
-				}
-			});
-		} catch (IOException e) {
-			return false;
-		}
-
-		return true;
-	}
-
-	private boolean deleteDirectory(File directoryToBeDeleted) {
-		File[] allContents = directoryToBeDeleted.listFiles();
-		if (allContents != null) {
-			for (File file : allContents) {
-				deleteDirectory(file);
-			}
-		}
-		return directoryToBeDeleted.delete();
-	}
-
-	public static Message showFolder(String path) {
-		Desktop desktop = Desktop.getDesktop();
-		File dirToOpen = null;
-		try {
-			dirToOpen = new File(path);
-			desktop.open(dirToOpen);
-		} catch (IllegalArgumentException | IOException iae) {
-			return new ErrorMessage("Could not find the path:\n\n" + path);
-		}
-		return null;
-	}
-
-	public Message execCmd(String... cmd) {
-		try {
-			ProcessBuilder builder = new ProcessBuilder(cmd);
-			builder.directory(new File(cmd[0]).getParentFile());
-			builder.redirectErrorStream(true);
-			Process process =  builder.start();
-
-			Scanner s = new Scanner(process.getInputStream());
-			StringBuilder text = new StringBuilder();
-			while (s.hasNextLine()) {
-				text.append(s.nextLine());
-				text.append("\n");
-			}
-			s.close();
-
-			process.waitFor();
-			return new InfoMessage(text.toString());
-		} catch (Exception e) {
-			return new ErrorMessage(e.getLocalizedMessage());
-		}
-	}
-
 	public Message convertPLN(File file) {
 		Charset cs = StandardCharsets.UTF_8;
-		String PLN_FILE = readFileToString(file.getAbsolutePath(), cs);
+		String PLN_FILE = mFileHandling.readFileToString(file.getAbsolutePath(), cs);
 
 		// MissonType
 		String missionType = null;
-		Object[] missionTypeList = {"Bush trip",
-		"Landing challenge"};
+		Object[] missionTypeList = mSimData.missionTypeList;
 		int nMT = JOptionPane.showOptionDialog(mGUI,
 				"Which type of mission to create?",
 				"Mission type selector",
@@ -4104,8 +3300,7 @@ public class BushMissionGen {
 		// ChallengeType
 		String challengeType = null;
 		if (missionType.equals("land")) {
-			Object[] challengeTypeList = {"Famous",
-					"Epic", "StrongWind"};
+			Object[] challengeTypeList = mSimData.challengeTypeList;
 			int nCT = JOptionPane.showOptionDialog(mGUI,
 					"Which type of challenge to create?",
 					"Challenge type selector",
@@ -4287,42 +3482,7 @@ public class BushMissionGen {
 			}
 
 			// Select plane
-			Object[] planes = new Object[] {
-					"Airbus A320 Neo Asobo",
-					"Asobo Savage Cub",
-					"Asobo XCub",
-					"Beechcraft King Air 350i Asobo",
-					"Boeing 747-8i Asobo",
-					"Bonanza G36 Asobo",
-					"Cessna 152 Asobo",
-					"Cessna 208B Grand Caravan EX",
-					"Cessna CJ4 Citation Asobo",
-					"Cessna Skyhawk G1000 Asobo",
-					"DA40-NG Asobo",
-					"DA62 Asobo",
-					"DR400 Asobo",
-					"Extra 330 Asobo",
-					"FlightDesignCT Asobo",
-					"Icon A5 Asobo",
-					"Mudry Cap 10 C",
-					"Pitts Asobo",
-					"TBM 930 Asobo",
-					"VL3 Asobo"
-			};
-
-			//			Asobo Baron G58
-			//			Cessna 152 Aero Asobo
-			//			Cessna Skyhawk Asobo
-			//			DA40 TDI Asobo
-			//			DV20 Asobo
-			//			
-			//			
-			//			Boeing 787-10 Asobo
-			//			Cessna Longitude Asobo
-			//			SR22 Asobo
-			//			Pipistrel Alpha Electro Asobo
-			//			Savage Shock Ultra Asobo
-
+			Object[] planes = mSimData.planes;
 			String selectedPlane = (String)JOptionPane.showInputDialog(
 					null,
 					"Choose a plane:",
@@ -4338,20 +3498,7 @@ public class BushMissionGen {
 			}
 
 			// Select weather
-			Object[] weatherTypes = new Object[] {
-					"custom - use the Weather.WPR file",
-					"live - Everything is configured inside the game",
-					".\\WeatherPresets\\BrokenClouds.WPR",
-					".\\WeatherPresets\\ClearSky.WPR",
-					".\\WeatherPresets\\FewClouds.WPR",
-					".\\WeatherPresets\\HighLevelClouds.WPR",
-					".\\WeatherPresets\\Overcast.WPR",
-					".\\WeatherPresets\\Rain.WPR",
-					".\\WeatherPresets\\ScatteredClouds.WPR",
-					".\\WeatherPresets\\Snow.WPR",
-					".\\WeatherPresets\\Storm.WPR"
-			};
-
+			Object[] weatherTypes = mSimData.weatherTypes;
 			String selectedWeather = (String)JOptionPane.showInputDialog(
 					null,
 					"Choose a weather profile:",
@@ -4565,7 +3712,7 @@ public class BushMissionGen {
 					options[0]);
 			if (nOPT <= 0) {
 				String outFile = file.getAbsolutePath().substring(0, file.getAbsolutePath().length()-3) + "txt";
-				Message msg = writeStringToFile(outFile, sb1, sb2WpHeader, sb2, cs);
+				Message msg = mFileHandling.writeStringToFile(outFile, sb1, sb2WpHeader, sb2, cs);
 				if (msg != null) {
 					return msg;
 				}
@@ -4576,155 +3723,19 @@ public class BushMissionGen {
 				JOptionPane.showMessageDialog(mGUI, "Input file generated!\n\n" + outFile, "Convert", JOptionPane.INFORMATION_MESSAGE);
 			} else if (nOPT == 1) {
 				String outFileXLS = file.getAbsolutePath().substring(0, file.getAbsolutePath().length()-3) + "xlsx";
-				Message msg = writeToXLS(outFileXLS, sb1, sb3WpHeader, sb3);
+				Message msg = mFileHandling.writeToXLS(outFileXLS, sb1, sb3WpHeader, sb3);
 				if (msg != null) {
 					return msg;
 				}
 				mGUI.mInputPathField.setText(outFileXLS);
 				mPOIs = null;
 				mSounds = null;
-				String contents = String.join(System.lineSeparator(), readFromXLS(outFileXLS));
+				String contents = String.join(System.lineSeparator(), mFileHandling.readFromXLS(outFileXLS));
 				mGUI.mTextArea.setText(contents);
 				mGUI.mTextArea.setCaretPosition(0);
 				JOptionPane.showMessageDialog(mGUI, "Input file generated!\n\n" + outFileXLS, "Convert", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 		return null;
-	}
-
-	public String getPlanes() {
-		StringBuffer sb = new StringBuffer();		
-
-		if (BushMissionGen.COMMUNITY_DIR != null) {
-			File communityPath = new File(BushMissionGen.COMMUNITY_DIR);
-			File officialPath = new File(BushMissionGen.OFFICIAL_DIR);
-
-			// Scan the two folder recursively
-			List<String> planesCommunity = new ArrayList<>();
-			scan(communityPath, planesCommunity);
-			Collections.sort(planesCommunity);
-
-			sb.append("AVAILABLE PLANES" + System.lineSeparator());
-			sb.append("" + System.lineSeparator());
-
-			sb.append("Community folder:" + System.lineSeparator());
-
-			for (String plane : planesCommunity) {
-				sb.append(plane + System.lineSeparator());
-			}
-
-			List<String> planesOfficial = new ArrayList<>();
-			scan(officialPath, planesOfficial);
-			Collections.sort(planesOfficial);
-
-			sb.append("" + System.lineSeparator());
-			sb.append("Official folder:" + System.lineSeparator());
-
-			for (String plane : planesOfficial) {
-				sb.append(plane + System.lineSeparator());
-			}
-
-			List<String> encryptedOfficial = new ArrayList<>();
-
-			encryptedOfficial.add("Asobo Baron G58");
-			encryptedOfficial.add("Cessna 152 Aero Asobo");
-			encryptedOfficial.add("Cessna Skyhawk Asobo");
-			encryptedOfficial.add("DA40 TDI Asobo");
-			encryptedOfficial.add("DV20 Asobo");
-
-			encryptedOfficial.add("Boeing 787-10 Asobo");
-			encryptedOfficial.add("Cessna Longitude Asobo");
-			encryptedOfficial.add("SR22 Asobo");
-			encryptedOfficial.add("Pipistrel Alpha Electro Asobo");
-			encryptedOfficial.add("Savage Shock Ultra Asobo");
-			Collections.sort(encryptedOfficial);
-
-			sb.append("" + System.lineSeparator());
-			sb.append("Encrypted offical (You might have them, you might not. Deluxe + Premium planes):" + System.lineSeparator());
-
-			for (String plane : encryptedOfficial) {
-				sb.append(plane + System.lineSeparator());
-			}
-
-			sb.append("" + System.lineSeparator());
-			sb.append("*** Triple click and CTRL+C to copy a row to the clipboard! ***" + System.lineSeparator());
-		} else {
-			sb.append("Sorry, I could not find the Packages folder on this computer.");
-		}
-
-		return sb.toString();
-	}
-
-	private void scan(File dir, List<String> planeList) {
-
-		File[] list = dir.listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				if (new File(dir + File.separator + name).isDirectory() || name.toLowerCase().equals("aircraft.cfg")) {
-					return true;
-				}
-
-				return false;
-			}
-		});
-
-		for (File f : list) {
-			if (f.isDirectory()) {
-				scan(f, planeList);
-			} else {
-				planeList.addAll(findPlanes(f));
-			}
-		}
-	}
-
-	public static  List<String> findPlanes(File f) {
-		List<String> result = new ArrayList<>();
-		Scanner in = null;
-
-		String firstFind = "[FLTSIM.";
-		boolean foundFirstFind = false;
-
-		try {
-			in = new Scanner(new FileReader(f));
-			while(in.hasNextLine()) {
-				String line = in.nextLine();
-
-				if (foundFirstFind) {
-					String lineNoSpaces = line.replace(" " ,  "");
-					if (lineNoSpaces.indexOf("title=\"") == 0) {
-						String[] split = line.split("\"");
-
-						line = split[1].trim();
-						if (!line.startsWith("Generic ")) {
-							result.add(line);
-						}
-					} else if (lineNoSpaces.indexOf("title=") == 0) {
-						int sep1 = line.indexOf("=");
-						line = line.substring(sep1+1);
-
-						int sep2 = line.indexOf(";");
-						if (sep2 >= 0) {
-							line = line.substring(0, sep2);
-						}
-
-						line = line.trim();
-						if (!line.startsWith("Generic ")) {
-							result.add(line);
-						}
-					}
-				} else {
-					if (line.startsWith(firstFind)) {
-						foundFirstFind = true;
-					}
-				}
-			}
-		}
-		catch(IOException e) {
-			e.printStackTrace();      
-		}
-		finally {
-			try { in.close() ; } catch(Exception e) { /* ignore */ }  
-		}
-		return result;
 	}
 }

@@ -1,9 +1,10 @@
 bin/
-run/*.ini
-run/*.txt
-run/*.xlsx
-run/*.pln
-run/output/
+BushMissionGen/*.ini
+BushMissionGen/*.txt
+BushMissionGen/*.xlsx
+BushMissionGen/*.pln
+BushMissionGen/output/
+!BushMissionGen/README.txt
 
 # Compiled class file
 *.class
@@ -28,3 +29,4 @@ run/output/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/target/

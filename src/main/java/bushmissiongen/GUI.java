@@ -204,7 +204,7 @@ public class GUI extends JFrame implements ActionListener {
 			WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
 			Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
 		} else if (e.getSource()==mShowPlanesItem) {
-			String planesText = mMyApp.getPlanes();
+			String planesText = mMyApp.mSimData.getPlanes();
 			mTextArea.setText(planesText);
 			mTextArea.setCaretPosition(0);
 		} else if (e.getSource()==mConvertItem) {
@@ -275,7 +275,7 @@ public class GUI extends JFrame implements ActionListener {
 				File useCommunityPath = new File(BushMissionGen.COMMUNITY_DIR);
 
 				if (e.getSource()==mNavItem5) {
-					Message msg = BushMissionGen.showFolder(useCommunityDir);
+					Message msg = mMyApp.mFileHandling.showFolder(useCommunityDir);
 					if (msg != null) {
 						if (msg instanceof ErrorMessage) {
 							JOptionPane.showMessageDialog(mMyApp.mGUI, msg.getMessage(), "Navigation", JOptionPane.ERROR_MESSAGE);
@@ -289,7 +289,7 @@ public class GUI extends JFrame implements ActionListener {
 				String saveFolder = useCommunityPath.getParentFile().getParentFile().getParentFile().getAbsolutePath() + File.separator + "LocalState\\MISSIONS\\ACTIVITIES";
 				File saveFolderPath = new File(saveFolder);
 				if (saveFolderPath.exists()) {
-					Message msg = BushMissionGen.showFolder(saveFolder);
+					Message msg = mMyApp.mFileHandling.showFolder(saveFolder);
 					if (msg != null) {
 						if (msg instanceof ErrorMessage) {
 							JOptionPane.showMessageDialog(mMyApp.mGUI, msg.getMessage(), "Navigation", JOptionPane.ERROR_MESSAGE);
@@ -352,7 +352,7 @@ public class GUI extends JFrame implements ActionListener {
 		if (!file.getName().toLowerCase().endsWith(".xlsx")) {
 			showFileContents(file.getAbsolutePath());
 		} else {
-			String contents = String.join(System.lineSeparator(), mMyApp.readFromXLS(file.getAbsolutePath()));
+			String contents = String.join(System.lineSeparator(), mMyApp.mFileHandling.readFromXLS(file.getAbsolutePath()));
 			mTextArea.setText(contents);
 			mTextArea.setCaretPosition(0);
 		}

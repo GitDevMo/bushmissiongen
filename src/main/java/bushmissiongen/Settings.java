@@ -36,7 +36,9 @@ public class Settings {
 				for (String item : list) {
 					if (item.startsWith("recent")) {
 						String value = item.substring(7);
-						recentFiles.add(value);
+						if (new File(value).exists()) {
+							recentFiles.add(value);
+						}
 					}
 				}
 				

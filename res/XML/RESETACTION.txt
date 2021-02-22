@@ -1,0 +1,6 @@
+    <SimMission.ResetTimerAction InstanceId="{##REF_ID_RESET##}">
+      <Descr>##DESCR_RESET##</Descr>
+      <Triggers>
+        <ObjectReference id="##DESCR_TRIGGER##" InstanceId="{##REF_ID_TRIGGER##}" />
+      </Triggers>
+    </SimMission.ResetTimerAction>

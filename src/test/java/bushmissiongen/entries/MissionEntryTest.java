@@ -1,6 +1,5 @@
-package test;
+package bushmissiongen.entries;
 
-import bushmissiongen.entries.MissionEntry;
 import junit.framework.TestCase;
 
 public class MissionEntryTest extends TestCase {

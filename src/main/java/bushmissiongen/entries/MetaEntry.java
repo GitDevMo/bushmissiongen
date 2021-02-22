@@ -55,7 +55,6 @@ public class MetaEntry extends GenericEntry {
 	public String elevatorTrim = "050.00";
 
 	public List<String> requiredFields = new ArrayList<>();
-	public List<String> airliners = new ArrayList<>();
 
 	public MetaEntry() {
 		requiredFields.add("author");
@@ -81,10 +80,6 @@ public class MetaEntry extends GenericEntry {
 		requiredFields.add("hours");
 		requiredFields.add("minutes");
 		requiredFields.add("seconds");
-
-		airliners.add("Airbus A320 Neo Asobo");
-		airliners.add("Boeing 747-8i Asobo");
-		airliners.add("Boeing 787-10 Asobo");
 	}
 
 	// Optional
