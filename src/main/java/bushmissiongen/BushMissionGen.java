@@ -3561,7 +3561,7 @@ public class BushMissionGen {
 
 			sb1.append("# Input file for BushMissonGen").append(System.lineSeparator());
 			sb1.append("#").append(System.lineSeparator());
-			sb1.append("# Auto-generated").append(System.lineSeparator());
+			sb1.append("# Auto-generated in v").append(VERSION).append(System.lineSeparator());
 			sb1.append(System.lineSeparator());
 			sb1.append("author=unknown").append(System.lineSeparator());
 			sb1.append("title=" + title).append(System.lineSeparator());
@@ -3628,7 +3628,6 @@ public class BushMissionGen {
 			StringBuffer sb2 = new StringBuffer();
 			List<String[]> sb3 = new ArrayList<String[]>();
 			int count_ENTRIES = 0;
-			int count_LEG = 0;
 			int count_SUBLEG = 0;
 			for (MissionEntry me : list) {
 				String v1 = me.type.equals("A") ? me.id : "";
@@ -3650,33 +3649,30 @@ public class BushMissionGen {
 				String v7 = "126, 0, 304, 0, 0, 0.0, 0.0, 0.0";
 
 				String v8 = "";
-				String v9 = "";
+				String v9 = "-";
 
 				// Counts
-				if (me.type.equals("A")) {
-					count_LEG++;
-				} else {
+				if (!me.type.equals("A")) {
 					count_SUBLEG++;
 				}
 
 				// Row 1 is special
 				if (count_ENTRIES == 0 && me.type.equals("A")) {
-					v8 = "LEG" + count_LEG + "_TEXT";
+					v8 = "Flying from " + me.id;
 				}
-
 				// Mid part
 				else if (count_ENTRIES > 0 && count_ENTRIES < list.size()-1) {
 					if (me.type.equals("A")) {
-						v8 = "LEG" + count_LEG + "_TEXT";
-						v9 = me.id + "_LANDING_TEXT";
+						v8 = "Flying from " + me.id;
+						v9 = "How to get to airport " + me.id + " and nice info about it.";
 					} else {
-						v9 = "POI" + multiCount(count_SUBLEG, 0) + "_TEXT";
+						v9 = "How to fly to POI" + multiCount(count_SUBLEG, 0) + " and some facts about it.";
 					}
 				}
 
 				// Last row
 				else if (count_ENTRIES == list.size()-1 && me.type.equals("A")) {
-					v9 = me.id + "_LANDING_TEXT";
+					v9 = "How to get to airport " + me.id + " and nice info about it.";
 				}
 
 				if (missionType.equals("bush")) {
