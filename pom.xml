@@ -106,6 +106,8 @@
 							<descriptors>
 								<descriptor>assembly.xml</descriptor>
 							</descriptors>
+							 <finalName>BushMissionGenV${project.version}</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
 						</configuration>
 					</execution>
 				</executions>
