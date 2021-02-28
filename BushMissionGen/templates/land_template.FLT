@@ -30,7 +30,7 @@ Pilot=##META_PILOT##
 Path=Missions\Asobo\LandingChallenges\default\
 
 [ObjectFile]
-File=Missions\Asobo\LandingChallenges\default\LandingChallenge_Private
+File=##META_PROJECT##
 
 [Atc_Menu]
 Visible=False

@@ -492,6 +492,10 @@ public class BushMissionGen {
 						String val = splitMeta[1].trim().toLowerCase();
 						metaEntry.multiPlayer = val.equals("true") ? "1" : "0";
 					}
+					if (splitMeta[0].equalsIgnoreCase("noGear")) {
+						String val = splitMeta[1].trim().toLowerCase();
+						metaEntry.noGear = val.equals("true") ? "True" : "";
+					}
 				} else if (split.length == WP_SPLIT_LEN) {
 					MissionEntry entry = new MissionEntry();				
 
@@ -817,6 +821,16 @@ public class BushMissionGen {
 		String pathCurrent = System.getProperty("user.dir");
 
 		String recept_fileXML = "##PATH_DIR##" + File.separator + "templates" + File.separator + metaEntry.missionType + "_template.xml";
+		if (metaEntry.missionType.equals("land")) {
+			String recept_landing_private = "##PATH_DIR##" + File.separator + "templates" + File.separator + MetaEntry.LandingChallenge_PrivateTemplate + ".xml";
+			String recept_landing_nogear = "##PATH_DIR##" + File.separator + "templates" + File.separator + MetaEntry.LandingChallenge_NoGearTemplate + ".xml";
+
+			if (metaEntry.noGear.isEmpty()) {
+				recept_fileXML = recept_landing_private;
+			} else {
+				recept_fileXML = recept_landing_nogear;
+			}
+		}
 		String recept_fileFLT = "##PATH_DIR##" + File.separator + "templates" + File.separator + metaEntry.missionType + "_template.FLT";
 		String recept_filePLN = "##PATH_DIR##" + File.separator + "templates" + File.separator + metaEntry.missionType + "_template.PLN";
 		String recept_fileLOC = "##PATH_DIR##" + File.separator + "templates" + File.separator + "template.loc";
@@ -832,16 +846,17 @@ public class BushMissionGen {
 				recept_fileLOC,
 				recept_project,
 				recept_package,
-				recept_weather,
+				recept_weather
 		};
 
 		String[] recept_files_land = new String[] {
+				recept_fileXML,
 				recept_fileFLT,
 				recept_fileLOC,
 				recept_project,
 				recept_package,
 				recept_overview,
-				recept_weather,
+				recept_weather
 		};
 
 		String projectPath = pathRoot + File.separator + "output" + File.separator + metaEntry.project;
@@ -908,12 +923,13 @@ public class BushMissionGen {
 					recept_package = recept_files[5].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
 					recept_weather = recept_files[6].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
 				} else {
-					recept_fileFLT = recept_files[0].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-					recept_fileLOC = recept_files[1].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-					recept_project = recept_files[2].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-					recept_package = recept_files[3].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-					recept_overview = recept_files[4].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-					recept_weather = recept_files[5].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_fileXML = recept_files[0].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_fileFLT = recept_files[1].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_fileLOC = recept_files[2].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_project = recept_files[3].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_package = recept_files[4].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_overview = recept_files[5].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_weather = recept_files[6].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
 				}
 				break;
 			}
@@ -1243,6 +1259,10 @@ public class BushMissionGen {
 				return msgJSON;
 			}
 		} else {
+			Message msgXML = handleLandXML(metaEntry, entries, recept_fileXML, outFileXML);
+			if (msgXML != null) {
+				return msgXML;
+			}
 			Message msgFLT = handleFLT(metaEntry, entries, recept_fileFLT, outFileFLT);
 			if (msgFLT != null) {
 				return msgFLT;
@@ -2647,6 +2667,21 @@ public class BushMissionGen {
 		XML_FILE = XML_FILE.replace("##SHOW_STUFF##", sb_SHOW_STUFF);
 		XML_FILE = XML_FILE.replace("##CALCULATOR_STUFF##", sb_CALCULATOR_STUFF);
 		XML_FILE = XML_FILE.replace("##FLOWEVENT_STUFF##", sb_FLOWEVENT_STUFF);
+
+		Message msg = mFileHandling.writeStringToFile(outFile, XML_FILE, cs);
+		if (msg != null) {
+			return msg;
+		}
+
+		return null;
+	}
+
+	private Message handleLandXML(MetaEntry metaEntry, List<MissionEntry> entries, String inFile, String outFile) {
+		Charset cs = Charset.forName("windows-1252");
+		String XML_FILE = mFileHandling.readFileToString(inFile, cs);
+
+		XML_FILE = XML_FILE.replace("##META_PROJECT##", metaEntry.project);
+		XML_FILE = XML_FILE.replace("##META_TITLE##", metaEntry.titleID);
 
 		Message msg = mFileHandling.writeStringToFile(outFile, XML_FILE, cs);
 		if (msg != null) {

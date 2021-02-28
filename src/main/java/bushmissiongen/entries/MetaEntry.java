@@ -53,6 +53,11 @@ public class MetaEntry extends GenericEntry {
 	public String leftFlap = "050.00";
 	public String rightFlap = "050.00";
 	public String elevatorTrim = "050.00";
+	public String noGear = "";
+
+	public static final String LandingChallenge_DefaultFile = "Missions\\Asobo\\LandingChallenges\\default\\LandingChallenge_Private";
+	public static final String LandingChallenge_PrivateTemplate = "land_private_template";
+	public static final String LandingChallenge_NoGearTemplate = "land_nogear_template";
 
 	public List<String> requiredFields = new ArrayList<>();
 
@@ -97,8 +102,8 @@ public class MetaEntry extends GenericEntry {
 	public String weather = "";
 	public String pilot = "";
 	public String multiPlayer = "1";
-	public String showVfrMap="True";
-	public String showNavLog="True";
+	public String showVfrMap = "True";
+	public String showNavLog = "True";
 	public String enableRefueling = "";
 	public String enableAtc = "";
 	public String enableChecklist = "";

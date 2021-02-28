@@ -387,6 +387,7 @@ flapsHandle=050.00          <---- Optional! Default = 050.00
 leftFlap=050.00             <---- Optional! Default = 050.00
 rightFlap=050.00            <---- Optional! Default = 050.00
 elevatorTrim=050.00         <---- Optional! Default = 050.00
+noGear=True                 <---- Optional! Possible to ignore the state of the landing gear. Default = False
 
 #icao rw    name        type            LL                   alt
 ||CUST0|U|N55° 23' 45.6",E13° 03' 57.5"|+000500.00
