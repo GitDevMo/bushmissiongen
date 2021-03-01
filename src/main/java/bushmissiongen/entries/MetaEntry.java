@@ -120,7 +120,7 @@ public class MetaEntry extends GenericEntry {
 	public List<DelayedText> introSpeeches = new ArrayList<>();
 	public List<String> coPilots = new ArrayList<>();
 	public List<DialogEntry> dialogEntries = new ArrayList<>();
-	public List<WarningEntry> warnings = new ArrayList<>();
+	public List<WarningEntry> warningsEntries = new ArrayList<>();
 	public List<FailureEntry> failureEntries = new ArrayList<>();
 	public List<MissionFailureEntry> missionFailures = new ArrayList<>();
 	public Map<String, List<DelayedText>> finishedEntries = new HashMap<>();

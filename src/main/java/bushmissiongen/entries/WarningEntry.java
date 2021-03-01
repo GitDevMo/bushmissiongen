@@ -21,6 +21,9 @@ public class WarningEntry {
 	public String procText = "";
 	public String procTextID = "";
 
+	public String triggerId = "";
+	public String triggerGUID = "";
+
 	public WarningEntryMode currentMode = null;
 
 	public enum WarningEntryMode {

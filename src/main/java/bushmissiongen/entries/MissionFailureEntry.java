@@ -22,6 +22,9 @@ public class MissionFailureEntry {
 	public String value1 = "";
 	public String value2 = "";
 
+	public String triggerId = "";
+	public String triggerGUID = "";
+
 	public boolean exit = false;
 
 	public MissionFailureEntryMode currentMode = null;

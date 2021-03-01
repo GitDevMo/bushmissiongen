@@ -27,6 +27,9 @@ public class FailureEntry {
 	public String system = "";
 	public String systemIndex = "0";
 
+	public String triggerId = "";
+	public String triggerGUID = "";
+
 	public boolean exit = false;
 
 	public FailureEntryMode currentMode = null;
