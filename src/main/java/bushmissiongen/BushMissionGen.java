@@ -572,7 +572,7 @@ public class BushMissionGen {
 							boolean wasFound = mSimData.systemsList.contains(system);
 
 							if (wasFound) {
-								FailureEntry fe = new FailureEntry("Failure", value.trim(), system, subIndex, exit, feMode);
+								FailureEntry fe = new FailureEntry(metaName, "Failure", value.trim(), system, subIndex, exit, feMode);
 								Message msgFE = fe.handle();
 								if (msgFE != null) {
 									return msgFE;
@@ -2059,7 +2059,16 @@ public class BushMissionGen {
 					String refId2 = "C5403B66-2213-41A0-8467-94F6057A3";
 					refId2 += String.format("%03d", count + 1);
 					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
-					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerAltitudeFailure" + (count + 1));
+					String triggerName = "PropertyTriggerAltitudeFailure" + (count + 1);
+					if (fe.mName != null) {
+						String find1 = "\"" + fe.mName + "_id\"";
+						String find2 = "\\{" + fe.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId2 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", fe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : fe.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", fe.height);
@@ -2081,7 +2090,16 @@ public class BushMissionGen {
 					String refId2 = "DAE63D82-96A9-4662-9F58-C5A67A784";
 					refId2 += String.format("%03d", count + 1);
 					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
-					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerSpeedFailure" + (count + 1));
+					String triggerName = "PropertyTriggerSpeedFailure" + (count + 1);
+					if (fe.mName != null) {
+						String find1 = "\"" + fe.mName + "_id\"";
+						String find2 = "\\{" + fe.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId2 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##SPEED_TRIGGER##", fe.speed);
 					ss = ss.replace("##DESCR_ACTION##",  "SpeedFailureEntry" + (count + 1));
@@ -2102,7 +2120,16 @@ public class BushMissionGen {
 					String refId2 = "25AD848F-3AE7-4B43-B90D-1666E58CF";
 					refId2 += String.format("%03d", count + 1);
 					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
-					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerAltitudeSpeedFailure" + (count + 1));
+					String triggerName = "PropertyTriggerAltitudeSpeedFailure" + (count + 1);
+					if (fe.mName != null) {
+						String find1 = "\"" + fe.mName + "_id\"";
+						String find2 = "\\{" + fe.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId2 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", fe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : fe.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", fe.height);
@@ -2125,7 +2152,16 @@ public class BushMissionGen {
 					String refId2 = "5CCC53E7-2493-485D-8AC1-D1CD9C567";
 					refId2 += String.format("%03d", count + 1);
 					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
-					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerFormulaFailure" + (count + 1));
+					String triggerName = "PropertyTriggerFormulaFailure" + (count + 1);
+					if (fe.mName != null) {
+						String find1 = "\"" + fe.mName + "_id\"";
+						String find2 = "\\{" + fe.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId2 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##FORMULA_TRIGGER##", fe.formula);
 					ss = ss.replace("##DESCR_ACTION##",  "FormulaFailureEntry" + (count + 1));
@@ -2143,7 +2179,16 @@ public class BushMissionGen {
 					String refId2 = "2B74D4C2-22B3-4405-B1FA-7CEE2AE3D";
 					refId2 += String.format("%03d", count + 1);
 					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
-					ss = ss.replace("##DESCR_TRIGGER##", "ProximityTriggerFail" + (count + 1));
+					String triggerName = "ProximityTriggerFail" + (count + 1);
+					if (fe.mName != null) {
+						String find1 = "\"" + fe.mName + "_id\"";
+						String find2 = "\\{" + fe.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId2 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 					String refId3 = "3B74D4C2-22B3-4405-B1FA-7CEE2AE3D";
