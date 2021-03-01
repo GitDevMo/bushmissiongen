@@ -167,6 +167,14 @@ missionFailureSpeed=110.000
 missionFailureAltitudeAndSpeed=7000.000#90.000
 missionFailureTime=600.000        <------ Sets this time limit for each leg in the mission.
 missionFailureFormula=(A:AUTOPILOT MASTER, Bool) 0 &gt;#Autopilot is not allowed in this mission!     <----- Reverse polish notation formula!
+activateTriggers=de1#mfa1,aw1,aw2     <------ Activates a list of triggers (mission failures and warnings) when a dialogEntry is triggered. See Variables below!
+deactivateTriggers=de2#mfa1,aw1,aw2   <------ Deactivates a list of triggers (mission failures and warnings) when a dialogEntry is triggered. See Variables below!
+
+Example: Usage of variables (variable name::field name=field value)
+aw1::altitudeWarning=No higher mate. I am afraid of heights.#5000.000AGL
+mfa1::missionFailureAltitude=6000.000AGL
+de1::dialogEntry=Ok, somehow my fear of heights has disappeared. Fly as you want!#N29° 57' 7.59",E81° 55' 35.34"#0.000#500.000#15000.000#10000.000#0.000
+deactivateTriggers=de1#mfa1,aw1
 
 Weather presets:
 .\WeatherPresets\BrokenClouds.WPR
@@ -512,3 +520,5 @@ missionFailureSpeed=speed in knots                                              
 missionFailureAltitudeAndSpeed=altitude in feet#speed in knots                                             *** MULTI ***
 missionFailureTime=time in seconds
 missionFailureFormula=HTML escaped RPN formula#text                                                        *** MULTI ***
+activateTriggers=variable name of a dialogEntry#comma-separated list of variable names (mission failures and warnings)     *** MULTI ***
+deactivateTriggers=variable name of a dialogEntry#comma-separated list of variable names (mission failures and warnings)   *** MULTI ***

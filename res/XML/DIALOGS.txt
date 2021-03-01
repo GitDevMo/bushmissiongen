@@ -16,13 +16,13 @@
 	  <ObjectReferenceList>
 	    <ObjectReference id="##DESCR_TIMERTRIGGER##" InstanceId="{##REF_ID_TIMERTRIGGER##}"/>
 	  </ObjectReferenceList>
-    </SimMission.ObjectActivationAction>
+    </SimMission.ObjectActivationAction>##TOGGLE_TRIGGERS##
     <SimMission.ProximityTrigger InstanceId="{##REF_ID_TRIGGER##}">
       <Descr>##DESCR_TRIGGER##</Descr>
       <DefaultActivated>True</DefaultActivated>
       <OneShot>##ONESHOT_TRIGGER##</OneShot>
       <OnEnterActions>
-        <ObjectReference id="##DESCR_ACTIVATION##" InstanceId="{##REF_ID_ACTIVATION##}"/>
+        <ObjectReference id="##DESCR_ACTIVATION##" InstanceId="{##REF_ID_ACTIVATION##}"/>##TOGGLE_ACTIONS##
       </OnEnterActions>
       <Areas>
         <ObjectReference id="##DESCR_AREA##" InstanceId="{##REF_ID_AREA##}"/>

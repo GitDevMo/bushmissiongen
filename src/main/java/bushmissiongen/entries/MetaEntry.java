@@ -11,6 +11,7 @@ import bushmissiongen.messages.ErrorMessage;
 import bushmissiongen.messages.Message;
 import bushmissiongen.misc.DelayedText;
 import bushmissiongen.misc.Localization;
+import bushmissiongen.misc.ToggleTrigger;
 
 public class MetaEntry extends GenericEntry {
 	public String author = "";
@@ -119,10 +120,11 @@ public class MetaEntry extends GenericEntry {
 	public List<DelayedText> introSpeeches = new ArrayList<>();
 	public List<String> coPilots = new ArrayList<>();
 	public List<DialogEntry> dialogEntries = new ArrayList<>();
-	public List<String> failures = new ArrayList<>();
 	public List<WarningEntry> warnings = new ArrayList<>();
+	public List<FailureEntry> failureEntries = new ArrayList<>();
 	public List<MissionFailureEntry> missionFailures = new ArrayList<>();
 	public Map<String, List<DelayedText>> finishedEntries = new HashMap<>();
+	public Map<String, ToggleTrigger> toggleTriggers = new HashMap<>();
 
 	private String getFormattedLocationInDegreeLat(double latitude) {
 		try {

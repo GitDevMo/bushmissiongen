@@ -45,6 +45,7 @@ import bushmissiongen.misc.DelayedText;
 import bushmissiongen.misc.GeoJSON;
 import bushmissiongen.misc.Localization;
 import bushmissiongen.misc.SimData;
+import bushmissiongen.misc.ToggleTrigger;
 
 /**
  * BushMissionGen
@@ -116,6 +117,7 @@ public class BushMissionGen {
 	private static String XML_LANDEDTRIGGER;
 	private static String XML_LEG;
 	private static String XML_OBJECTIVE;
+	private static String XML_OBJECTACTIVATIONACTION;
 	private static String XML_PROXIMITYTRIGGER;
 	private static String XML_RESETACTION;
 	private static String XML_SPEEDTRIGGER;
@@ -209,7 +211,8 @@ public class BushMissionGen {
 			String separator = preScan(list);
 
 			for (String line : list) {
-				if (line.startsWith("#") || line.trim().isEmpty()) {
+				line = line.trim();
+				if (line.startsWith("#") || line.isEmpty()) {
 					continue;
 				}
 
@@ -217,10 +220,21 @@ public class BushMissionGen {
 				String[] split = line.split(separator, -1);
 
 				if (splitMeta.length == META_SPLIT_LEN) {
-					if (splitMeta[0].equalsIgnoreCase("author")) {metaEntry.author = splitMeta[1].trim(); metaEntry.remove("author"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("title")) {metaEntry.title = splitMeta[1].trim(); metaEntry.remove("title"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("project")) {
-						metaEntry.project = splitMeta[1].trim();
+					String metaName = null;
+					String metaField = splitMeta[0];
+					String metaString = splitMeta[1];
+
+					String[] nameSplit = metaField.split("::", -1);
+					if (nameSplit != null && nameSplit.length==2) {
+						metaName = nameSplit[0];
+						metaField = nameSplit[1];
+						line = line.substring(metaName.length()+2);
+					}
+
+					if (metaField.equalsIgnoreCase("author")) {metaEntry.author = metaString.trim(); metaEntry.remove("author"); count_META++;}
+					if (metaField.equalsIgnoreCase("title")) {metaEntry.title = metaString.trim(); metaEntry.remove("title"); count_META++;}
+					if (metaField.equalsIgnoreCase("project")) {
+						metaEntry.project = metaString.trim();
 
 						// Fulfill FS2020 package name validation
 						Pattern pattern = Pattern.compile("^[a-z0-9]+-[a-z0-9-]+$");
@@ -231,88 +245,88 @@ public class BushMissionGen {
 						metaEntry.remove("project"); 
 						count_META++;
 					}
-					if (splitMeta[0].equalsIgnoreCase("version")) {metaEntry.version = splitMeta[1].trim(); metaEntry.remove("version"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("location")) {metaEntry.location = splitMeta[1].trim(); metaEntry.remove("location"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("description")) {metaEntry.description = splitMeta[1].trim(); metaEntry.remove("description"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("intro")) {metaEntry.intro = splitMeta[1].trim(); metaEntry.remove("intro"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("latitude")) {
-						Message msg = metaEntry.setLat(splitMeta[1].trim());
+					if (metaField.equalsIgnoreCase("version")) {metaEntry.version = metaString.trim(); metaEntry.remove("version"); count_META++;}
+					if (metaField.equalsIgnoreCase("location")) {metaEntry.location = metaString.trim(); metaEntry.remove("location"); count_META++;}
+					if (metaField.equalsIgnoreCase("description")) {metaEntry.description = metaString.trim(); metaEntry.remove("description"); count_META++;}
+					if (metaField.equalsIgnoreCase("intro")) {metaEntry.intro = metaString.trim(); metaEntry.remove("intro"); count_META++;}
+					if (metaField.equalsIgnoreCase("latitude")) {
+						Message msg = metaEntry.setLat(metaString.trim());
 						if (msg != null) {
 							return msg;
 						}
 						metaEntry.remove("latitude"); 
 						count_META++;
 					}
-					if (splitMeta[0].equalsIgnoreCase("longitude")) {
-						Message msg = metaEntry.setLon(splitMeta[1].trim());
+					if (metaField.equalsIgnoreCase("longitude")) {
+						Message msg = metaEntry.setLon(metaString.trim());
 						if (msg != null) {
 							return msg;
 						}
 						metaEntry.remove("longitude"); 
 						count_META++;
 					}
-					if (splitMeta[0].equalsIgnoreCase("altitude")) {
-						Message msg = metaEntry.setAlt(splitMeta[1].trim());
+					if (metaField.equalsIgnoreCase("altitude")) {
+						Message msg = metaEntry.setAlt(metaString.trim());
 						if (msg != null) {
 							return msg;
 						}
 						metaEntry.remove("altitude"); 
 						count_META++;
 					}
-					if (splitMeta[0].equalsIgnoreCase("pitch")) {metaEntry.pitch = splitMeta[1].trim(); metaEntry.remove("pitch"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("bank")) {metaEntry.bank = splitMeta[1].trim(); metaEntry.remove("bank"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("heading")) {metaEntry.heading = splitMeta[1].trim(); metaEntry.remove("heading"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("plane")) {metaEntry.plane = splitMeta[1].trim(); metaEntry.remove("plane"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("season")) {metaEntry.season = splitMeta[1].trim(); metaEntry.remove("season"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("year")) {metaEntry.year = splitMeta[1].trim(); metaEntry.remove("year"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("day")) {metaEntry.day = splitMeta[1].trim(); metaEntry.remove("day"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("hours")) {metaEntry.hours = splitMeta[1].trim(); metaEntry.remove("hours"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("minutes")) {metaEntry.minutes = splitMeta[1].trim(); metaEntry.remove("minutes"); count_META++;}
-					if (splitMeta[0].equalsIgnoreCase("seconds")) {metaEntry.seconds = splitMeta[1].trim(); metaEntry.remove("seconds"); count_META++;}
+					if (metaField.equalsIgnoreCase("pitch")) {metaEntry.pitch = metaString.trim(); metaEntry.remove("pitch"); count_META++;}
+					if (metaField.equalsIgnoreCase("bank")) {metaEntry.bank = metaString.trim(); metaEntry.remove("bank"); count_META++;}
+					if (metaField.equalsIgnoreCase("heading")) {metaEntry.heading = metaString.trim(); metaEntry.remove("heading"); count_META++;}
+					if (metaField.equalsIgnoreCase("plane")) {metaEntry.plane = metaString.trim(); metaEntry.remove("plane"); count_META++;}
+					if (metaField.equalsIgnoreCase("season")) {metaEntry.season = metaString.trim(); metaEntry.remove("season"); count_META++;}
+					if (metaField.equalsIgnoreCase("year")) {metaEntry.year = metaString.trim(); metaEntry.remove("year"); count_META++;}
+					if (metaField.equalsIgnoreCase("day")) {metaEntry.day = metaString.trim(); metaEntry.remove("day"); count_META++;}
+					if (metaField.equalsIgnoreCase("hours")) {metaEntry.hours = metaString.trim(); metaEntry.remove("hours"); count_META++;}
+					if (metaField.equalsIgnoreCase("minutes")) {metaEntry.minutes = metaString.trim(); metaEntry.remove("minutes"); count_META++;}
+					if (metaField.equalsIgnoreCase("seconds")) {metaEntry.seconds = metaString.trim(); metaEntry.remove("seconds"); count_META++;}
 
 					// Optional
-					if (splitMeta[0].equalsIgnoreCase("sdkPath")) {metaEntry.sdkPath = splitMeta[1].trim();}
-					if (splitMeta[0].equalsIgnoreCase("altitudeWarning")) {
-						WarningEntry we = new WarningEntry(splitMeta[0].trim(), splitMeta[1].trim(), WarningEntryMode.ALTITUDE);
+					if (metaField.equalsIgnoreCase("sdkPath")) {metaEntry.sdkPath = metaString.trim();}
+					if (metaField.equalsIgnoreCase("altitudeWarning")) {
+						WarningEntry we = new WarningEntry(metaName, metaField.trim(), metaString.trim(), WarningEntryMode.ALTITUDE);
 						Message msgWE = we.handle();
 						if (msgWE != null) {
 							return msgWE;
 						}
 						metaEntry.warnings.add(we);
 					}
-					if (splitMeta[0].equalsIgnoreCase("speedWarning")) {
-						WarningEntry we = new WarningEntry(splitMeta[0].trim(), splitMeta[1].trim(), WarningEntryMode.SPEED);
+					if (metaField.equalsIgnoreCase("speedWarning")) {
+						WarningEntry we = new WarningEntry(metaName, metaField.trim(), metaString.trim(), WarningEntryMode.SPEED);
 						Message msgWE = we.handle();
 						if (msgWE != null) {
 							return msgWE;
 						}
 						metaEntry.warnings.add(we);
 					}
-					if (splitMeta[0].equalsIgnoreCase("altitudeSpeedWarning") || splitMeta[0].equalsIgnoreCase("altitudeAndSpeedWarning")) {
-						WarningEntry we = new WarningEntry(splitMeta[0].trim(), splitMeta[1].trim(), WarningEntryMode.ALTITUDE_AND_SPEED);
+					if (metaField.equalsIgnoreCase("altitudeSpeedWarning") || metaField.equalsIgnoreCase("altitudeAndSpeedWarning")) {
+						WarningEntry we = new WarningEntry(metaName, metaField.trim(), metaString.trim(), WarningEntryMode.ALTITUDE_AND_SPEED);
 						Message msgWE = we.handle();
 						if (msgWE != null) {
 							return msgWE;
 						}
 						metaEntry.warnings.add(we);
 					}
-					if (splitMeta[0].equalsIgnoreCase("formulaWarning")) {
-						WarningEntry we = new WarningEntry(splitMeta[0].trim(), splitMeta[1].trim(), WarningEntryMode.FORMULA);
+					if (metaField.equalsIgnoreCase("formulaWarning")) {
+						WarningEntry we = new WarningEntry(metaName, metaField.trim(), metaString.trim(), WarningEntryMode.FORMULA);
 						Message msgWE = we.handle();
 						if (msgWE != null) {
 							return msgWE;
 						}
 						metaEntry.warnings.add(we);
 					}
-					if (splitMeta[0].equalsIgnoreCase("uniqueApImages")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("uniqueApImages")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.uniqueApImages = val.equals("true") ? "True" : "";
 					}
-					if (splitMeta[0].equalsIgnoreCase("tooltip") || splitMeta[0].equalsIgnoreCase("loadingtip")) {metaEntry.tooltips.add(splitMeta[1].trim());}
-					if (splitMeta[0].equalsIgnoreCase("pilot")) {metaEntry.pilot = splitMeta[1].trim();}
-					if (splitMeta[0].equalsIgnoreCase("coPilot")) {metaEntry.coPilots.add(splitMeta[1].trim());}
-					if (splitMeta[0].equalsIgnoreCase("introSpeech")) {
-						String[] splitIS = splitMeta[1].split("#");
+					if (metaField.equalsIgnoreCase("tooltip") || metaField.equalsIgnoreCase("loadingtip")) {metaEntry.tooltips.add(metaString.trim());}
+					if (metaField.equalsIgnoreCase("pilot")) {metaEntry.pilot = metaString.trim();}
+					if (metaField.equalsIgnoreCase("coPilot")) {metaEntry.coPilots.add(metaString.trim());}
+					if (metaField.equalsIgnoreCase("introSpeech")) {
+						String[] splitIS = metaString.split("#");
 						boolean formatError = false;
 						if (splitIS != null && splitIS.length==2) {
 							// Text validation
@@ -329,19 +343,19 @@ public class BushMissionGen {
 								return new ErrorMessage("Wrong format for introSpeech:\n\n" + line);
 							}
 						} else {
-							metaEntry.introSpeeches.add(new DelayedText(splitMeta[1].trim(), "0.000"));
+							metaEntry.introSpeeches.add(new DelayedText(metaString.trim(), "0.000"));
 						}
 					}
-					if (splitMeta[0].equalsIgnoreCase("poiSpeech")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("poiSpeech")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.poiSpeech = val.equals("true") ? "True" : "";
 					}
-					if (splitMeta[0].equalsIgnoreCase("poiSpeechBefore")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("poiSpeechBefore")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.poiSpeechBefore = val.equals("true") ? "True" : "";
 					}
-					if (splitMeta[0].equalsIgnoreCase("finishedEntry")) {
-						String[] splitFE = splitMeta[1].split("#");
+					if (metaField.equalsIgnoreCase("finishedEntry")) {
+						String[] splitFE = metaString.split("#");
 						boolean formatError = false;
 						if (splitFE!= null && splitFE.length>=3) {
 							// Text validation
@@ -383,70 +397,86 @@ public class BushMissionGen {
 							return new ErrorMessage("Wrong format for finishedEntry:\n\n" + line);
 						}
 					}
-					if (splitMeta[0].startsWith("dialogEntry")) {
-						DialogEntry de = new DialogEntry(splitMeta[0].trim(), splitMeta[1].trim());
+					if (metaField.startsWith("dialogEntry")) {
+						DialogEntry de = new DialogEntry(metaName, metaField.trim(), metaString.trim());
 						Message msgDE = de.handle();
 						if (msgDE != null) {
 							return msgDE;
 						}
 						metaEntry.dialogEntries.add(de);						
 					}
-					if (splitMeta[0].equalsIgnoreCase("simFile")) {metaEntry.simFile = splitMeta[1].trim();}
-					if (splitMeta[0].equalsIgnoreCase("fuelPercentage")) {metaEntry.fuelPercentage = splitMeta[1].trim();}
-					if (splitMeta[0].equalsIgnoreCase("parkingBrake")) {metaEntry.parkingBrake = splitMeta[1].trim();}
-					if (splitMeta[0].equalsIgnoreCase("tailNumber")) {metaEntry.tailNumber = splitMeta[1].trim();}
-					if (splitMeta[0].equalsIgnoreCase("airlineCallSign")) {metaEntry.airlineCallSign = splitMeta[1].trim();}
-					if (splitMeta[0].equalsIgnoreCase("flightNumber")) {metaEntry.flightNumber = splitMeta[1].trim();}
-					if (splitMeta[0].equalsIgnoreCase("appendHeavy")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("activateTriggers")) {
+						String[] splitTR = metaString.split("#");
+						if (splitTR!= null && splitTR.length==2) {
+							metaEntry.toggleTriggers.put(splitTR[0].trim(), new ToggleTrigger(true, splitTR[1].trim().split(",")));
+						} else {
+							return new ErrorMessage("Wrong format for activateTriggers:\n\n" + line);
+						}
+					}
+					if (metaField.equalsIgnoreCase("deactivateTriggers")) {
+						String[] splitTR = metaString.split("#");
+						if (splitTR!= null && splitTR.length==2) {
+							metaEntry.toggleTriggers.put(splitTR[0].trim(), new ToggleTrigger(false, splitTR[1].trim().split(",")));
+						} else {
+							return new ErrorMessage("Wrong format for deactivateTriggers:\n\n" + line);
+						}
+					}
+					if (metaField.equalsIgnoreCase("simFile")) {metaEntry.simFile = metaString.trim();}
+					if (metaField.equalsIgnoreCase("fuelPercentage")) {metaEntry.fuelPercentage = metaString.trim();}
+					if (metaField.equalsIgnoreCase("parkingBrake")) {metaEntry.parkingBrake = metaString.trim();}
+					if (metaField.equalsIgnoreCase("tailNumber")) {metaEntry.tailNumber = metaString.trim();}
+					if (metaField.equalsIgnoreCase("airlineCallSign")) {metaEntry.airlineCallSign = metaString.trim();}
+					if (metaField.equalsIgnoreCase("flightNumber")) {metaEntry.flightNumber = metaString.trim();}
+					if (metaField.equalsIgnoreCase("appendHeavy")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.appendHeavy = val.equals("true") ? "True" : "False";
 					}
-					if (splitMeta[0].equalsIgnoreCase("showVfrMap")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("showVfrMap")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.showVfrMap = val.equals("true") ? "True" : "";
 					}
-					if (splitMeta[0].equalsIgnoreCase("showNavLog")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("showNavLog")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.showNavLog = val.equals("true") ? "True" : "";
 					}
-					if (splitMeta[0].equalsIgnoreCase("enableRefueling")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("enableRefueling")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.enableRefueling = val.equals("true") ? "True" : "";
 					}
-					if (splitMeta[0].equalsIgnoreCase("enableAtc")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("enableAtc")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.enableAtc = val.equals("true") ? "True" : "";
 					}
-					if (splitMeta[0].equalsIgnoreCase("enableChecklist")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("enableChecklist")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.enableChecklist = val.equals("true") ? "True" : "";
 					}
-					if (splitMeta[0].equalsIgnoreCase("enableObjectives")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("enableObjectives")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.enableObjectives = val.equals("true") ? "True" : "";
 					}
-					if (splitMeta[0].equalsIgnoreCase("requireEnginesOff")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("requireEnginesOff")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.requireEnginesOff = val.equals("true") ? "True" : "";
 					}
-					if (splitMeta[0].equalsIgnoreCase("requireBatteryOff")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("requireBatteryOff")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.requireBatteryOff = val.equals("true") ? "True" : "";
 					}
-					if (splitMeta[0].equalsIgnoreCase("requireAvionicsOff")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("requireAvionicsOff")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.requireAvionicsOff = val.equals("true") ? "True" : "";
 					}
-					if (splitMeta[0].equalsIgnoreCase("useAGL")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("useAGL")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.useAGL = val.equals("true") ? "True" : "";
 					}
-					if (splitMeta[0].equalsIgnoreCase("useOneShotTriggers")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("useOneShotTriggers")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.useOneShotTriggers = val.equals("true") ? "True" : "";
 					}
-					if (splitMeta[0].equalsIgnoreCase("standardAirportExitAreaSideLength")) {
-						String val = splitMeta[1].trim();
+					if (metaField.equalsIgnoreCase("standardAirportExitAreaSideLength")) {
+						String val = metaString.trim();
 						Pattern pattern = Pattern.compile("^\\d+(\\.\\d{3})$");
 						boolean resVal = pattern.matcher(val).find();
 						if (!resVal) {
@@ -455,8 +485,8 @@ public class BushMissionGen {
 							metaEntry.standardAirportExitAreaSideLength = val;
 						}
 					}
-					if (splitMeta[0].equalsIgnoreCase("standardEnterAreaSideLength")) {
-						String val = splitMeta[1].trim();
+					if (metaField.equalsIgnoreCase("standardEnterAreaSideLength")) {
+						String val = metaString.trim();
 						Pattern pattern = Pattern.compile("^\\d+(\\.\\d{3})$");
 						boolean resVal = pattern.matcher(val).find();
 						if (!resVal) {
@@ -465,35 +495,118 @@ public class BushMissionGen {
 							metaEntry.standardEnterAreaSideLength = val;
 						}
 					}
-					if (splitMeta[0].equalsIgnoreCase("weather")) {metaEntry.weather = splitMeta[1].trim();}
-					if (splitMeta[0].startsWith("failure")) {metaEntry.failures.add(line.trim());}
-					if (splitMeta[0].startsWith("altitudeFailure")) {metaEntry.failures.add(line.trim());}
-					if (splitMeta[0].startsWith("speedFailure")) {metaEntry.failures.add(line.trim());}
-					if (splitMeta[0].startsWith("altitudeSpeedFailure") || splitMeta[0].startsWith("altitudeAndSpeedFailure")) {metaEntry.failures.add(line.trim());}
-					if (splitMeta[0].startsWith("formulaFailure")) {metaEntry.failures.add(line.trim());}
-					if (splitMeta[0].startsWith("missionFailure")) {
-						MissionFailureEntry mfe = new MissionFailureEntry(splitMeta[0].trim(), splitMeta[1].trim());
+					if (metaField.equalsIgnoreCase("weather")) {metaEntry.weather = metaString.trim();}
+					if (metaField.startsWith("failure") ||
+							metaField.startsWith("altitudeFailure") ||
+							metaField.startsWith("speedFailure") ||
+							metaField.startsWith("altitudeSpeedFailure") || metaField.startsWith("altitudeAndSpeedFailure") ||
+							metaField.startsWith("formulaFailure")) {
+						// Failures
+						Pattern patternArm = Pattern.compile("^[f][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=([\\d]+)[-]([\\d]+)$");
+						Pattern patternFailExit = Pattern.compile("^[f][a][i][l][u][r][e][E][x][i][t]([A-Za-z]+)([\\d]+)=(.*)");
+						Pattern patternFail = Pattern.compile("^[f][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
+						Pattern patternAltitudeFail = Pattern.compile("^[a][l][t][i][t][u][d][e][F][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
+						Pattern patternSpeedFail = Pattern.compile("^[s][p][e][e][d][F][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
+						Pattern patternAltitudeSpeedFail1 = Pattern.compile("^[a][l][t][i][t][u][d][e][A][n][d][S][p][e][e][d][F][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
+						Pattern patternAltitudeSpeedFail2 = Pattern.compile("^[a][l][t][i][t][u][d][e][S][p][e][e][d][F][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
+						Pattern patternFormulaFail = Pattern.compile("^[f][o][r][m][u][l][a][F][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
+
+						String system = "";
+						String subIndex = "";
+						String value = "";
+						boolean exit = false;
+						FailureEntryMode feMode = null;
+
+						Matcher matcherFailureExit = patternFailExit.matcher(line);
+						Matcher matcherFailure = patternFail.matcher(line);
+						Matcher matcherArm = patternArm.matcher(line);
+						Matcher matcherAltitudeFailure = patternAltitudeFail.matcher(line);
+						Matcher matcherSpeedFailure = patternSpeedFail.matcher(line);
+						Matcher matcherAltitudeSpeedFailure1 = patternAltitudeSpeedFail1.matcher(line);
+						Matcher matcherAltitudeSpeedFailure2 = patternAltitudeSpeedFail2.matcher(line);
+						Matcher matcherFormulaFailure = patternFormulaFail.matcher(line);
+						if (matcherArm.find()) {
+							system = matcherArm.group(1);
+							subIndex = matcherArm.group(2);
+							value = matcherArm.group(3) + "-" + matcherArm.group(4);
+							feMode = FailureEntryMode.ARM;
+						} else if (matcherFailureExit.find()) {
+							system = matcherFailureExit.group(1);
+							subIndex = matcherFailureExit.group(2);
+							value = matcherFailureExit.group(3);
+							exit = true;
+							feMode = FailureEntryMode.AREA;
+						} else if (matcherFailure.find()) {
+							system = matcherFailure.group(1);
+							subIndex = matcherFailure.group(2);
+							value = matcherFailure.group(3);
+							feMode = FailureEntryMode.AREA;
+						} else if (matcherAltitudeFailure.find()) {
+							system = matcherAltitudeFailure.group(1);
+							subIndex = matcherAltitudeFailure.group(2);
+							value = matcherAltitudeFailure.group(3);
+							feMode = FailureEntryMode.ALTITUDE;
+						} else if (matcherSpeedFailure.find()) {
+							system = matcherSpeedFailure.group(1);
+							subIndex = matcherSpeedFailure.group(2);
+							value = matcherSpeedFailure.group(3);
+							feMode = FailureEntryMode.SPEED;
+						} else if (matcherAltitudeSpeedFailure1.find()) {
+							system = matcherAltitudeSpeedFailure1.group(1);
+							subIndex = matcherAltitudeSpeedFailure1.group(2);
+							value = matcherAltitudeSpeedFailure1.group(3);
+							feMode = FailureEntryMode.ALTITUDE_AND_SPEED;
+						} else if (matcherAltitudeSpeedFailure2.find()) {
+							system = matcherAltitudeSpeedFailure2.group(1);
+							subIndex = matcherAltitudeSpeedFailure2.group(2);
+							value = matcherAltitudeSpeedFailure2.group(3);
+							feMode = FailureEntryMode.ALTITUDE_AND_SPEED;
+						} else if (matcherFormulaFailure.find()) {
+							system = matcherFormulaFailure.group(1);
+							subIndex = matcherFormulaFailure.group(2);
+							value = matcherFormulaFailure.group(3);
+							feMode = FailureEntryMode.FORMULA;
+						}
+
+						if (!system.isEmpty()) {
+							boolean wasFound = mSimData.systemsList.contains(system);
+
+							if (wasFound) {
+								FailureEntry fe = new FailureEntry("Failure", value.trim(), system, subIndex, exit, feMode);
+								Message msgFE = fe.handle();
+								if (msgFE != null) {
+									return msgFE;
+								}
+								metaEntry.failureEntries.add(fe);
+							} else {
+								return new ErrorMessage("Could not find failing system: " + system);
+							}
+						}
+					}
+
+					if (metaField.startsWith("missionFailure")) {
+						MissionFailureEntry mfe = new MissionFailureEntry(metaName, metaField.trim(), metaString.trim());
 						Message msgMFE = mfe.handle();
 						if (msgMFE != null) {
 							return msgMFE;
 						}
 						metaEntry.missionFailures.add(mfe);
 					}
-					if (splitMeta[0].equalsIgnoreCase("flapsHandle")) {metaEntry.flapsHandle = splitMeta[1].trim();}
-					if (splitMeta[0].equalsIgnoreCase("leftFlap")) {metaEntry.leftFlap = splitMeta[1].trim();}
-					if (splitMeta[0].equalsIgnoreCase("rightFlap")) {metaEntry.rightFlap = splitMeta[1].trim();}
-					if (splitMeta[0].equalsIgnoreCase("elevatorTrim")) {metaEntry.elevatorTrim = splitMeta[1].trim();}
+					if (metaField.equalsIgnoreCase("flapsHandle")) {metaEntry.flapsHandle = metaString.trim();}
+					if (metaField.equalsIgnoreCase("leftFlap")) {metaEntry.leftFlap = metaString.trim();}
+					if (metaField.equalsIgnoreCase("rightFlap")) {metaEntry.rightFlap = metaString.trim();}
+					if (metaField.equalsIgnoreCase("elevatorTrim")) {metaEntry.elevatorTrim = metaString.trim();}
 
 					// Landing challenge
-					if (splitMeta[0].equalsIgnoreCase("missionType")) {metaEntry.missionType = splitMeta[1].trim();}
-					if (splitMeta[0].equalsIgnoreCase("challengeType")) {metaEntry.challengeType = splitMeta[1].trim();}
-					if (splitMeta[0].equalsIgnoreCase("velocity")) {metaEntry.velocity = splitMeta[1].trim();}
-					if (splitMeta[0].equalsIgnoreCase("multiPlayer")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("missionType")) {metaEntry.missionType = metaString.trim();}
+					if (metaField.equalsIgnoreCase("challengeType")) {metaEntry.challengeType = metaString.trim();}
+					if (metaField.equalsIgnoreCase("velocity")) {metaEntry.velocity = metaString.trim();}
+					if (metaField.equalsIgnoreCase("multiPlayer")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.multiPlayer = val.equals("true") ? "1" : "0";
 					}
-					if (splitMeta[0].equalsIgnoreCase("noGear")) {
-						String val = splitMeta[1].trim().toLowerCase();
+					if (metaField.equalsIgnoreCase("noGear")) {
+						String val = metaString.trim().toLowerCase();
 						metaEntry.noGear = val.equals("true") ? "True" : "";
 					}
 				} else if (split.length == WP_SPLIT_LEN) {
@@ -1219,6 +1332,7 @@ public class BushMissionGen {
 		XML_LANDEDTRIGGER = mFileHandling.readUrlToString("XML/LANDEDTRIGGER.txt", Charset.forName("windows-1252"));
 		XML_LEG = mFileHandling.readUrlToString("XML/LEG.txt", Charset.forName("windows-1252"));
 		XML_OBJECTIVE = mFileHandling.readUrlToString("XML/OBJECTIVE.txt", Charset.forName("windows-1252"));
+		XML_OBJECTACTIVATIONACTION = mFileHandling.readUrlToString("XML/OBJECTACTIVATIONACTION.txt", Charset.forName("windows-1252"));
 		XML_PROXIMITYTRIGGER = mFileHandling.readUrlToString("XML/PROXIMITYTRIGGER.txt", Charset.forName("windows-1252"));
 		XML_RESETACTION = mFileHandling.readUrlToString("XML/RESETACTION.txt", Charset.forName("windows-1252"));
 		XML_SPEEDTRIGGER = mFileHandling.readUrlToString("XML/SPEEDTRIGGER.txt", Charset.forName("windows-1252"));
@@ -1500,23 +1614,18 @@ public class BushMissionGen {
 							sl = sl.replace("##REF_ID_DIALOG##", refId4);
 
 							// Wav subtitles?
-							String wav = fe.text;
-							String subtitles = null;
-							if (wav.contains("|")) {
-								String[] split = wav.split("\\|");
-								wav = split[0];
-								subtitles = split[1];
-							}
+							String wav = fe.procWave;
+							String text = fe.procTextID;
 
 							String textXML = "";
-							if (wav.toUpperCase().endsWith(".WAV")) {
+							if (!wav.isEmpty()) {
 								textXML += "<SoundFileName>" + wav + "</SoundFileName>";
-								if (subtitles != null) {
-									textXML += System.lineSeparator() + "      " + "<Text>" + subtitles + "</Text>";
+								if (text != null) {
+									textXML += System.lineSeparator() + "      " + "<Text>" + text + "</Text>";
 								}
 								mSounds.add(wav);
 							} else {
-								textXML += "<Text>" + fe.text + "</Text>";
+								textXML += "<Text>" + text + "</Text>";
 							}
 
 							sl = sl.replace("##TEXT_DIALOG##", textXML);
@@ -1732,9 +1841,11 @@ public class BushMissionGen {
 					ss = ss.replace("##HEADING_AREA##", de.heading);
 					ss = ss.replace("##LLA_AREA##", me.latlon + ",-000200.00");
 					ss = ss.replace("##USE_AGL##", de.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : de.agl);
+					ss = ss.replace("##TOGGLE_ACTIONS##", "");
+					ss = ss.replace("##TOGGLE_TRIGGERS##", "");
 
 					// JSON
-					mGeoJSON.appendPolygon(de.latlon, boxSideSize, boxSideSize, de.heading, "#555555", "#007700");
+					mGeoJSON.appendPolygon(me.latlon, boxSideSize, boxSideSize, de.heading, "#555555", "#007700");
 
 					sb_DIALOGS.append(ss);
 					sb_DIALOGS.append(System.lineSeparator());
@@ -1810,6 +1921,8 @@ public class BushMissionGen {
 					ss = ss.replace("##HEADING_AREA##", de.heading);
 					ss = ss.replace("##LLA_AREA##", prevMe.latlon + ",-000200.00");
 					ss = ss.replace("##USE_AGL##", de.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : de.agl);
+					ss = ss.replace("##TOGGLE_ACTIONS##", "");
+					ss = ss.replace("##TOGGLE_TRIGGERS##", "");
 
 					sb_DIALOGS.append(ss);
 					sb_DIALOGS.append(System.lineSeparator());
@@ -1835,23 +1948,18 @@ public class BushMissionGen {
 				ss = ss.replace("##DESCR_DIALOG##",  "DialogEntry" + (count + 1));
 
 				// Wav subtitles?
-				String wav = de.text;
-				String subtitles = null;
-				if (wav.contains("|")) {
-					String[] split = wav.split("\\|");
-					wav = split[0];
-					subtitles = split[1];
-				}
+				String wav = de.procWave;
+				String text = de.procTextID;
 
 				String textXML = "";
-				if (wav.toUpperCase().endsWith(".WAV")) {
+				if (!wav.isEmpty()) {
 					textXML += "<SoundFileName>" + wav + "</SoundFileName>";
-					if (subtitles != null) {
-						textXML += System.lineSeparator() + "      " + "<Text>" + subtitles + "</Text>";
+					if (text != null) {
+						textXML += System.lineSeparator() + "      " + "<Text>" + text + "</Text>";
 					}
 					mSounds.add(wav);
 				} else {
-					textXML += "<Text>" + de.text + "</Text>";
+					textXML += "<Text>" + text + "</Text>";
 				}
 
 				ss = ss.replace("##TEXT_DIALOG##", textXML);
@@ -1884,6 +1992,32 @@ public class BushMissionGen {
 				ss = ss.replace("##LLA_AREA##", de.latlon + ",+000000.00");
 				ss = ss.replace("##USE_AGL##", de.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : de.agl);
 
+				if (de.mName != null && metaEntry.toggleTriggers.containsKey(de.mName)) {
+					String[] toggleList = metaEntry.toggleTriggers.get(de.mName).mTriggerList;
+					boolean activate = metaEntry.toggleTriggers.get(de.mName).mActivate;
+
+					StringBuffer toggleTriggers = new StringBuffer();
+					for (String tl : toggleList) {
+						String sr = "            <ObjectReference id=\"" + tl + "_id\" InstanceId=\"{" + tl + "_guid}\"/>";
+						toggleTriggers.append(System.lineSeparator()).append(sr);
+					}
+
+					String so = XML_OBJECTACTIVATIONACTION;
+					String refId6 = "6E8A46C1-92A8-4629-92AC-DEBC040F2";
+					refId6 += String.format("%03d", count + 1);
+					so = so.replace("##REF_ID_ACTION##", refId6);
+					so = so.replace("##DESCR_ACTION##", "ToggleTrigger" + (count + 1));
+					so = so.replace("##STATE_ACTION##", String.valueOf(activate));
+					so = so.replace("##LIST_TRIGGERS##", toggleTriggers);
+
+					String sr = "        <ObjectReference id=\"" + "ToggleTrigger" + (count + 1) + "\" InstanceId=\"{" + refId6 + "}\"/>";
+					ss = ss.replace("##TOGGLE_ACTIONS##", System.lineSeparator() + sr);
+					ss = ss.replace("##TOGGLE_TRIGGERS##", System.lineSeparator() + so);
+				} else {
+					ss = ss.replace("##TOGGLE_ACTIONS##", "");
+					ss = ss.replace("##TOGGLE_TRIGGERS##", "");
+				}
+
 				// JSON
 				mGeoJSON.appendPolygon(de.latlon, de.width, de.length, de.heading, "#555555", de.exit ? "#0000ff" : "#000077");
 
@@ -1893,95 +2027,24 @@ public class BushMissionGen {
 			}
 		}
 
-		// Failures
-		List<FailureEntry> failureEntries = new ArrayList<>();
-		Pattern patternFailExit = Pattern.compile("^[f][a][i][l][u][r][e][E][x][i][t]([A-Za-z]+)([\\d]+)=(.*)");
-		Pattern patternFail = Pattern.compile("^[f][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
-		Pattern patternAltitudeFail = Pattern.compile("^[a][l][t][i][t][u][d][e][F][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
-		Pattern patternSpeedFail = Pattern.compile("^[s][p][e][e][d][F][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
-		Pattern patternAltitudeSpeedFail1 = Pattern.compile("^[a][l][t][i][t][u][d][e][A][n][d][S][p][e][e][d][F][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
-		Pattern patternAltitudeSpeedFail2 = Pattern.compile("^[a][l][t][i][t][u][d][e][S][p][e][e][d][F][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
-		Pattern patternFormulaFail = Pattern.compile("^[f][o][r][m][u][l][a][F][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=(.*)");
-		for (String failureItem : metaEntry.failures) {
-			String system = "";
-			String subIndex = "";
-			String value = "";
-			boolean exit = false;
-			FailureEntryMode mode = null;
-
-			Matcher matcherFailureExit = patternFailExit.matcher(failureItem);
-			Matcher matcherFailure = patternFail.matcher(failureItem);
-			Matcher matcherAltitudeFailure = patternAltitudeFail.matcher(failureItem);
-			Matcher matcherSpeedFailure = patternSpeedFail.matcher(failureItem);
-			Matcher matcherAltitudeSpeedFailure1 = patternAltitudeSpeedFail1.matcher(failureItem);
-			Matcher matcherAltitudeSpeedFailure2 = patternAltitudeSpeedFail2.matcher(failureItem);
-			Matcher matcherFormulaFailure = patternFormulaFail.matcher(failureItem);
-			if (matcherFailureExit.find()) {
-				system = matcherFailureExit.group(1);
-				subIndex = matcherFailureExit.group(2);
-				value = matcherFailureExit.group(3);
-				exit = true;
-				mode = FailureEntryMode.AREA;
-			} else if (matcherFailure.find()) {
-				system = matcherFailure.group(1);
-				subIndex = matcherFailure.group(2);
-				value = matcherFailure.group(3);
-				mode = FailureEntryMode.AREA;
-			} else if (matcherAltitudeFailure.find()) {
-				system = matcherAltitudeFailure.group(1);
-				subIndex = matcherAltitudeFailure.group(2);
-				value = matcherAltitudeFailure.group(3);
-				mode = FailureEntryMode.ALTITUDE;
-			} else if (matcherSpeedFailure.find()) {
-				system = matcherSpeedFailure.group(1);
-				subIndex = matcherSpeedFailure.group(2);
-				value = matcherSpeedFailure.group(3);
-				mode = FailureEntryMode.SPEED;
-			} else if (matcherAltitudeSpeedFailure1.find()) {
-				system = matcherAltitudeSpeedFailure1.group(1);
-				subIndex = matcherAltitudeSpeedFailure1.group(2);
-				value = matcherAltitudeSpeedFailure1.group(3);
-				mode = FailureEntryMode.ALTITUDE_AND_SPEED;
-			} else if (matcherAltitudeSpeedFailure2.find()) {
-				system = matcherAltitudeSpeedFailure2.group(1);
-				subIndex = matcherAltitudeSpeedFailure2.group(2);
-				value = matcherAltitudeSpeedFailure2.group(3);
-				mode = FailureEntryMode.ALTITUDE_AND_SPEED;
-			} else if (matcherFormulaFailure.find()) {
-				system = matcherFormulaFailure.group(1);
-				subIndex = matcherFormulaFailure.group(2);
-				value = matcherFormulaFailure.group(3);
-				mode = FailureEntryMode.FORMULA;
-			}
-
-			if (!system.isEmpty()) {				
-				boolean wasFound = mSimData.systemsList.contains(system);
-
-				if (wasFound) {
-					FailureEntry fe = new FailureEntry("Failure", value.trim(), system, subIndex, exit, mode);
-					Message msgFE = fe.handle();
-					if (msgFE != null) {
-						return msgFE;
-					}
-					failureEntries.add(fe);
-				} else {
-					return new ErrorMessage("Could not find failing system: " + system);
-				}
-			}
-		}
+		// To be able to manipulate the dialog data
+		String text_DIALOGS = sb_DIALOGS.toString();
 
 		StringBuffer sb_FAILURES = new StringBuffer();
-		if (!failureEntries.isEmpty()) {
+		if (!metaEntry.failureEntries.isEmpty()) {
 			sb_FAILURES.append(System.lineSeparator());
 
 			int count = 0;
-			for (FailureEntry fe : failureEntries) {
+			for (FailureEntry fe : metaEntry.failureEntries) {
 				String ss = XML_FAILURES;
 				if (fe.exit) {
 					ss = XML_FAILURESEXIT;
 				}
 
+				boolean foundMode = false;
+
 				if (fe.currentMode == FailureEntryMode.ALTITUDE) {
+					foundMode = true;
 					ss = XML_ALTITUDETRIGGER;
 					ss = ss.replace("##ACTION##", XML_FAILUREACTION);
 
@@ -2003,6 +2066,7 @@ public class BushMissionGen {
 					ss = ss.replace("##DESCR_ACTION##",  "AltitudeFailureEntry" + (count + 1));
 					ss = ss.replace("##REF_ID_ACTION##", refId1);
 				} else if (fe.currentMode == FailureEntryMode.SPEED) {
+					foundMode = true;
 					ss = XML_SPEEDTRIGGER;
 					ss = ss.replace("##ACTION##", XML_FAILUREACTION);
 
@@ -2023,6 +2087,7 @@ public class BushMissionGen {
 					ss = ss.replace("##DESCR_ACTION##",  "SpeedFailureEntry" + (count + 1));
 					ss = ss.replace("##REF_ID_ACTION##", refId1);
 				} else if (fe.currentMode == FailureEntryMode.ALTITUDE_AND_SPEED) {
+					foundMode = true;
 					ss = XML_ALTITUDESPEEDTRIGGER;
 					ss = ss.replace("##ACTION##", XML_FAILUREACTION);
 
@@ -2045,6 +2110,7 @@ public class BushMissionGen {
 					ss = ss.replace("##DESCR_ACTION##",  "AltitudeSpeedFailureEntry" + (count + 1));
 					ss = ss.replace("##REF_ID_ACTION##", refId1);
 				} else if (fe.currentMode == FailureEntryMode.FORMULA) {
+					foundMode = true;
 					ss = XML_FORMULATRIGGER;
 					ss = ss.replace("##ACTION##", XML_FAILUREACTION);
 
@@ -2065,6 +2131,7 @@ public class BushMissionGen {
 					ss = ss.replace("##DESCR_ACTION##",  "FormulaFailureEntry" + (count + 1));
 					ss = ss.replace("##REF_ID_ACTION##", refId1);
 				} else if (fe.currentMode == FailureEntryMode.AREA) {
+					foundMode = true;
 					String refId1 = "1B74D4C2-22B3-4405-B1FA-7CEE2AE3D";
 					refId1 += String.format("%03d", count + 1);
 					ss = ss.replace("##REF_ID_FAILURE##", refId1);
@@ -2094,9 +2161,11 @@ public class BushMissionGen {
 					mGeoJSON.appendPolygon(fe.latlon, fe.width, fe.length, fe.heading, "#555555", "#ff0000");
 				}
 
-				sb_FAILURES.append(ss);
-				sb_FAILURES.append(System.lineSeparator());
-				count++;
+				if (foundMode) {
+					sb_FAILURES.append(ss);
+					sb_FAILURES.append(System.lineSeparator());
+					count++;
+				}
 			}
 		}
 
@@ -2108,23 +2177,18 @@ public class BushMissionGen {
 				String ss = XML_INTRODIALOG;
 
 				// Wav subtitles?
-				String wav = is.text;
-				String subtitles = null;
-				if (wav.contains("|")) {
-					String[] split = wav.split("\\|");
-					wav = split[0];
-					subtitles = split[1];
-				}
+				String wav = is.procWave;
+				String text = is.procTextID;
 
 				String textXML = "";
-				if (wav.toUpperCase().endsWith(".WAV")) {
+				if (!wav.isEmpty()) {
 					textXML += "<SoundFileName>" + wav + "</SoundFileName>";
-					if (subtitles != null) {
-						textXML += System.lineSeparator() + "  " + "<Text>" + subtitles + "</Text>";
+					if (text != null) {
+						textXML += System.lineSeparator() + "      " + "<Text>" + text + "</Text>";
 					}
 					mSounds.add(wav);
 				} else {
-					textXML += "<Text>" + is.text + "</Text>";
+					textXML += "<Text>" + text + "</Text>";
 				}
 
 				ss = ss.replace("##INTRODIALOG##", textXML);
@@ -2156,26 +2220,22 @@ public class BushMissionGen {
 			int count1 = 0;
 			int count2 = 0;
 			int count3 = 0;
+			int count4 = 0;
 
 			for (WarningEntry we : metaEntry.warnings) {
 				// Wav subtitles?
-				String wav = we.text;
-				String subtitles = null;
-				if (wav.contains("|")) {
-					String[] split = wav.split("\\|");
-					wav = split[0];
-					subtitles = split[1];
-				}
+				String wav = we.procWave;
+				String text = we.procTextID;
 
 				String textXML = "";
-				if (wav.toUpperCase().endsWith(".WAV")) {
+				if (!wav.isEmpty()) {
 					textXML += "<SoundFileName>" + wav + "</SoundFileName>";
-					if (subtitles != null) {
-						textXML += System.lineSeparator() + "      " + "<Text>" + subtitles + "</Text>";
+					if (text != null) {
+						textXML += System.lineSeparator() + "      " + "<Text>" + text + "</Text>";
 					}
 					mSounds.add(wav);
 				} else {
-					textXML += "<Text>" + we.text + "</Text>";
+					textXML += "<Text>" + text + "</Text>";
 				}
 
 				if (we.currentMode == WarningEntryMode.ALTITUDE) {
@@ -2193,7 +2253,16 @@ public class BushMissionGen {
 					String refId2 = "BB9EF18D-07A0-488B-87C2-6F61417D9";
 					refId2 += String.format("%03d", count1 + 1);
 					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
-					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerAltitude" + (count1 + 1));
+					String triggerName = "PropertyTriggerAltitude" + (count1 + 1);
+					if (we.mName != null) {
+						String find1 = "\"" + we.mName + "_id\"";
+						String find2 = "\\{" + we.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId2 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", we.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : we.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", we.height);
@@ -2219,7 +2288,16 @@ public class BushMissionGen {
 					String refId2 = "EFCE14C2-ADB7-4F15-9240-35E5B9DE8";
 					refId2 += String.format("%03d", count2 + 1);
 					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
-					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerSpeed" + (count2 + 1));
+					String triggerName = "PropertyTriggerSpeed" + (count2 + 1);
+					if (we.mName != null) {
+						String find1 = "\"" + we.mName + "_id\"";
+						String find2 = "\\{" + we.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId2 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##SPEED_TRIGGER##", we.speed);
 					ss = ss.replace("##DESCR_ACTION##",  "DialogSpeed" + (count2 + 1));
@@ -2244,7 +2322,16 @@ public class BushMissionGen {
 					String refId2 = "59E181A7-399D-412E-91DF-6BA1A6987";
 					refId2 += String.format("%03d", count3 + 1);
 					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
-					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerAltitudeSpeed" + (count3 + 1));
+					String triggerName = "PropertyTriggerAltitudeSpeed" + (count3 + 1);
+					if (we.mName != null) {
+						String find1 = "\"" + we.mName + "_id\"";
+						String find2 = "\\{" + we.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId2 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", we.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : we.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", we.height);
@@ -2262,25 +2349,34 @@ public class BushMissionGen {
 					ss = ss.replace("##ACTION##", XML_DIALOGACTION);
 
 					String refId1 = "00EC366E-9A41-444A-9E42-FC2B11C94";
-					refId1 += String.format("%03d", count1 + 1);
+					refId1 += String.format("%03d", count4 + 1);
 					ss = ss.replace("##REF_ID_DIALOG##", refId1);
-					ss = ss.replace("##DESCR_DIALOG##",  "DialogFormula" + (count1 + 1));
+					ss = ss.replace("##DESCR_DIALOG##",  "DialogFormula" + (count4 + 1));
 					ss = ss.replace("##TEXT_DIALOG##", textXML);
 					ss = ss.replace("##DELAY_DIALOG##",  "2.000");
 
 					String refId2 = "A4C03C2A-9860-484B-83A2-943149B24";
-					refId2 += String.format("%03d", count1 + 1);
+					refId2 += String.format("%03d", count4 + 1);
 					ss = ss.replace("##REF_ID_TRIGGER##", refId2);
-					ss = ss.replace("##DESCR_TRIGGER##", "PropertyTriggerFormula" + (count1 + 1));
+					String triggerName = "PropertyTriggerFormula" + (count4 + 1);
+					if (we.mName != null) {
+						String find1 = "\"" + we.mName + "_id\"";
+						String find2 = "\\{" + we.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId2 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##FORMULA_TRIGGER##", we.formula);
-					ss = ss.replace("##DESCR_ACTION##",  "DialogFormula" + (count1 + 1));
+					ss = ss.replace("##DESCR_ACTION##",  "DialogFormula" + (count4 + 1));
 					ss = ss.replace("##REF_ID_ACTION##", refId1);
 
 					sb_WARNINGS.append(System.lineSeparator());
 					sb_WARNINGS.append(System.lineSeparator());
 					sb_WARNINGS.append(ss);
-					count1++;
+					count4++;
 				}
 			}
 		}
@@ -2320,7 +2416,16 @@ public class BushMissionGen {
 
 					// ACTIONS
 					ss = ss.replace("##REF_ID_TRIGGER##", refId1);
-					ss = ss.replace("##DESCR_TRIGGER##", "ProximityTriggerLimit" + count_MISSIONFAILURES);
+					String triggerName = "ProximityTriggerLimit" + count_MISSIONFAILURES;
+					if (mfe.mName != null) {
+						String find1 = "\"" + mfe.mName + "_id\"";
+						String find2 = "\\{" + mfe.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId1 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##LENGTH_AREA##", mfe.length);
 					ss = ss.replace("##WIDTH_AREA##", mfe.width);
 					ss = ss.replace("##HEIGHT_AREA##", mfe.height);
@@ -2371,7 +2476,16 @@ public class BushMissionGen {
 
 					// ACTIONS
 					ss = ss.replace("##REF_ID_TRIGGER##", refId1);
-					ss = ss.replace("##DESCR_TRIGGER##", "AltitudeTriggerLimit" + count_MISSIONFAILURES);
+					String triggerName = "AltitudeTriggerLimit" + count_MISSIONFAILURES;
+					if (mfe.mName != null) {
+						String find1 = "\"" + mfe.mName + "_id\"";
+						String find2 = "\\{" + mfe.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId1 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", mfe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : mfe.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", mfe.value1);
@@ -2416,7 +2530,16 @@ public class BushMissionGen {
 
 					// ACTIONS
 					ss = ss.replace("##REF_ID_TRIGGER##", refId1);
-					ss = ss.replace("##DESCR_TRIGGER##", "SpeedTriggerLimit" + count_MISSIONFAILURES);
+					String triggerName = "SpeedTriggerLimit" + count_MISSIONFAILURES;
+					if (mfe.mName != null) {
+						String find1 = "\"" + mfe.mName + "_id\"";
+						String find2 = "\\{" + mfe.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId1 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##SPEED_TRIGGER##", mfe.value1);
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");
@@ -2460,7 +2583,16 @@ public class BushMissionGen {
 
 					// ACTIONS
 					ss = ss.replace("##REF_ID_TRIGGER##", refId1);
-					ss = ss.replace("##DESCR_TRIGGER##", "AltitudeSpeedTriggerLimit" + count_MISSIONFAILURES);
+					String triggerName = "AltitudeSpeedTriggerLimit" + count_MISSIONFAILURES;
+					if (mfe.mName != null) {
+						String find1 = "\"" + mfe.mName + "_id\"";
+						String find2 = "\\{" + mfe.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId1 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", mfe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : mfe.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", mfe.value1);
@@ -2508,7 +2640,16 @@ public class BushMissionGen {
 
 					// ACTIONS
 					ss = ss.replace("##REF_ID_TRIGGER##", refId1);
-					ss = ss.replace("##DESCR_TRIGGER##", "TimerTriggerLimit" + count_MISSIONFAILURES);
+					String triggerName = "TimerTriggerLimit" + count_MISSIONFAILURES;
+					if (mfe.mName != null) {
+						String find1 = "\"" + mfe.mName + "_id\"";
+						String find2 = "\\{" + mfe.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId1 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DELAY_TRIGGER##", mfe.value1);
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");
 					ss = ss.replace("##REF_ID_ACTION##", refId3);
@@ -2562,7 +2703,16 @@ public class BushMissionGen {
 
 					// ACTIONS
 					ss = ss.replace("##REF_ID_TRIGGER##", refId1);
-					ss = ss.replace("##DESCR_TRIGGER##", "FormulaTriggerLimit" + count_MISSIONFAILURES);
+					String triggerName = "FormulaTriggerLimit" + count_MISSIONFAILURES;
+					if (mfe.mName != null) {
+						String find1 = "\"" + mfe.mName + "_id\"";
+						String find2 = "\\{" + mfe.mName + "_guid\\}";
+						String replace1 = "\"" + triggerName + "\"";
+						String replace2 = "{" + refId1 + "}";
+						text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+						text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					}
+					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##FORMULA_TRIGGER##", mfe.value1);
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");
@@ -2659,7 +2809,7 @@ public class BushMissionGen {
 		XML_FILE = XML_FILE.replace("##GOALS##", sb_GOALS);
 		XML_FILE = XML_FILE.replace("##FINISHEDACTIONS##", sb_FINISHEDACTIONS);
 		XML_FILE = XML_FILE.replace("##INTRODIALOG##", sb_INTRODIALOG);
-		XML_FILE = XML_FILE.replace("##DIALOGS##", sb_DIALOGS);
+		XML_FILE = XML_FILE.replace("##DIALOGS##", text_DIALOGS);
 		XML_FILE = XML_FILE.replace("##FAILURES##", sb_FAILURES);
 		XML_FILE = XML_FILE.replace("##WARNINGS##", sb_WARNINGS);
 		XML_FILE = XML_FILE.replace("##LANDINGACTIONS##", sb_LANDINGACTIONS);
@@ -2860,23 +3010,20 @@ public class BushMissionGen {
 				"ArmedFailureToTime=##FAILURE_TO##" + System.lineSeparator() + System.lineSeparator();
 		int count_FAILURES = 0;
 		StringBuffer sbFAIL = new StringBuffer();
-		Pattern patternArm = Pattern.compile("^[f][a][i][l][u][r][e]([A-Za-z]+)([\\d]+)=([\\d]+)[-]([\\d]+)$");
 
-		for (String failureItem : metaEntry.failures) {
-			Matcher matcherFailure = patternArm.matcher(failureItem);
-			if (matcherFailure.find())
-			{
-				String failureCode = mSimData.systemToFailureCodeMap.get(matcherFailure.group(1));
+		for (FailureEntry fe : metaEntry.failureEntries) {
+			if (fe.currentMode == FailureEntryMode.ARM) {
+				String failureCode = mSimData.systemToFailureCodeMap.get(fe.system);
 
 				if (failureCode != null) {
 					String failure = failureTemplate.replace("##FAILURE_COUNT##", String.valueOf(count_FAILURES++));
 					failure = failure.replace("##FAILURE_ID##", failureCode);
-					failure = failure.replace("##FAILURE_SUBINDEX##", matcherFailure.group(2));
-					failure = failure.replace("##FAILURE_FROM##", matcherFailure.group(3));
-					failure = failure.replace("##FAILURE_TO##", matcherFailure.group(4));
+					failure = failure.replace("##FAILURE_SUBINDEX##", fe.systemIndex);
+					failure = failure.replace("##FAILURE_FROM##", fe.timeFrom);
+					failure = failure.replace("##FAILURE_TO##", fe.timeTo);
 					sbFAIL.append(failure);
 				} else {
-					return new ErrorMessage("Could not find failing system: " + matcherFailure.group(1));
+					return new ErrorMessage("Could not find failing system: " + fe.system);
 				}
 			}
 		}
@@ -3171,6 +3318,149 @@ public class BushMissionGen {
 				me.subLegTextID = "TT:" + metaEntry.project + ".Mission." + String.valueOf(count++);
 				ss += "," + System.lineSeparator();
 				stringsBuffer.append(ss);
+			}
+		}
+
+		// Intro Speeches
+		for (DelayedText dt : metaEntry.introSpeeches) {
+			if (!dt.text.isEmpty()) {
+				ss = LOC_STRING;
+				sl = LOC_LANGUAGE;
+				ss = ss.replace("##STRING_COUNT##", String.valueOf(count));
+				ss = ss.replace("##STRING_COUNT_3PADDED##", String.format("%03d", count));
+				sl = sl.replace("##LANGUAGE##", "en-US");
+
+				// Wav subtitles?
+				String wav = dt.text;
+				String subtitles = null;
+				if (wav.contains("|")) {
+					String[] split = wav.split("\\|");
+					wav = split[0];
+					subtitles = split[1];
+				}
+
+				if (wav.toUpperCase().endsWith(".WAV")) {
+					dt.procWave = wav;
+					if (subtitles != null) {
+						dt.procText = subtitles;
+					}
+				} else {
+					dt.procText = dt.text;
+				}
+
+				dt.procTextID = "TT:" + metaEntry.project + ".Mission." + String.valueOf(count++);
+				sl = sl.replace("##STRING##", dt.procText);
+				ss = ss.replace("##LANGUAGES##", sl);
+				ss += "," + System.lineSeparator();
+				stringsBuffer.append(ss);
+			}
+		}
+
+		// Dialog Entries
+		for (DialogEntry de : metaEntry.dialogEntries) {
+			if (!de.text.isEmpty()) {
+				ss = LOC_STRING;
+				sl = LOC_LANGUAGE;
+				ss = ss.replace("##STRING_COUNT##", String.valueOf(count));
+				ss = ss.replace("##STRING_COUNT_3PADDED##", String.format("%03d", count));
+				sl = sl.replace("##LANGUAGE##", "en-US");
+
+				// Wav subtitles?
+				String wav = de.text;
+				String subtitles = null;
+				if (wav.contains("|")) {
+					String[] split = wav.split("\\|");
+					wav = split[0];
+					subtitles = split[1];
+				}
+
+				if (wav.toUpperCase().endsWith(".WAV")) {
+					de.procWave = wav;
+					if (subtitles != null) {
+						de.procText = subtitles;
+					}
+				} else {
+					de.procText = de.text;
+				}
+
+				de.procTextID = "TT:" + metaEntry.project + ".Mission." + String.valueOf(count++);
+				sl = sl.replace("##STRING##", de.procText);
+				ss = ss.replace("##LANGUAGES##", sl);
+				ss += "," + System.lineSeparator();
+				stringsBuffer.append(ss);
+			}
+		}
+
+		// Warning Entries
+		for (WarningEntry we : metaEntry.warnings) {
+			if (!we.text.isEmpty()) {
+				ss = LOC_STRING;
+				sl = LOC_LANGUAGE;
+				ss = ss.replace("##STRING_COUNT##", String.valueOf(count));
+				ss = ss.replace("##STRING_COUNT_3PADDED##", String.format("%03d", count));
+				sl = sl.replace("##LANGUAGE##", "en-US");
+
+				// Wav subtitles?
+				String wav = we.text;
+				String subtitles = null;
+				if (wav.contains("|")) {
+					String[] split = wav.split("\\|");
+					wav = split[0];
+					subtitles = split[1];
+				}
+
+				if (wav.toUpperCase().endsWith(".WAV")) {
+					we.procWave = wav;
+					if (subtitles != null) {
+						we.procText = subtitles;
+					}
+				} else {
+					we.procText = we.text;
+				}
+
+				we.procTextID = "TT:" + metaEntry.project + ".Mission." + String.valueOf(count++);
+				sl = sl.replace("##STRING##", we.procText);
+				ss = ss.replace("##LANGUAGES##", sl);
+				ss += "," + System.lineSeparator();
+				stringsBuffer.append(ss);
+			}
+		}
+
+		// Finished Entries
+		for (String feKey : metaEntry.finishedEntries.keySet()) {
+			List<DelayedText> feList = metaEntry.finishedEntries.get(feKey);
+			for (DelayedText fe : feList) {
+				if (!fe.text.isEmpty()) {
+					ss = LOC_STRING;
+					sl = LOC_LANGUAGE;
+					ss = ss.replace("##STRING_COUNT##", String.valueOf(count));
+					ss = ss.replace("##STRING_COUNT_3PADDED##", String.format("%03d", count));
+					sl = sl.replace("##LANGUAGE##", "en-US");
+
+					// Wav subtitles?
+					String wav = fe.text;
+					String subtitles = null;
+					if (wav.contains("|")) {
+						String[] split = wav.split("\\|");
+						wav = split[0];
+						subtitles = split[1];
+					}
+
+					if (wav.toUpperCase().endsWith(".WAV")) {
+						fe.procWave = wav;
+						if (subtitles != null) {
+							fe.procText = subtitles;
+						}
+					} else {
+						fe.procText = fe.text;
+					}
+
+					fe.procTextID = "TT:" + metaEntry.project + ".Mission." + String.valueOf(count++);
+					sl = sl.replace("##STRING##", fe.procText);
+					ss = ss.replace("##LANGUAGES##", sl);
+					ss += "," + System.lineSeparator();
+					stringsBuffer.append(ss);
+				}
 			}
 		}
 

@@ -7,6 +7,7 @@ import bushmissiongen.messages.ErrorMessage;
 import bushmissiongen.messages.Message;
 
 public class MissionFailureEntry {
+	public String mName;
 	private String mField;
 	private String mString;
 
@@ -34,7 +35,8 @@ public class MissionFailureEntry {
 		FORMULA
 	};
 
-	public MissionFailureEntry(String field, String string) {
+	public MissionFailureEntry(String name, String field, String string) {
+		mName = name;
 		mField = field;
 		mString = string;
 	}

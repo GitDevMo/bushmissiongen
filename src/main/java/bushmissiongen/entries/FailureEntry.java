@@ -20,6 +20,8 @@ public class FailureEntry {
 	public String height = "";
 	public String speed = "";
 	public String agl = "";
+	public String timeFrom = "";
+	public String timeTo = "";
 
 	public String system = "";
 	public String systemIndex = "0";
@@ -33,7 +35,8 @@ public class FailureEntry {
 		ALTITUDE,
 		SPEED,
 		ALTITUDE_AND_SPEED,
-		FORMULA
+		FORMULA,
+		ARM
 	};
 
 	public FailureEntry(String field, String string, String systemName, String index, boolean exitValue, FailureEntryMode mode) {
@@ -49,13 +52,17 @@ public class FailureEntry {
 		String[] split = mString.split("#");
 
 		// Text validation
-		if (split.length < 2 || split[0].trim().length()==0 || split[1].trim().length()==0) {
+		if (currentMode != FailureEntryMode.ARM && (split.length < 2 || split[0].trim().length()==0 || split[1].trim().length()==0)) {
 			return new ErrorMessage("Wrong format for failureEntry:\n\n" + mField + "=" + mString);
 		}
 
 		health = split[0];
 
-		if (currentMode == FailureEntryMode.AREA) {
+		if (currentMode == FailureEntryMode.ARM) {
+			String[] timeSplit = mString.split("-");
+			timeFrom = timeSplit[0];
+			timeTo = timeSplit[1];
+		} else if (currentMode == FailureEntryMode.AREA) {
 			latlon = split[1];
 		} else if (currentMode == FailureEntryMode.ALTITUDE_AND_SPEED) {
 			if (split.length < 3 || split[2].trim().length()==0) {

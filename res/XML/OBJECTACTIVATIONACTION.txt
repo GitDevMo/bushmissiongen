@@ -1,0 +1,6 @@
+    <SimMission.ObjectActivationAction InstanceId="{##REF_ID_ACTION##}">
+        <Descr>##DESCR_ACTION##</Descr>
+        <NewObjectState>##STATE_ACTION##</NewObjectState>
+        <ObjectReferenceList>##LIST_TRIGGERS##
+        </ObjectReferenceList>
+    </SimMission.ObjectActivationAction>

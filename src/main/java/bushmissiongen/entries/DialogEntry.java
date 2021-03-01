@@ -7,6 +7,7 @@ import bushmissiongen.messages.ErrorMessage;
 import bushmissiongen.messages.Message;
 
 public class DialogEntry {
+	public String mName;
 	private String mField;
 	private String mString;
 
@@ -25,10 +26,15 @@ public class DialogEntry {
 
 	public boolean exit = false;
 
+	public String procWave = "";
+	public String procText = "";
+	public String procTextID = "";
+
 	public DialogEntry() {
 	}
 
-	public DialogEntry(String field, String string) {
+	public DialogEntry(String name, String field, String string) {
+		mName = name;
 		mField = field;
 		mString = string;
 	}

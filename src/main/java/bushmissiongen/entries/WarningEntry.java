@@ -7,6 +7,7 @@ import bushmissiongen.messages.ErrorMessage;
 import bushmissiongen.messages.Message;
 
 public class WarningEntry {
+	public String mName;
 	private String mField;
 	private String mString;
 
@@ -15,6 +16,10 @@ public class WarningEntry {
 	public String speed = "";
 	public String formula = "";
 	public String agl = "";
+
+	public String procWave = "";
+	public String procText = "";
+	public String procTextID = "";
 
 	public WarningEntryMode currentMode = null;
 
@@ -25,7 +30,8 @@ public class WarningEntry {
 		FORMULA
 	};
 
-	public WarningEntry(String field, String string, WarningEntryMode mode) {
+	public WarningEntry(String name, String field, String string, WarningEntryMode mode) {
+		mName = name;
 		mField = field;
 		mString = string;
 		currentMode = mode;
