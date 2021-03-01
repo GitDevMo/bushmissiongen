@@ -1978,7 +1978,10 @@ public class BushMissionGen {
 				String refId4 = "F58B3153-54C7-455B-A195-ABF779019";
 				refId4 += String.format("%03d", count + 1);
 				ss = ss.replace("##REF_ID_TRIGGER##", refId4);
-				ss = ss.replace("##DESCR_TRIGGER##", "ProximityTriggerEntry" + (count + 1));
+				String triggerName = "ProximityTriggerEntry" + (count + 1);
+				de.triggerId = triggerName;
+				de.triggerGUID = refId4;
+				ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 				ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 				String refId5 = "9204A2ED-3C98-44C3-B7F3-2A4266485";
@@ -2029,6 +2032,20 @@ public class BushMissionGen {
 
 		// To be able to manipulate the dialog data
 		String text_DIALOGS = sb_DIALOGS.toString();
+
+		// DialogEntry triggers
+		if (!metaEntry.dialogEntries.isEmpty()) {
+			for (DialogEntry de : metaEntry.dialogEntries) {
+				if (de.mName != null) {
+					String find1 = "\"" + de.mName + "_id\"";
+					String find2 = "\\{" + de.mName + "_guid\\}";
+					String replace1 = "\"" + de.triggerId + "\"";
+					String replace2 = "{" + de.triggerGUID + "}";
+					text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+					text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+				}
+			}
+		}
 
 		StringBuffer sb_FAILURES = new StringBuffer();
 		if (!metaEntry.failureEntries.isEmpty()) {

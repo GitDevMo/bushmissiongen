@@ -30,6 +30,9 @@ public class DialogEntry {
 	public String procText = "";
 	public String procTextID = "";
 
+	public String triggerId = "";
+	public String triggerGUID = "";
+
 	public DialogEntry() {
 	}
 
