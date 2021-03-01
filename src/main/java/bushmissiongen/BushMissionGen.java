@@ -1967,13 +1967,13 @@ public class BushMissionGen {
 				String refId2 = "BFE13B95-3296-4983-A6A5-7723C0E6D";
 				refId2 += String.format("%03d", count + 1);
 				ss = ss.replace("##REF_ID_TIMERTRIGGER##", refId2);
-				ss = ss.replace("##DESCR_TIMERTRIGGER##", "TimerTriggerEntry" + (count + 0));
+				ss = ss.replace("##DESCR_TIMERTRIGGER##", "TimerTriggerEntry" + (count + 1));
 				ss = ss.replace("##DELAY_TIMERTRIGGER##", de.delay);
 
 				String refId3 = "B3E12438-DC99-4362-A595-8D894D373";
 				refId3 += String.format("%03d", count + 1);
 				ss = ss.replace("##REF_ID_ACTIVATION##", refId3);
-				ss = ss.replace("##DESCR_ACTIVATION##", "ActivationEntry" + (count + 0));
+				ss = ss.replace("##DESCR_ACTIVATION##", "ActivationEntry" + (count + 1));
 
 				String refId4 = "F58B3153-54C7-455B-A195-ABF779019";
 				refId4 += String.format("%03d", count + 1);
