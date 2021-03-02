@@ -22,7 +22,7 @@
       <DefaultActivated>True</DefaultActivated>
       <OneShot>##ONESHOT_TRIGGER##</OneShot>
       <OnEnterActions>
-        <ObjectReference id="##DESCR_ACTIVATION##" InstanceId="{##REF_ID_ACTIVATION##}"/>##TOGGLE_ACTIONS##
+        <ObjectReference id="##DESCR_ACTIVATION##" InstanceId="{##REF_ID_ACTIVATION##}"/>##TOGGLE_ACTIONS####TOGGLE_COUNT_ACTIONS##
       </OnEnterActions>
       <Areas>
         <ObjectReference id="##DESCR_AREA##" InstanceId="{##REF_ID_AREA##}"/>

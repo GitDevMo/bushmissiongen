@@ -124,7 +124,10 @@ public class MetaEntry extends GenericEntry {
 	public List<FailureEntry> failureEntries = new ArrayList<>();
 	public List<MissionFailureEntry> missionFailures = new ArrayList<>();
 	public Map<String, List<DelayedText>> finishedEntries = new HashMap<>();
+
 	public Map<String, ToggleTrigger> toggleTriggers = new HashMap<>();
+	public Map<String, ToggleTrigger> counterToggleTriggers = new HashMap<>();
+	public Map<String, List<String>> counterToggleTriggersCompanion = new HashMap<>();
 
 	private String getFormattedLocationInDegreeLat(double latitude) {
 		try {

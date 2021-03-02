@@ -1,0 +1,5 @@
+	<SimMission.CountAction InstanceId="{##REF_ID_ACTION##}">
+	    <Descr>##DESCR_ACTION##</Descr>
+	    <Triggers>##LIST_TRIGGERS##
+	    </Triggers>
+	</SimMission.CountAction>

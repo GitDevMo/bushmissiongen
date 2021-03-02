@@ -104,6 +104,8 @@ public class BushMissionGen {
 	private static String XML_ALTITUDESPEEDTRIGGER;
 	private static String XML_ALTITUDETRIGGER;
 	private static String XML_CALC;
+	private static String XML_COUNTACTION;
+	private static String XML_COUNTERTRIGGER;
 	private static String XML_DIALOGACTION;
 	private static String XML_DIALOGS;
 	private static String XML_DIALOGSEXIT;
@@ -405,20 +407,34 @@ public class BushMissionGen {
 						}
 						metaEntry.dialogEntries.add(de);						
 					}
-					if (metaField.equalsIgnoreCase("activateTriggers")) {
+					if (metaField.equalsIgnoreCase("activateTriggers") || metaField.equalsIgnoreCase("deactivateTriggers")) {
 						String[] splitTR = metaString.split("#");
 						if (splitTR!= null && splitTR.length==2) {
-							metaEntry.toggleTriggers.put(splitTR[0].trim(), new ToggleTrigger(true, splitTR[1].trim().split(",")));
+							boolean activate = metaField.equalsIgnoreCase("activateTriggers");
+							metaEntry.toggleTriggers.put(splitTR[0].trim(), new ToggleTrigger(activate, splitTR[1].trim().split(",")));
 						} else {
-							return new ErrorMessage("Wrong format for activateTriggers:\n\n" + line);
+							return new ErrorMessage("Wrong format for " + metaField + ":\n\n" + line);
 						}
 					}
-					if (metaField.equalsIgnoreCase("deactivateTriggers")) {
+					if (metaField.equalsIgnoreCase("counterActivateTriggers") || metaField.equalsIgnoreCase("counterDeactivateTriggers")) {
 						String[] splitTR = metaString.split("#");
 						if (splitTR!= null && splitTR.length==2) {
-							metaEntry.toggleTriggers.put(splitTR[0].trim(), new ToggleTrigger(false, splitTR[1].trim().split(",")));
+							boolean activate = metaField.equalsIgnoreCase("counterActivateTriggers");
+							metaEntry.counterToggleTriggers.put(splitTR[0].trim(), new ToggleTrigger(activate, splitTR[1].trim().split(",")));
+
+							String[] split1 = splitTR[0].split(",");
+							for (String s : split1) {
+								s = s.trim();
+
+								if (!metaEntry.counterToggleTriggersCompanion.containsKey(s)) {
+									metaEntry.counterToggleTriggersCompanion.put(s, new ArrayList<>());
+								}
+								List<String> compList = metaEntry.counterToggleTriggersCompanion.get(s);
+								compList.add(splitTR[0]);
+								metaEntry.counterToggleTriggersCompanion.put(s, compList);
+							}
 						} else {
-							return new ErrorMessage("Wrong format for deactivateTriggers:\n\n" + line);
+							return new ErrorMessage("Wrong format for " + metaField + ":\n\n" + line);
 						}
 					}
 					if (metaField.equalsIgnoreCase("simFile")) {metaEntry.simFile = metaString.trim();}
@@ -1319,6 +1335,8 @@ public class BushMissionGen {
 		XML_ALTITUDESPEEDTRIGGER = mFileHandling.readUrlToString("XML/ALTITUDESPEEDTRIGGER.txt", Charset.forName("windows-1252"));
 		XML_ALTITUDETRIGGER = mFileHandling.readUrlToString("XML/ALTITUDETRIGGER.txt", Charset.forName("windows-1252"));
 		XML_CALC = mFileHandling.readUrlToString("XML/CALC.txt", Charset.forName("windows-1252"));
+		XML_COUNTACTION = mFileHandling.readUrlToString("XML/COUNTACTION.txt", Charset.forName("windows-1252"));
+		XML_COUNTERTRIGGER = mFileHandling.readUrlToString("XML/COUNTERTRIGGER.txt", Charset.forName("windows-1252"));
 		XML_DIALOGACTION = mFileHandling.readUrlToString("XML/DIALOGACTION.txt", Charset.forName("windows-1252"));
 		XML_DIALOGS = mFileHandling.readUrlToString("XML/DIALOGS.txt", Charset.forName("windows-1252"));
 		XML_DIALOGSEXIT = mFileHandling.readUrlToString("XML/DIALOGSEXIT.txt", Charset.forName("windows-1252"));
@@ -1843,6 +1861,7 @@ public class BushMissionGen {
 					ss = ss.replace("##USE_AGL##", de.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : de.agl);
 					ss = ss.replace("##TOGGLE_ACTIONS##", "");
 					ss = ss.replace("##TOGGLE_TRIGGERS##", "");
+					ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", "");
 
 					// JSON
 					mGeoJSON.appendPolygon(me.latlon, boxSideSize, boxSideSize, de.heading, "#555555", "#007700");
@@ -1923,6 +1942,7 @@ public class BushMissionGen {
 					ss = ss.replace("##USE_AGL##", de.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : de.agl);
 					ss = ss.replace("##TOGGLE_ACTIONS##", "");
 					ss = ss.replace("##TOGGLE_TRIGGERS##", "");
+					ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", "");
 
 					sb_DIALOGS.append(ss);
 					sb_DIALOGS.append(System.lineSeparator());
@@ -2019,6 +2039,18 @@ public class BushMissionGen {
 				} else {
 					ss = ss.replace("##TOGGLE_ACTIONS##", "");
 					ss = ss.replace("##TOGGLE_TRIGGERS##", "");
+				}
+
+				if (de.mName != null && metaEntry.counterToggleTriggersCompanion.containsKey(de.mName)) {
+					List<String> toggleList = metaEntry.counterToggleTriggersCompanion.get(de.mName);
+					StringBuffer toggleTriggers = new StringBuffer();
+					for (String tl : toggleList) {
+						String sr = "        <ObjectReference id=\"" + tl + "_cid\" InstanceId=\"{" + tl + "_cguid}\"/>";
+						toggleTriggers.append(System.lineSeparator()).append(sr);
+					}
+					ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", System.lineSeparator() + toggleTriggers);
+				} else {
+					ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", "");
 				}
 
 				// JSON
@@ -2390,6 +2422,18 @@ public class BushMissionGen {
 						ss = ss.replace("##TOGGLE_TRIGGERS##", "");
 					}
 
+					if (we.mName != null && metaEntry.counterToggleTriggersCompanion.containsKey(we.mName)) {
+						List<String> toggleList = metaEntry.counterToggleTriggersCompanion.get(we.mName);
+						StringBuffer toggleTriggers = new StringBuffer();
+						for (String tl : toggleList) {
+							String sr = "        <ObjectReference id=\"" + tl + "_cid\" InstanceId=\"{" + tl + "_cguid}\"/>";
+							toggleTriggers.append(System.lineSeparator()).append(sr);
+						}
+						ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", System.lineSeparator() + toggleTriggers);
+					} else {
+						ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", "");
+					}
+
 					sb_WARNINGS.append(System.lineSeparator());
 					sb_WARNINGS.append(System.lineSeparator());
 					sb_WARNINGS.append(ss);
@@ -2447,6 +2491,9 @@ public class BushMissionGen {
 					ss = ss.replace("##DESCR_AREA##",  "RectangleAreaLimit" + count_MISSIONFAILURES);
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");
 					ss = ss.replace("##REF_ID_ACTION##", refId3);
+					ss = ss.replace("##TOGGLE_ACTIONS##", "");
+					ss = ss.replace("##TOGGLE_TRIGGERS##", "");
+					ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", "");
 					sb_ACTIONS.append(System.lineSeparator());
 					sb_ACTIONS.append(ss);
 
@@ -2495,6 +2542,9 @@ public class BushMissionGen {
 					ss = ss.replace("##HEIGHT_TRIGGER##", mfe.value1);
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");
 					ss = ss.replace("##REF_ID_ACTION##", refId3);
+					ss = ss.replace("##TOGGLE_ACTIONS##", "");
+					ss = ss.replace("##TOGGLE_TRIGGERS##", "");
+					ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", "");
 					sb_ACTIONS.append(System.lineSeparator());
 					sb_ACTIONS.append(ss);
 
@@ -2542,6 +2592,9 @@ public class BushMissionGen {
 					ss = ss.replace("##SPEED_TRIGGER##", mfe.value1);
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");
 					ss = ss.replace("##REF_ID_ACTION##", refId3);
+					ss = ss.replace("##TOGGLE_ACTIONS##", "");
+					ss = ss.replace("##TOGGLE_TRIGGERS##", "");
+					ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", "");
 					sb_ACTIONS.append(System.lineSeparator());
 					sb_ACTIONS.append(ss);
 
@@ -2591,6 +2644,9 @@ public class BushMissionGen {
 					ss = ss.replace("##SPEED_TRIGGER##", mfe.value2);
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");
 					ss = ss.replace("##REF_ID_ACTION##", refId3);
+					ss = ss.replace("##TOGGLE_ACTIONS##", "");
+					ss = ss.replace("##TOGGLE_TRIGGERS##", "");
+					ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", "");
 					sb_ACTIONS.append(System.lineSeparator());
 					sb_ACTIONS.append(ss);
 
@@ -2640,6 +2696,9 @@ public class BushMissionGen {
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");
 					ss = ss.replace("##REF_ID_ACTION##", refId3);
 					ss = ss.replace("##ONSCREEN_TRIGGER##", "True");
+					ss = ss.replace("##TOGGLE_ACTIONS##", "");
+					ss = ss.replace("##TOGGLE_TRIGGERS##", "");
+					ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", "");
 					sb_ACTIONS.append(System.lineSeparator());
 					sb_ACTIONS.append(ss);
 
@@ -2697,6 +2756,9 @@ public class BushMissionGen {
 					ss = ss.replace("##FORMULA_TRIGGER##", mfe.value1);
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");
 					ss = ss.replace("##REF_ID_ACTION##", refId3);
+					ss = ss.replace("##TOGGLE_ACTIONS##", "");
+					ss = ss.replace("##TOGGLE_TRIGGERS##", "");
+					ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", "");
 					sb_ACTIONS.append(System.lineSeparator());
 					sb_ACTIONS.append(ss);
 
@@ -2727,6 +2789,63 @@ public class BushMissionGen {
 			}
 		}
 
+		// Count triggers
+		StringBuffer sb_COUNTERS = new StringBuffer();
+		if (!metaEntry.counterToggleTriggers.isEmpty()) {
+			sb_COUNTERS.append(System.lineSeparator());
+
+			String ca = XML_COUNTACTION;
+			String ct = XML_COUNTERTRIGGER;
+			int count = 0;
+
+			for (String key : metaEntry.counterToggleTriggers.keySet()) {
+				ToggleTrigger tt = metaEntry.counterToggleTriggers.get(key);
+				int toggleCount = key.split(",").length;
+
+				String refId1 = "ED1B10BC-DAB4-4D39-960F-E70B6F06D";
+				refId1 += String.format("%03d", count + 1);
+				String refId2 = "0D9F1CC9-E671-4142-A867-57498CD9C";
+				refId2 += String.format("%03d", count + 1);
+				String refId3 = "A88D41F8-D419-4323-A1AE-D9267F409";
+				refId3 += String.format("%03d", count + 1);
+
+				ca = ca.replace("##REF_ID_ACTION##", refId1);
+				ca = ca.replace("##DESCR_ACTION##", "CounterAction" + (count + 1));
+				ca = ca.replace("##LIST_TRIGGERS##", System.lineSeparator() + "			<ObjectReference id=\"" +  "CounterTrigger" + (count + 1) + "\" InstanceId=\"{" + refId2 + "}\" />");
+
+				ct = ct.replace("##REF_ID_TRIGGER##", refId2);
+				ct = ct.replace("##DESCR_TRIGGER##", "CounterTrigger" + (count + 1));
+				ct = ct.replace("##ACTIVATED_TRIGGER##", "false");
+				ct = ct.replace("##STOPCOUNT_TRIGGER##", String.valueOf(toggleCount));
+				ct = ct.replace("##LIST_ACTIONS##", System.lineSeparator() + "			<ObjectReference id=\"" +  "CounterToggleAction" + (count + 1) + "\" InstanceId=\"{" + refId3 + "}\" />");
+
+				StringBuffer toggleTriggers = new StringBuffer();
+				for (String tl : tt.mTriggerList) {
+					String sr = "            <ObjectReference id=\"" + tl + "_ccid\" InstanceId=\"{" + tl + "_ccguid}\"/>";
+					toggleTriggers.append(System.lineSeparator()).append(sr);
+				}
+
+				String so = XML_OBJECTACTIVATIONACTION;
+				so = so.replace("##REF_ID_ACTION##", refId3);
+				so = so.replace("##DESCR_ACTION##", "CounterToggleAction" + (count + 1));
+				so = so.replace("##STATE_ACTION##", String.valueOf(tt.mActivate));
+				so = so.replace("##LIST_TRIGGERS##", toggleTriggers);
+
+				sb_COUNTERS.append(System.lineSeparator());
+				sb_COUNTERS.append(ca);
+				sb_COUNTERS.append(System.lineSeparator());
+				sb_COUNTERS.append(ct);
+				sb_COUNTERS.append(System.lineSeparator());
+				sb_COUNTERS.append(so);
+				sb_COUNTERS.append(System.lineSeparator());
+
+				count++;
+			}
+		}
+
+		// To be able to manipulate the dialog data
+		String text_COUNTERS = sb_COUNTERS.toString();
+
 		// To be able to manipulate the dialog data
 		String text_DIALOGS = sb_DIALOGS.toString();
 
@@ -2756,6 +2875,14 @@ public class BushMissionGen {
 					text_ACTIONS = text_ACTIONS.replaceAll(find1, replace1);
 					text_ACTIONS = text_ACTIONS.replaceAll(find2, replace2);
 				}
+				if (de.mName != null) {
+					String find1 = "\"" + de.mName + "_ccid\"";
+					String find2 = "\\{" + de.mName + "_ccguid\\}";
+					String replace1 = "\"" + de.triggerId + "\"";
+					String replace2 = "{" + de.triggerGUID + "}";
+					text_COUNTERS = text_COUNTERS.replaceAll(find1, replace1);
+					text_COUNTERS = text_COUNTERS.replaceAll(find2, replace2);
+				}
 			}
 		}
 
@@ -2775,6 +2902,14 @@ public class BushMissionGen {
 					text_WARNINGS = text_WARNINGS.replaceAll(find2, replace2);
 					text_ACTIONS = text_ACTIONS.replaceAll(find1, replace1);
 					text_ACTIONS = text_ACTIONS.replaceAll(find2, replace2);
+				}
+				if (fe.mName != null) {
+					String find1 = "\"" + fe.mName + "_ccid\"";
+					String find2 = "\\{" + fe.mName + "_ccguid\\}";
+					String replace1 = "\"" + fe.triggerId + "\"";
+					String replace2 = "{" + fe.triggerGUID + "}";
+					text_COUNTERS = text_COUNTERS.replaceAll(find1, replace1);
+					text_COUNTERS = text_COUNTERS.replaceAll(find2, replace2);
 				}
 			}
 		}
@@ -2796,6 +2931,14 @@ public class BushMissionGen {
 					text_ACTIONS = text_ACTIONS.replaceAll(find1, replace1);
 					text_ACTIONS = text_ACTIONS.replaceAll(find2, replace2);
 				}
+				if (we.mName != null) {
+					String find1 = "\"" + we.mName + "_ccid\"";
+					String find2 = "\\{" + we.mName + "_ccguid\\}";
+					String replace1 = "\"" + we.triggerId + "\"";
+					String replace2 = "{" + we.triggerGUID + "}";
+					text_COUNTERS = text_COUNTERS.replaceAll(find1, replace1);
+					text_COUNTERS = text_COUNTERS.replaceAll(find2, replace2);
+				}
 			}
 		}
 
@@ -2816,6 +2959,38 @@ public class BushMissionGen {
 					text_ACTIONS = text_ACTIONS.replaceAll(find1, replace1);
 					text_ACTIONS = text_ACTIONS.replaceAll(find2, replace2);
 				}
+				if (mfe.mName != null) {
+					String find1 = "\"" + mfe.mName + "_ccid\"";
+					String find2 = "\\{" + mfe.mName + "_ccguid\\}";
+					String replace1 = "\"" + mfe.triggerId + "\"";
+					String replace2 = "{" + mfe.triggerGUID + "}";
+					text_COUNTERS = text_COUNTERS.replaceAll(find1, replace1);
+					text_COUNTERS = text_COUNTERS.replaceAll(find2, replace2);
+				}
+			}
+		}
+
+		if (!metaEntry.counterToggleTriggers.isEmpty()) {
+			int count = 0;
+
+			for (String key : metaEntry.counterToggleTriggers.keySet()) {
+				String refId1 = "ED1B10BC-DAB4-4D39-960F-E70B6F06D";
+				refId1 += String.format("%03d", count + 1);
+
+				String find1 = "\"" + key + "_cid\"";
+				String find2 = "\\{" + key + "_cguid\\}";
+				String replace1 = "\"" + "CounterAction" + (count + 1) + "\"";
+				String replace2 = "{" + refId1 + "}";
+				text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+				text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+				text_FAILURES = text_FAILURES.replaceAll(find1, replace1);
+				text_FAILURES = text_FAILURES.replaceAll(find2, replace2);
+				text_WARNINGS = text_WARNINGS.replaceAll(find1, replace1);
+				text_WARNINGS = text_WARNINGS.replaceAll(find2, replace2);
+				text_ACTIONS = text_ACTIONS.replaceAll(find1, replace1);
+				text_ACTIONS = text_ACTIONS.replaceAll(find2, replace2);
+
+				count++;
 			}
 		}
 
@@ -2885,6 +3060,7 @@ public class BushMissionGen {
 		XML_FILE = XML_FILE.replace("##FAILURES##", text_FAILURES);
 		XML_FILE = XML_FILE.replace("##WARNINGS##", text_WARNINGS);
 		XML_FILE = XML_FILE.replace("##LANDINGACTIONS##", sb_LANDINGACTIONS);
+		XML_FILE = XML_FILE.replace("##COUNTERS##", text_COUNTERS);
 		XML_FILE = XML_FILE.replace("##DISABLE_STUFF##", sb_DISABLE_STUFF);
 		XML_FILE = XML_FILE.replace("##SHOW_STUFF##", sb_SHOW_STUFF);
 		XML_FILE = XML_FILE.replace("##CALCULATOR_STUFF##", sb_CALCULATOR_STUFF);

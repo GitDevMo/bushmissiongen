@@ -17,7 +17,7 @@
       <OnFinishedActions>##FINISHEDACTIONS##
         <WorldBase.ObjectReference id="End Of Mission" InstanceId="{1AA91671-30AD-4A5C-8DEF-7D80C558EBDC}" />
       </OnFinishedActions>
-    </SimMission.MissionBushTrip>##FAILURES####DIALOGS####LANDINGACTIONS##
+    </SimMission.MissionBushTrip>##FAILURES####DIALOGS####LANDINGACTIONS####COUNTERS##
 ##CALCS##
     <SimMission.Goal InstanceId="{37569C05-B09F-493B-A2C3-2BF1A8215E2E}">
       <Descr>End of mission</Descr>

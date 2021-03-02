@@ -4,7 +4,7 @@
       <DefaultActivated>True</DefaultActivated>
 	  <OneShot>##ONESHOT_TRIGGER##</OneShot>
       <Actions>
-        <ObjectReference id="##DESCR_ACTION##" InstanceId="{##REF_ID_ACTION##}"/>
+        <ObjectReference id="##DESCR_ACTION##" InstanceId="{##REF_ID_ACTION##}"/>##TOGGLE_ACTIONS####TOGGLE_COUNT_ACTIONS##
       </Actions>
       <ReversePolishCondition>##FORMULA_TRIGGER##</ReversePolishCondition>
     </SimMission.PropertyTrigger>

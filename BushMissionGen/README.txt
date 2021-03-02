@@ -167,15 +167,22 @@ missionFailureSpeed=110.000
 missionFailureAltitudeAndSpeed=7000.000#90.000
 missionFailureTime=600.000        <------ Sets this time limit for each leg in the mission.
 missionFailureFormula=(A:AUTOPILOT MASTER, Bool) 0 &gt;#Autopilot is not allowed in this mission!     <----- Reverse polish notation formula!
-activateTriggers=de1#mfa1,aw1,aw2     <------ Activates a list of triggers (dialogs, failures, mission failures and warnings) when a dialog or warning is triggered. See Variables below!
-deactivateTriggers=de2#mfa1,aw1,aw2   <------ Deactivates a list of triggers (dialogs, failures, mission failures and warnings) when a dialog or warning is triggered. See Variables below!
+activateTriggers=de1#mfa1,aw1,aw2     <------ Activates a list of triggers (dialogs, failures, mission failures and warnings) when a dialog or warning is triggered. See References below!
+deactivateTriggers=de2#mfa1,aw1,aw2   <------ Deactivates a list of triggers (dialogs, failures, mission failures and warnings) when a dialog or warning is triggered. See References below!
+counterActivateTriggers=de1,de2,aw1#mfarea1,mfa1    <------ Activates a list of triggers when all of the dialogs and warnings have been triggered in a list.
+counterDeactivateTriggers=de3,de4#mfarea2           <------ Deactivates a list of triggers when all of the dialogs and warnings have been triggered in a list.
 
-Example: Usage of variables (variable name::field name=field value)
+Example: Usage of references (reference name::field name=field value)
 aw1::altitudeWarning=No higher mate. I am afraid of heights.#5000.000AGL
 mfa1::missionFailureAltitude=6000.000AGL
 de1::dialogEntry=Ok, somehow my fear of heights has disappeared. Fly as you want!#N29° 57' 7.59",E81° 55' 35.34"#0.000#500.000#15000.000#10000.000#0.000
 de2::dialogEntry=Fly like a bird in the sky!#29°57'20.7"N 81°49'34.3"E#0.000#5000.000#5000.000#5000.000#0.000
 deactivateTriggers=de1#mfa1,aw1,de2
+
+Example 2:
+de1::dialogEntry=Now you are free to land! I promise I won´t shoot.#N29° 57' 7.59",E81° 55' 35.34"#0.000#500.000#15000.000#10000.000#0.000
+mfarea1::missionFailureArea=56°11'54.0"N 12°32'51.7"E#0.000#1000.000#1000.000#8000.000AMSL
+counterDeactivateTriggers=de1#mfarea1
 
 Weather presets:
 .\WeatherPresets\BrokenClouds.WPR
@@ -521,5 +528,7 @@ missionFailureSpeed=speed in knots                                              
 missionFailureAltitudeAndSpeed=altitude in feet#speed in knots                                             *** MULTI ***
 missionFailureTime=time in seconds
 missionFailureFormula=HTML escaped RPN formula#text                                                        *** MULTI ***
-activateTriggers=variable name of a dialog or warning#comma-separated list of variable names (dialogs, failures, mission failures and warnings)     *** MULTI ***
-deactivateTriggers=variable name of a dialog or warning#comma-separated list of variable names (dialogs, failures, mission failures and warnings)   *** MULTI ***
+activateTriggers=reference name of a dialog or warning#comma-separated list of reference names (dialogs, failures, mission failures and warnings)     *** MULTI ***
+deactivateTriggers=reference name of a dialog or warning#comma-separated list of reference names (dialogs, failures, mission failures and warnings)   *** MULTI ***
+counterActivateTriggers=comma-separated list of reference names#comma-separated list of reference names    *** MULTI ***
+counterDeactivateTriggers=comma-separated list of reference names#comma-separated list of reference names  *** MULTI ***
