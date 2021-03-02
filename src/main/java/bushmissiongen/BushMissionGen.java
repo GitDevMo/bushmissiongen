@@ -59,11 +59,11 @@ public class BushMissionGen {
 	// - Possible to ignore the state of the landing gear in landing challenges (noGear=[True/False]).
 	// - Dialog entries, failures, mission failures and warnings can be used as references in new reference-handling fields.
 	// - Activate or deactivate a list of triggers (dialogs, failures, mission failures and warnings) when a dialog or warning is triggered.
-	//   activateTriggers=reference name of a dialog or warning#comma-separated list of reference names (dialogs, failures, mission failures and warnings).
-	//   deactivateTriggers=reference name of a dialog or warning#comma-separated list of reference names (dialogs, failures, mission failures and warnings).
+	//     activateTriggers=reference name of a dialog or warning#comma-separated list of reference names (dialogs, failures, mission failures and warnings).
+	//     deactivateTriggers=reference name of a dialog or warning#comma-separated list of reference names (dialogs, failures, mission failures and warnings).
 	// - Activate or deactivate a list of triggers when ALL of the dialogs and warnings have been triggered in a list.
-	//   counterActivateTriggers=comma-separated list of reference names#comma-separated list of reference names
-	//   counterDeactivateTriggers=comma-separated list of reference names#comma-separated list of reference names.
+	//     counterActivateTriggers=comma-separated list of reference names#comma-separated list of reference names
+	//     counterDeactivateTriggers=comma-separated list of reference names#comma-separated list of reference names.
 	// - Minor bugfixes.
 
 	// TO DO
