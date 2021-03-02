@@ -53,18 +53,10 @@ import bushmissiongen.misc.ToggleTrigger;
  * @author  f99mlu
  */
 public class BushMissionGen {
-	public static final String VERSION = "1.70";
+	public static final String VERSION = "1.71";
 
 	// NEWS
-	// - Possible to ignore the state of the landing gear in landing challenges (noGear=[True/False]).
-	// - Dialog entries, failures, mission failures and warnings can be used as references in new reference-handling fields.
-	// - Activate or deactivate a list of triggers (dialogs, failures, mission failures and warnings) when a dialog or warning is triggered.
-	//     activateTriggers=reference name of a dialog or warning#comma-separated list of reference names (dialogs, failures, mission failures and warnings).
-	//     deactivateTriggers=reference name of a dialog or warning#comma-separated list of reference names (dialogs, failures, mission failures and warnings).
-	// - Activate or deactivate a list of triggers when ALL of the dialogs and warnings have been triggered in a list.
-	//     counterActivateTriggers=comma-separated list of reference names#comma-separated list of reference names
-	//     counterDeactivateTriggers=comma-separated list of reference names#comma-separated list of reference names.
-	// - Minor bugfixes.
+	// - 
 
 	// TO DO
 	// - What is the Overview.htm file used for in landing challenges?
@@ -1699,8 +1691,6 @@ public class BushMissionGen {
 					sb_CALCS.append(System.lineSeparator());
 				}
 
-
-
 				// Preview
 				if (poiBefore) {
 					Element tr = table.appendElement("tr");
@@ -2217,6 +2207,45 @@ public class BushMissionGen {
 				}
 
 				if (foundMode) {
+					if (fe.mName != null && metaEntry.toggleTriggers.containsKey(fe.mName)) {
+						String[] toggleList = metaEntry.toggleTriggers.get(fe.mName).mTriggerList;
+						boolean activate = metaEntry.toggleTriggers.get(fe.mName).mActivate;
+
+						StringBuffer toggleTriggers = new StringBuffer();
+						for (String tl : toggleList) {
+							String sr = "            <ObjectReference id=\"" + tl + "_id\" InstanceId=\"{" + tl + "_guid}\"/>";
+							toggleTriggers.append(System.lineSeparator()).append(sr);
+						}
+
+						String so = XML_OBJECTACTIVATIONACTION;
+						String refId6 = "64EEDC19-C47C-498C-8C14-4061971B5";
+						refId6 += String.format("%03d", count + 1);
+						so = so.replace("##REF_ID_ACTION##", refId6);
+						so = so.replace("##DESCR_ACTION##", "FailureToggleTrigger" + (count + 1));
+						so = so.replace("##STATE_ACTION##", String.valueOf(activate));
+						so = so.replace("##LIST_TRIGGERS##", toggleTriggers);
+
+						String sr = "        <ObjectReference id=\"" + "FailureToggleTrigger" + (count + 1) + "\" InstanceId=\"{" + refId6 + "}\"/>";
+						ss = ss.replace("##TOGGLE_ACTIONS##", System.lineSeparator() + sr);
+						ss = ss.replace("##TOGGLE_TRIGGERS##", System.lineSeparator() + so);
+						count++;
+					} else {
+						ss = ss.replace("##TOGGLE_ACTIONS##", "");
+						ss = ss.replace("##TOGGLE_TRIGGERS##", "");
+					}
+
+					if (fe.mName != null && metaEntry.counterToggleTriggersCompanion.containsKey(fe.mName)) {
+						List<String> toggleList = metaEntry.counterToggleTriggersCompanion.get(fe.mName);
+						StringBuffer toggleTriggers = new StringBuffer();
+						for (String tl : toggleList) {
+							String sr = "        <ObjectReference id=\"" + tl + "_cid\" InstanceId=\"{" + tl + "_cguid}\"/>";
+							toggleTriggers.append(System.lineSeparator()).append(sr);
+						}
+						ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", System.lineSeparator() + toggleTriggers);
+					} else {
+						ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", "");
+					}
+
 					sb_FAILURES.append(ss);
 					sb_FAILURES.append(System.lineSeparator());
 					count++;
@@ -2420,11 +2449,11 @@ public class BushMissionGen {
 						so = so.replace("##DESCR_ACTION##", "WarningToggleTrigger" + (count + 1));
 						so = so.replace("##STATE_ACTION##", String.valueOf(activate));
 						so = so.replace("##LIST_TRIGGERS##", toggleTriggers);
-						count++;
 
 						String sr = "        <ObjectReference id=\"" + "WarningToggleTrigger" + (count + 1) + "\" InstanceId=\"{" + refId6 + "}\"/>";
 						ss = ss.replace("##TOGGLE_ACTIONS##", System.lineSeparator() + sr);
 						ss = ss.replace("##TOGGLE_TRIGGERS##", System.lineSeparator() + so);
+						count++;
 					} else {
 						ss = ss.replace("##TOGGLE_ACTIONS##", "");
 						ss = ss.replace("##TOGGLE_TRIGGERS##", "");
