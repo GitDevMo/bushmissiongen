@@ -56,7 +56,8 @@ public class BushMissionGen {
 	public static final String VERSION = "1.71";
 
 	// NEWS
-	// - 
+	// - Now also failures can be used as references to trigger activations/deactivations.
+	// - Bug fixes to warning trigger activations/deactivations.
 
 	// TO DO
 	// - What is the Overview.htm file used for in landing challenges?
