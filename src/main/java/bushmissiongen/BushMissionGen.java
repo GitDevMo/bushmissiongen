@@ -53,11 +53,12 @@ import bushmissiongen.misc.ToggleTrigger;
  * @author  f99mlu
  */
 public class BushMissionGen {
-	public static final String VERSION = "1.71";
+	public static final String VERSION = "1.72";
 
 	// NEWS
-	// - Now also failures can be used as references to trigger activations/deactivations.
-	// - Bug fixes to warning trigger activations/deactivations.
+	// - Added two new variants of counterActivateTriggers and counterDeactivateTriggers to also get an announcement.
+	//   counterActivateTriggers=comma-separated list of reference names#comma-separated list of reference names#text/wav[|subtitles]
+	//   counterDeactivateTriggers=comma-separated list of reference names#comma-separated list of reference names#text/wav[|subtitles]
 
 	// TO DO
 	// - What is the Overview.htm file used for in landing challenges?
@@ -412,16 +413,17 @@ public class BushMissionGen {
 						String[] splitTR = metaString.split("#");
 						if (splitTR!= null && splitTR.length==2) {
 							boolean activate = metaField.equalsIgnoreCase("activateTriggers");
-							metaEntry.toggleTriggers.put(splitTR[0].trim(), new ToggleTrigger(activate, splitTR[1].trim().split(",")));
+							metaEntry.toggleTriggers.put(splitTR[0].trim(), new ToggleTrigger(activate, "", splitTR[1].trim().split(",")));
 						} else {
 							return new ErrorMessage("Wrong format for " + metaField + ":\n\n" + line);
 						}
 					}
 					if (metaField.equalsIgnoreCase("counterActivateTriggers") || metaField.equalsIgnoreCase("counterDeactivateTriggers")) {
 						String[] splitTR = metaString.split("#");
-						if (splitTR!= null && splitTR.length==2) {
+						if (splitTR!= null && (splitTR.length==2 || splitTR.length==3)) {
 							boolean activate = metaField.equalsIgnoreCase("counterActivateTriggers");
-							metaEntry.counterToggleTriggers.put(splitTR[0].trim(), new ToggleTrigger(activate, splitTR[1].trim().split(",")));
+							String text = splitTR.length==3 ? splitTR[2].trim() : "";
+							metaEntry.counterToggleTriggers.put(splitTR[0].trim(), new ToggleTrigger(activate, text, splitTR[1].trim().split(",")));
 
 							String[] split1 = splitTR[0].split(",");
 							for (String s : split1) {
@@ -2839,6 +2841,7 @@ public class BushMissionGen {
 			for (String key : metaEntry.counterToggleTriggers.keySet()) {
 				ToggleTrigger tt = metaEntry.counterToggleTriggers.get(key);
 				int toggleCount = key.split(",").length;
+				boolean hasText = !tt.text.isEmpty();
 
 				String refId1 = "ED1B10BC-DAB4-4D39-960F-E70B6F06D";
 				refId1 += String.format("%03d", count + 1);
@@ -2855,7 +2858,38 @@ public class BushMissionGen {
 				ct = ct.replace("##DESCR_TRIGGER##", "CounterTrigger" + (count + 1));
 				ct = ct.replace("##ACTIVATED_TRIGGER##", "false");
 				ct = ct.replace("##STOPCOUNT_TRIGGER##", String.valueOf(toggleCount));
-				ct = ct.replace("##LIST_ACTIONS##", System.lineSeparator() + "			<ObjectReference id=\"" +  "CounterToggleAction" + (count + 1) + "\" InstanceId=\"{" + refId3 + "}\" />");
+
+				String actions = System.lineSeparator() + "			<ObjectReference id=\"" +  "CounterToggleAction" + (count + 1) + "\" InstanceId=\"{" + refId3 + "}\" />";
+				if (hasText) {
+					String refId7 = "DEA53119-44DC-47E6-A605-7B75812A9";
+					refId7 += String.format("%03d", count + 1);
+					actions += System.lineSeparator() + "			<ObjectReference id=\"" + "CounterToggleDialog" + (count + 1) + "\" InstanceId=\"{" + refId7 + "}\"/>";
+
+					// Wav subtitles?
+					String wav = tt.procWave;
+					String text = tt.procTextID;
+
+					String textXML = "";
+					if (!wav.isEmpty()) {
+						textXML += "<SoundFileName>" + wav + "</SoundFileName>";
+						if (text != null) {
+							textXML += System.lineSeparator() + "      " + "<Text>" + text + "</Text>";
+						}
+						mSounds.add(wav);
+					} else {
+						textXML += "<Text>" + text + "</Text>";
+					}
+
+					String ss = XML_DIALOGACTION;
+					ss = ss.replace("##REF_ID_DIALOG##", refId7);
+					ss = ss.replace("##DESCR_DIALOG##",  "CounterToggleDialog" + (count + 1));
+					ss = ss.replace("##TEXT_DIALOG##", textXML);
+					ss = ss.replace("##DELAY_DIALOG##",  "0.000");
+
+					sb_COUNTERS.append(ss);
+					sb_COUNTERS.append(System.lineSeparator());
+				}
+				ct = ct.replace("##LIST_ACTIONS##", actions);
 
 				StringBuffer toggleTriggers = new StringBuffer();
 				for (String tl : tt.mTriggerList) {
@@ -3747,6 +3781,43 @@ public class BushMissionGen {
 					ss += "," + System.lineSeparator();
 					stringsBuffer.append(ss);
 				}
+			}
+		}
+
+		// Counter Toggle Triggers
+		for (String key : metaEntry.counterToggleTriggers.keySet()) {
+			ToggleTrigger tr = metaEntry.counterToggleTriggers.get(key);
+
+			if (!tr.text.isEmpty()) {
+				ss = LOC_STRING;
+				sl = LOC_LANGUAGE;
+				ss = ss.replace("##STRING_COUNT##", String.valueOf(count));
+				ss = ss.replace("##STRING_COUNT_3PADDED##", String.format("%03d", count));
+				sl = sl.replace("##LANGUAGE##", "en-US");
+
+				// Wav subtitles?
+				String wav = tr.text;
+				String subtitles = null;
+				if (wav.contains("|")) {
+					String[] split = wav.split("\\|");
+					wav = split[0];
+					subtitles = split[1];
+				}
+
+				if (wav.toUpperCase().endsWith(".WAV")) {
+					tr.procWave = wav;
+					if (subtitles != null) {
+						tr.procText = subtitles;
+					}
+				} else {
+					tr.procText = tr.text;
+				}
+
+				tr.procTextID = "TT:" + metaEntry.project + ".Mission." + String.valueOf(count++);
+				sl = sl.replace("##STRING##", tr.procText);
+				ss = ss.replace("##LANGUAGES##", sl);
+				ss += "," + System.lineSeparator();
+				stringsBuffer.append(ss);
 			}
 		}
 

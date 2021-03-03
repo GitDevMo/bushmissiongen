@@ -170,7 +170,7 @@ missionFailureFormula=(A:AUTOPILOT MASTER, Bool) 0 &gt;#Autopilot is not allowed
 activateTriggers=de1#mfa1,aw1,aw2     <------ Activates a list of triggers (dialogs, failures, mission failures and warnings) when a dialog, warning or failure is triggered. See References below!
 deactivateTriggers=de2#mfa1,aw1,aw2   <------ Deactivates a list of triggers (dialogs, failures, mission failures and warnings) when a dialog, warning or failure is triggered. See References below!
 counterActivateTriggers=de1,de2,aw1#mfarea1,mfa1    <------ Activates a list of triggers when all of the dialogs, warnings and failures have been triggered in a list.
-counterDeactivateTriggers=de3,de4#mfarea2           <------ Deactivates a list of triggers when all of the dialogs, warnings and failures have been triggered in a list.
+counterDeactivateTriggers=de3,de4#mfarea2#play.wav  <------ Deactivates a list of triggers when all of the dialogs, warnings and failures have been triggered in a list.
 
 Example: Usage of references (reference name::field name=field value)
 aw1::altitudeWarning=No higher mate. I am afraid of heights.#5000.000AGL
@@ -528,7 +528,13 @@ missionFailureSpeed=speed in knots                                              
 missionFailureAltitudeAndSpeed=altitude in feet#speed in knots                                             *** MULTI ***
 missionFailureTime=time in seconds
 missionFailureFormula=HTML escaped RPN formula#text                                                        *** MULTI ***
-activateTriggers=reference name of a dialog, warning or failure#comma-separated list of reference names (dialogs, warnings, failures, mission failures)     *** MULTI ***
-deactivateTriggers=reference name of a dialog, warning or failure#comma-separated list of reference names (dialogs, warnings, failures, mission failures)   *** MULTI ***
-counterActivateTriggers=comma-separated list of reference names#comma-separated list of reference names    *** MULTI ***
-counterDeactivateTriggers=comma-separated list of reference names#comma-separated list of reference names  *** MULTI ***
+
+
+Reference fields summary:
+
+activateTriggers=reference name#comma-separated list of reference names                                                         *** MULTI ***
+deactivateTriggers=reference name#comma-separated list of reference names                                                       *** MULTI ***
+counterActivateTriggers=comma-separated list of reference names#comma-separated list of reference names                         *** MULTI ***
+counterActivateTriggers=comma-separated list of reference names#comma-separated list of reference names#text/wav[|subtitles]    *** MULTI ***
+counterDeactivateTriggers=comma-separated list of reference names#comma-separated list of reference names                       *** MULTI ***
+counterDeactivateTriggers=comma-separated list of reference names#comma-separated list of reference names#text/wav[|subtitles]  *** MULTI ***
