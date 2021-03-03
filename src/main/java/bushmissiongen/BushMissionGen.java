@@ -6,11 +6,14 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,12 +56,10 @@ import bushmissiongen.misc.ToggleTrigger;
  * @author  f99mlu
  */
 public class BushMissionGen {
-	public static final String VERSION = "1.72";
+	public static final String VERSION = "1.73";
 
 	// NEWS
-	// - Added two new variants of counterActivateTriggers and counterDeactivateTriggers to also get an announcement.
-	//   counterActivateTriggers=comma-separated list of reference names#comma-separated list of reference names#text/wav[|subtitles]
-	//   counterDeactivateTriggers=comma-separated list of reference names#comma-separated list of reference names#text/wav[|subtitles]
+	// - Put WAV files in the same directory as the input file to automatically get them copied to the output folder.
 
 	// TO DO
 	// - What is the Overview.htm file used for in landing challenges?
@@ -87,7 +88,8 @@ public class BushMissionGen {
 	public boolean mMultipleSameAirports = false;
 	public Integer mPOIs = null;
 	public GeoJSON mGeoJSON = new GeoJSON();
-	public List<String> mSounds = null;
+	public Set<String> mSounds = null;
+	public Set<String> mCopiedSounds = null;
 	public FileHandling mFileHandling = new FileHandling();
 	public ImageHandling mImageHandling = new ImageHandling();
 	public Settings mSettings = new Settings();
@@ -963,6 +965,7 @@ public class BushMissionGen {
 				recept_fileXML = recept_landing_nogear;
 			}
 		}
+		String recept_root = "##PATH_DIR##";
 		String recept_fileFLT = "##PATH_DIR##" + File.separator + "templates" + File.separator + metaEntry.missionType + "_template.FLT";
 		String recept_filePLN = "##PATH_DIR##" + File.separator + "templates" + File.separator + metaEntry.missionType + "_template.PLN";
 		String recept_fileLOC = "##PATH_DIR##" + File.separator + "templates" + File.separator + "template.loc";
@@ -972,6 +975,7 @@ public class BushMissionGen {
 		String recept_weather = "##PATH_DIR##" + File.separator + "Weather.WPR";
 
 		String[] recept_files_bush = new String[] {
+				recept_root,
 				recept_fileXML,
 				recept_fileFLT,
 				recept_filePLN,
@@ -982,6 +986,7 @@ public class BushMissionGen {
 		};
 
 		String[] recept_files_land = new String[] {
+				recept_root,
 				recept_fileXML,
 				recept_fileFLT,
 				recept_fileLOC,
@@ -1047,21 +1052,23 @@ public class BushMissionGen {
 
 			if (foundNot.isEmpty()) {
 				if (metaEntry.missionType.equals("bush")) {
-					recept_fileXML = recept_files[0].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-					recept_fileFLT = recept_files[1].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-					recept_filePLN = recept_files[2].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_root = recept_files[0].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_fileXML = recept_files[1].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_fileFLT = recept_files[2].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_filePLN = recept_files[3].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_fileLOC = recept_files[4].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_project = recept_files[5].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_package = recept_files[6].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_weather = recept_files[7].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+				} else {
+					recept_root = recept_files[0].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_fileXML = recept_files[1].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_fileFLT = recept_files[2].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
 					recept_fileLOC = recept_files[3].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
 					recept_project = recept_files[4].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
 					recept_package = recept_files[5].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-					recept_weather = recept_files[6].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-				} else {
-					recept_fileXML = recept_files[0].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-					recept_fileFLT = recept_files[1].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-					recept_fileLOC = recept_files[2].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-					recept_project = recept_files[3].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-					recept_package = recept_files[4].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-					recept_overview = recept_files[5].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
-					recept_weather = recept_files[6].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_overview = recept_files[6].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
+					recept_weather = recept_files[7].replace("##PATH_DIR##", rf_mode == 0 ? pathRoot : pathCurrent);
 				}
 				break;
 			}
@@ -1183,9 +1190,27 @@ public class BushMissionGen {
 		File contentInfoDir = new File(contentInfoPath);
 		contentInfoDir.mkdirs();
 
+		mSounds = new HashSet<>();
+		mCopiedSounds = new HashSet<>();
+
 		// Copy weather file
 		try {
 			Files.copy(new File(recept_weather).toPath(), new File(fourFilesPath + File.separator + "Weather.WPR").toPath());
+		} catch (IOException e) {
+		}
+
+		// Copy WAV files to the sound folder
+		try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(
+				Paths.get(recept_root), "*.WAV")) {
+			dirStream.forEach(path -> {
+				try {
+					String toFile = soundPath + File.separator + path.getFileName().toString();
+					Files.copy(path, new File(toFile).toPath());
+					mCopiedSounds.add(toFile);
+				} catch (IOException e) {
+				}
+			}
+					);
 		} catch (IOException e) {
 		}
 
@@ -1322,7 +1347,6 @@ public class BushMissionGen {
 
 		// Reset POI images count
 		mPOIs = 0;
-		mSounds = new ArrayList<>();
 
 		// Load resource files
 		FLT_AIRLINER_BUSH = mFileHandling.readUrlToString("FLT/AIRLINER_BUSH.txt", StandardCharsets.UTF_8);
@@ -1420,7 +1444,9 @@ public class BushMissionGen {
 		// Check if sound files are in the sound folder
 		if (!mSounds.isEmpty()) {
 			StringBuffer sb_Sounds = new StringBuffer();
-			for (String sound : mSounds) {
+			List<String> list = new ArrayList<String>(mSounds);
+			Collections.sort(list);
+			for (String sound :  list) {
 				String soundString = soundPath + File.separator + sound;
 				File soundFile = new File(soundString);
 
@@ -1432,6 +1458,22 @@ public class BushMissionGen {
 			// Show a dialog if missing WAVs
 			if (sb_Sounds.length()>0) {
 				Message msg = new InfoMessage("The following sound file were not found on disk:\n\n" + sb_Sounds.toString() + "\nPlease add those before compiling!");
+				JOptionPane.showMessageDialog(mGUI, msg.getMessage(), "Generate", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+
+		// Check if founds were copied
+		if (!mCopiedSounds.isEmpty()) {
+			StringBuffer sb_Sounds = new StringBuffer();
+			List<String> list = new ArrayList<String>(mCopiedSounds);
+			Collections.sort(list);
+			for (String sound :  list) {
+				sb_Sounds.append(sound + System.lineSeparator());
+			}
+
+			// Show a dialog
+			if (sb_Sounds.length()>0) {
+				Message msg = new InfoMessage("The following sound file copied to the output folder:\n\n" + sb_Sounds.toString());
 				JOptionPane.showMessageDialog(mGUI, msg.getMessage(), "Generate", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
@@ -4397,6 +4439,7 @@ public class BushMissionGen {
 				mGUI.mInputPathField.setText(outFile);
 				mPOIs = null;
 				mSounds = null;
+				mCopiedSounds = null;
 				mGUI.showFileContents(outFile);
 				JOptionPane.showMessageDialog(mGUI, "Input file generated!\n\n" + outFile, "Convert", JOptionPane.INFORMATION_MESSAGE);
 			} else if (nOPT == 1) {
@@ -4408,6 +4451,7 @@ public class BushMissionGen {
 				mGUI.mInputPathField.setText(outFileXLS);
 				mPOIs = null;
 				mSounds = null;
+				mCopiedSounds = null;
 				String contents = String.join(System.lineSeparator(), mFileHandling.readFromXLS(outFileXLS));
 				mGUI.mTextArea.setText(contents);
 				mGUI.mTextArea.setCaretPosition(0);
