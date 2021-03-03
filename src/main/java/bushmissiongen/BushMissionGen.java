@@ -651,7 +651,7 @@ public class BushMissionGen {
 					String preType = split[3].trim();
 
 					if (preType.equals("U")) {
-						entry.type2 = WpType.USER;
+						entry.type = WpType.USER;
 						count_POI++;
 						entry.id = "POI" + multiCount(count_POI, 0);
 
@@ -665,7 +665,7 @@ public class BushMissionGen {
 							entry.region = multiCount(count_AIRPORT-53, 1);
 						}
 					} else if (preType.equals("A")) {
-						entry.type2 = WpType.AIRPORT;
+						entry.type = WpType.AIRPORT;
 						count_AIRPORT++;
 					} else {
 						return new ErrorMessage("Waypoint type must be A (Airport) or U (User-defined).");
@@ -727,7 +727,7 @@ public class BushMissionGen {
 					String preType = split[3].trim();
 
 					if (preType.equals("U")) {
-						entry.type2 = WpType.USER;
+						entry.type = WpType.USER;
 						count_POI++;
 						entry.id = "POI" + multiCount(count_POI, 0);
 
@@ -741,7 +741,7 @@ public class BushMissionGen {
 							entry.region = multiCount(count_AIRPORT-53, 1);
 						}
 					} else if (preType.equals("A")) {
-						entry.type2 = WpType.AIRPORT;
+						entry.type = WpType.AIRPORT;
 						count_AIRPORT++;
 					} else {
 						return new ErrorMessage("Waypoint type must be A (Airport) or U (User-defined).");
@@ -850,7 +850,7 @@ public class BushMissionGen {
 						// Then POIS if not set for an airport
 						if (!setLocalization) {
 							for (MissionEntry me : entries) {
-								if (me.type2.equals(WpType.USER)) {
+								if (me.type.equals(WpType.USER)) {
 									boolean foundLocalization = false;
 									for (Localization lc : me.localizations) {
 										if (lc.language.equals(localization.language)) {
@@ -889,7 +889,7 @@ public class BushMissionGen {
 					String preType = split[3].trim();
 
 					if (preType.equals("U")) {
-						entry.type2 = WpType.USER;
+						entry.type = WpType.USER;
 						count_POI++;
 						entry.id = "POI" + multiCount(count_POI, 0);
 
@@ -903,7 +903,7 @@ public class BushMissionGen {
 							entry.region = multiCount(count_AIRPORT-53, 1);
 						}
 					} else if (preType.equals("A")) {
-						entry.type2 = WpType.AIRPORT;
+						entry.type = WpType.AIRPORT;
 						count_AIRPORT++;
 					} else {
 						return new ErrorMessage("Waypoint type must be A (Airport) or U (User-defined).");
@@ -1090,7 +1090,7 @@ public class BushMissionGen {
 			boolean foundA = false;
 			boolean foundU = true;
 			for (MissionEntry me : entries) {
-				if (me.type2.equals(WpType.AIRPORT)) {
+				if (me.type.equals(WpType.AIRPORT)) {
 					if (foundA && !foundU) {
 						return new ErrorMessage("At least one POI per leg is required.");
 					}
@@ -1105,7 +1105,7 @@ public class BushMissionGen {
 			// Check if airports are present more than once and requireEnginesOff etc is not set
 			List<String> airportICAOs = new ArrayList<>();
 			for (MissionEntry me : entries) {
-				if (me.type2.equals(WpType.AIRPORT)) {
+				if (me.type.equals(WpType.AIRPORT)) {
 					airportICAOs.add(me.id);
 				}
 			}
@@ -1125,7 +1125,7 @@ public class BushMissionGen {
 			MissionEntry lastME = null;
 			// Make sure there is only one airport
 			for (MissionEntry me : entries) {
-				if (me.type2.equals(WpType.AIRPORT)) {
+				if (me.type.equals(WpType.AIRPORT)) {
 					count_APS++;
 				} else {
 					count_CUSTS++;
@@ -1139,7 +1139,7 @@ public class BushMissionGen {
 			}
 
 			// The airport should be the last entry
-			if (!lastME.type2.equals(WpType.AIRPORT)) {
+			if (!lastME.type.equals(WpType.AIRPORT)) {
 				return new ErrorMessage("The airport must be the last waypoint!");
 			}
 
@@ -1223,7 +1223,7 @@ public class BushMissionGen {
 		Map<String, Integer> uniqueMapCounter = new HashMap<>();
 		int count_UNIQUE = 0;
 		for (MissionEntry entry : entries) {
-			if (entry.type2.equals(WpType.AIRPORT)) {
+			if (entry.type.equals(WpType.AIRPORT)) {
 				if (count_UNIQUE>0) {
 					if (!uniqueMap.containsKey(entry.id)) {
 						uniqueMap.put(entry.id, 0);
@@ -1238,7 +1238,7 @@ public class BushMissionGen {
 		}
 		count_UNIQUE = 0;
 		for (MissionEntry entry : entries) {
-			if (entry.type2.equals(WpType.AIRPORT)) {
+			if (entry.type.equals(WpType.AIRPORT)) {
 				if (count_UNIQUE>0) {
 					if (uniqueMap.get(entry.id) == 0) {
 						entry.uniqueId =  entry.id;
@@ -1255,8 +1255,8 @@ public class BushMissionGen {
 		// Handle multiple same airports by settings regions on all airports too.
 		if (mMultipleSameAirports) {
 			for (int i=0; i<entries.size(); i++) {
-				if (entries.get(i).type2.equals(WpType.AIRPORT) && i < entries.size()-1) {
-					if (entries.get(i+1).type2.equals(WpType.USER)) {
+				if (entries.get(i).type.equals(WpType.AIRPORT) && i < entries.size()-1) {
+					if (entries.get(i+1).type.equals(WpType.USER)) {
 						entries.get(i).region = entries.get(i+1).region;
 					}
 				}
@@ -1267,7 +1267,7 @@ public class BushMissionGen {
 			// Create images for bush missions
 			int count_ENTRY = 0;
 			for (MissionEntry entry : entries) {
-				if (entry.type2.equals(WpType.AIRPORT)) {
+				if (entry.type.equals(WpType.AIRPORT)) {
 					if (count_ENTRY>0) {
 						// Unique airport?
 						String id = entry.id;
@@ -1559,7 +1559,7 @@ public class BushMissionGen {
 		MissionEntry lastEntry = new MissionEntry();
 		String lastRefId = "";
 		for (MissionEntry entry : entries) {
-			if (entry.type2.equals(WpType.AIRPORT)) {
+			if (entry.type.equals(WpType.AIRPORT)) {
 				// Unique airport?
 				String id = entry.id;
 				if (!metaEntry.uniqueApImages.isEmpty()) {
@@ -1927,7 +1927,7 @@ public class BushMissionGen {
 					}
 
 					String ss = XML_DIALOGS;
-					if (prevMe.type2.equals(WpType.AIRPORT)) {
+					if (prevMe.type.equals(WpType.AIRPORT)) {
 						ss = XML_DIALOGSEXIT;
 					}
 
@@ -1959,7 +1959,7 @@ public class BushMissionGen {
 					ss = ss.replace("##REF_ID_AREA##", refId5);
 					ss = ss.replace("##DESCR_AREA##",  "RectangleAreaPOI" + (count + 0));
 
-					if (prevMe.type2.equals(WpType.AIRPORT)) {
+					if (prevMe.type.equals(WpType.AIRPORT)) {
 						String boxSideSize = "2000.000";
 						if (!metaEntry.standardAirportExitAreaSideLength.isEmpty()) {
 							boxSideSize = metaEntry.standardAirportExitAreaSideLength;
@@ -3218,7 +3218,7 @@ public class BushMissionGen {
 		int count_ENTRY = 0;
 		for (MissionEntry entry : entries) {
 			// [Briefing]
-			if (entry.type2.equals(WpType.AIRPORT)) {
+			if (entry.type.equals(WpType.AIRPORT)) {
 				if (count_ENTRY>0) {
 					// Unique airport?
 					String id = entry.id;
@@ -3237,10 +3237,10 @@ public class BushMissionGen {
 			StringBuffer ss = new StringBuffer();
 			ss.append("Waypoint." + count_ENTRY + "=");
 			ss.append((metaEntry.missionType.equals("bush") ? entry.region : "") + ", ");
-			ss.append((metaEntry.missionType.equals("bush") ? entry.id : (entry.type2.equals(WpType.AIRPORT) ? entry.id : "")) + ", ");
+			ss.append((metaEntry.missionType.equals("bush") ? entry.id : (entry.type.equals(WpType.AIRPORT) ? entry.id : "")) + ", ");
 			ss.append(", ");
 			ss.append((entry.nameID) + ", ");
-			ss.append((entry.type2.equals(WpType.USER) ? "U" : "A") + ", ");
+			ss.append((entry.type.equals(WpType.USER) ? "U" : "A") + ", ");
 			ss.append(entry.latlon + ", ");
 			ss.append(entry.alt + ", ");
 			sb_WAYPOINTS.append(ss);
@@ -3474,7 +3474,7 @@ public class BushMissionGen {
 		StringBuffer sb = new StringBuffer();
 		int count_POI = 0;
 		for (MissionEntry entry : entries) {
-			if (entry.type2.equals(WpType.AIRPORT)) {
+			if (entry.type.equals(WpType.AIRPORT)) {
 				String ss = entry.runway.isEmpty() ? PLN_ATCWAYPOINTS_V1 : PLN_ATCWAYPOINTS_V2;
 				ss = ss.replace("##WP_ID##", entry.id);
 				ss = ss.replace("##WP_TYPE##", MissionEntry.TYPE_AIRPORT);
@@ -4134,16 +4134,16 @@ public class BushMissionGen {
 					}
 
 					if (preType.equals("A")) {
-						wpEntry.type2 = WpType.AIRPORT;
+						wpEntry.type = WpType.AIRPORT;
 					} else {
-						wpEntry.type2 = WpType.USER;
+						wpEntry.type = WpType.USER;
 					}
 					if (missionType.equals("bush")) {
-						if (wpEntry.type2.equals(WpType.USER)) {
+						if (wpEntry.type.equals(WpType.USER)) {
 							wpEntry.name = "POI" + multiCount(++count_POI, 0);
 						}
 					} else {
-						if (wpEntry.type2.equals(WpType.USER)) {
+						if (wpEntry.type.equals(WpType.USER)) {
 							wpEntry.name = "CUST" + count_POI++;
 						}
 					}
@@ -4331,7 +4331,7 @@ public class BushMissionGen {
 				// Check if airports are present more than once
 				List<String> airportICAOs = new ArrayList<>();
 				for (MissionEntry me : list) {
-					if (me.type2.equals(WpType.AIRPORT)) {
+					if (me.type.equals(WpType.AIRPORT)) {
 						airportICAOs.add(me.id);
 					}
 				}
@@ -4360,7 +4360,7 @@ public class BushMissionGen {
 			int count_ENTRIES = 0;
 			int count_SUBLEG = 0;
 			for (MissionEntry me : list) {
-				String v1 = me.type2.equals(WpType.AIRPORT) ? me.id : "";
+				String v1 = me.type.equals(WpType.AIRPORT) ? me.id : "";
 				sb2.append(v1).append("|");
 
 				String v2 = me.runway;
@@ -4369,7 +4369,7 @@ public class BushMissionGen {
 				String v3 = me.name;
 				sb2.append(v3).append("|");
 
-				String v4 = me.type2.equals(WpType.USER) ? "U" : "A";
+				String v4 = me.type.equals(WpType.USER) ? "U" : "A";
 				sb2.append(v4).append("|");
 
 				String v5 = me.latlon;
@@ -4382,17 +4382,17 @@ public class BushMissionGen {
 				String v9 = "-";
 
 				// Counts
-				if (!me.type2.equals(WpType.AIRPORT)) {
+				if (!me.type.equals(WpType.AIRPORT)) {
 					count_SUBLEG++;
 				}
 
 				// Row 1 is special
-				if (count_ENTRIES == 0 && me.type2.equals(WpType.AIRPORT)) {
+				if (count_ENTRIES == 0 && me.type.equals(WpType.AIRPORT)) {
 					v8 = "Flying from " + me.id;
 				}
 				// Mid part
 				else if (count_ENTRIES > 0 && count_ENTRIES < list.size()-1) {
-					if (me.type2.equals(WpType.AIRPORT)) {
+					if (me.type.equals(WpType.AIRPORT)) {
 						v8 = "Flying from " + me.id;
 						v9 = "How to get to airport " + me.id + " and nice info about it.";
 					} else {
@@ -4401,7 +4401,7 @@ public class BushMissionGen {
 				}
 
 				// Last row
-				else if (count_ENTRIES == list.size()-1 && me.type2.equals(WpType.AIRPORT)) {
+				else if (count_ENTRIES == list.size()-1 && me.type.equals(WpType.AIRPORT)) {
 					v9 = "How to get to airport " + me.id + " and nice info about it.";
 				}
 
