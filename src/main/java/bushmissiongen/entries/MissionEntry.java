@@ -18,7 +18,7 @@ public class MissionEntry extends GenericEntry {
 	public String id = "";
 	public String runway = "";
 	public String name = "";
-	public String type = "";
+	public WpType type2 = null;
 	public String latlon = "";
 	public String wpInfo = "";
 	public String legText = "";
@@ -32,6 +32,11 @@ public class MissionEntry extends GenericEntry {
 	public String legTextID = "?";
 	public String subLegTextID = "?";
 
+	public enum WpType {
+		AIRPORT,
+		USER
+	};
+
 	// Normal constructor
 	public MissionEntry() {		
 	}
@@ -42,7 +47,7 @@ public class MissionEntry extends GenericEntry {
 		this.id = other.id;
 		this.runway = other.runway;
 		this.name = other.name;
-		this.type = other.type;
+		this.type2 = other.type2;
 		this.latlon = other.latlon;
 		this.alt = other.alt;
 		this.wpInfo = other.wpInfo;
@@ -228,7 +233,7 @@ public class MissionEntry extends GenericEntry {
 		sb.append("/");
 		sb.append(name);
 		sb.append("/");
-		sb.append(type);
+		sb.append(type2.toString());
 		sb.append("/");
 		sb.append(latlon);
 		return "ITEM: " + sb.toString();
