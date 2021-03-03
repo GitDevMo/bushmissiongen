@@ -648,9 +648,10 @@ public class BushMissionGen {
 						entry.runway = entry.runway.substring(0, sp);
 					}
 					entry.name = split[2].trim();
-					entry.type2 = split[3].trim().equals("A") ? WpType.AIRPORT : WpType.USER;
+					String preType = split[3].trim();
 
-					if (entry.type2.equals(WpType.USER)) {
+					if (preType.equals("U")) {
+						entry.type2 = WpType.USER;
 						count_POI++;
 						entry.id = "POI" + multiCount(count_POI, 0);
 
@@ -663,8 +664,11 @@ public class BushMissionGen {
 						} else {
 							entry.region = multiCount(count_AIRPORT-53, 1);
 						}
-					} else if (entry.type2.equals(WpType.AIRPORT)) {
+					} else if (preType.equals("A")) {
+						entry.type2 = WpType.AIRPORT;
 						count_AIRPORT++;
+					} else {
+						return new ErrorMessage("Waypoint type must be A (Airport) or U (User-defined).");
 					}
 
 					// Too many airports?? Regions are limiting!
@@ -720,9 +724,10 @@ public class BushMissionGen {
 						entry.runway = entry.runway.substring(0, foundRunwayDecimal);
 					}
 					entry.name = split[2].trim();
-					entry.type2 = split[3].trim().equals("A") ? WpType.AIRPORT : WpType.USER;
+					String preType = split[3].trim();
 
-					if (entry.type2.equals(WpType.USER)) {
+					if (preType.equals("U")) {
+						entry.type2 = WpType.USER;
 						count_POI++;
 						entry.id = "POI" + multiCount(count_POI, 0);
 
@@ -735,8 +740,11 @@ public class BushMissionGen {
 						} else {
 							entry.region = multiCount(count_AIRPORT-53, 1);
 						}
-					} else if (entry.type2.equals(WpType.AIRPORT)) {
+					} else if (preType.equals("A")) {
+						entry.type2 = WpType.AIRPORT;
 						count_AIRPORT++;
+					} else {
+						return new ErrorMessage("Waypoint type must be A (Airport) or U (User-defined).");
 					}
 
 					// Too many airports?? Regions are limiting!
@@ -878,9 +886,10 @@ public class BushMissionGen {
 						entry.runway = entry.runway.substring(0, sp);
 					}
 					entry.name = split[2].trim();
-					entry.type2 = split[3].trim().equals("A") ? WpType.AIRPORT : WpType.USER;
+					String preType = split[3].trim();
 
-					if (entry.type2.equals(WpType.USER)) {
+					if (preType.equals("U")) {
+						entry.type2 = WpType.USER;
 						count_POI++;
 						entry.id = "POI" + multiCount(count_POI, 0);
 
@@ -893,8 +902,11 @@ public class BushMissionGen {
 						} else {
 							entry.region = multiCount(count_AIRPORT-53, 1);
 						}
-					} else if (entry.type2.equals(WpType.AIRPORT)) {
+					} else if (preType.equals("A")) {
+						entry.type2 = WpType.AIRPORT;
 						count_AIRPORT++;
+					} else {
+						return new ErrorMessage("Waypoint type must be A (Airport) or U (User-defined).");
 					}
 
 					// Too many airports?? Regions are limiting!
