@@ -109,7 +109,7 @@ public class GUI extends JFrame implements ActionListener {
 		mProjectPageItem = new JMenuItem ("Go to the project home page");
 		helpMenu.add (mProjectPageItem);
 		mProjectPageItem.addActionListener (this);
-		mHelpItem = new JMenuItem ("Show README.txt");
+		mHelpItem = new JMenuItem ("Show the manual (.docx)");
 		helpMenu.add (mHelpItem);
 		mHelpItem.addActionListener (this);
 
@@ -212,7 +212,7 @@ public class GUI extends JFrame implements ActionListener {
 		} else if (e.getSource()==mProjectPageItem) {
 			showURL("https://flightsim.to/file/3681/bushmissiongen");
 		} else if (e.getSource()==mHelpItem) {
-			showFileContents("README.txt");
+			showURL("README.docx");
 		} else if (e.getSource()==mCompileItem) {
 			Message msg = mMyApp.generate(mInputPathField.getText(), 1);
 			if (msg != null) {

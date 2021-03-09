@@ -15,6 +15,7 @@
 		<fileSet>
 			<includes>
 				<include>BushMissionGen/BushMissionGen.jar</include>
+				<include>BushMissionGen/README.docx</include>
 				<include>BushMissionGen/README.txt</include>
 				<include>BushMissionGen/Weather.WPR</include>
 			</includes>
