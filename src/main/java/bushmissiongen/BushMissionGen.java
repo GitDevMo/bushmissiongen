@@ -57,7 +57,7 @@ import bushmissiongen.misc.ToggleTrigger;
  * @author  f99mlu
  */
 public class BushMissionGen {
-	public static final String VERSION = "1.74";
+	public static final String VERSION = "1.75";
 
 	// NEWS
 	// - 
