@@ -6,11 +6,9 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,7 +58,8 @@ public class BushMissionGen {
 	public static final String VERSION = "1.75";
 
 	// NEWS
-	// - 
+	// - Added missing area for mission area failues for GeoJSON maps.
+	// - Fix for counterActivateTriggers and counterDeactivateTriggers. They were never activated. Now they are! Thanks to Don Done!
 
 	// TO DO
 	// - What is the Overview.htm file used for in landing challenges?
@@ -350,7 +349,15 @@ public class BushMissionGen {
 								return new ErrorMessage("Wrong format for introSpeech:\n\n" + line);
 							}
 						} else {
-							metaEntry.introSpeeches.add(new DelayedText(metaString.trim(), "0.000"));
+							// Text validation
+							if (metaString.trim().length()==0) formatError = true;
+
+							if (!formatError) metaEntry.introSpeeches.add(new DelayedText(metaString.trim(), "0.000"));
+
+							// Error?
+							if (formatError) {
+								// Do nothing right now
+							}
 						}
 					}
 					if (metaField.equalsIgnoreCase("poiSpeech")) {
@@ -1205,19 +1212,6 @@ public class BushMissionGen {
 		} catch (IOException e) {
 		}
 
-		// Copy WAV files to the sound folder
-		try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(Paths.get(recept_root), "*.WAV")) {
-			dirStream.forEach(path -> {
-				try {
-					String toFile = soundPath + File.separator + path.getFileName().toString();
-					Files.copy(path, new File(toFile).toPath());
-					mCopiedSounds.add(toFile);
-				} catch (IOException e) {
-				}
-			});
-		} catch (IOException e) {
-		}
-
 		// Unique airports set?
 		Map<String, Integer> uniqueMap = new HashMap<>();
 		Map<String, Integer> uniqueMapCounter = new HashMap<>();
@@ -1455,7 +1449,19 @@ public class BushMissionGen {
 				File soundFile = new File(soundString);
 
 				if (!soundFile.exists()) {
-					sb_Sounds.append(soundFile + System.lineSeparator());
+					// Is the file in the root dir? Then copy!
+					String fromString = recept_root + File.separator + sound;
+					File fromFile = new File(fromString);
+					if (fromFile.exists()) {
+						// Copy sound file
+						try {
+							Files.copy(fromFile.toPath(), soundFile.toPath());
+							mCopiedSounds.add(fromString);
+						} catch (IOException e) {
+						}
+					} else {
+						sb_Sounds.append(soundFile + System.lineSeparator());
+					}
 				}
 			}
 
@@ -2599,6 +2605,9 @@ public class BushMissionGen {
 					su = su.replace("##REF_ID_GOALFAILACTION##", refId3);
 					sb_GOALS.append(su);
 
+					// JSON
+					mGeoJSON.appendPolygon(mfe.latlon, mfe.width, mfe.length, mfe.heading, "#555555", "#ff3300");
+
 					// Finished actions
 					sb_FINISHEDACTIONS.append(System.lineSeparator());
 					sb_FINISHEDACTIONS.append("        <WorldBase.ObjectReference id=\"End Of Mission\" InstanceId=\"{" + refId4 + "}\" />");
@@ -2902,7 +2911,7 @@ public class BushMissionGen {
 
 				ct = ct.replace("##REF_ID_TRIGGER##", refId2);
 				ct = ct.replace("##DESCR_TRIGGER##", "CounterTrigger" + (count + 1));
-				ct = ct.replace("##ACTIVATED_TRIGGER##", "false");
+				ct = ct.replace("##ACTIVATED_TRIGGER##", "true");
 				ct = ct.replace("##STOPCOUNT_TRIGGER##", String.valueOf(toggleCount));
 
 				String actions = System.lineSeparator() + "			<ObjectReference id=\"" +  "CounterToggleAction" + (count + 1) + "\" InstanceId=\"{" + refId3 + "}\" />";
