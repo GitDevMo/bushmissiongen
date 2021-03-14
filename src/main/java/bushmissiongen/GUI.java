@@ -45,7 +45,7 @@ public class GUI extends JFrame implements ActionListener {
 	public JLabel mInputPathLabel;
 	public JTextField mInputPathField;
 	private JButton mGenerateButton, mSelectButton;
-	private JMenuItem mExitItem, mConvertItem, mHelpItem, mProjectPageItem, mCompileItem, mEditItem, mShowPlanesItem;
+	private JMenuItem mExitItem, mConvertItem, mHelpDocItem, mHelpPdfItem, mProjectPageItem, mCompileItem, mEditItem, mShowPlanesItem;
 	private JMenu mRecentFiles;
 	private List<JMenuItem> mRecentFilesList = new ArrayList<>();
 	private JMenuItem mNavItem1, mNavItem2, mNavItem3, mNavItem4, mNavItem5, mNavItem6;
@@ -109,9 +109,12 @@ public class GUI extends JFrame implements ActionListener {
 		mProjectPageItem = new JMenuItem ("Go to the project home page");
 		helpMenu.add (mProjectPageItem);
 		mProjectPageItem.addActionListener (this);
-		mHelpItem = new JMenuItem ("Show the manual (.docx)");
-		helpMenu.add (mHelpItem);
-		mHelpItem.addActionListener (this);
+		mHelpDocItem = new JMenuItem ("Show the manual (DOCX)");
+		helpMenu.add (mHelpDocItem);
+		mHelpDocItem.addActionListener (this);
+		mHelpPdfItem = new JMenuItem ("Show the manual (PDF)");
+		helpMenu.add (mHelpPdfItem);
+		mHelpPdfItem.addActionListener (this);
 
 		menubar.add (helpMenu);
 		setJMenuBar (menubar);
@@ -211,8 +214,10 @@ public class GUI extends JFrame implements ActionListener {
 			convert();
 		} else if (e.getSource()==mProjectPageItem) {
 			showURL("https://flightsim.to/file/3681/bushmissiongen");
-		} else if (e.getSource()==mHelpItem) {
+		} else if (e.getSource()==mHelpDocItem) {
 			showURL("README.docx");
+		} else if (e.getSource()==mHelpPdfItem) {
+			showURL("README.pdf");
 		} else if (e.getSource()==mCompileItem) {
 			Message msg = mMyApp.generate(mInputPathField.getText(), 1);
 			if (msg != null) {

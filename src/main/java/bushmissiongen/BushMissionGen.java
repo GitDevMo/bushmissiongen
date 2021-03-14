@@ -55,11 +55,12 @@ import bushmissiongen.misc.ToggleTrigger;
  * @author  f99mlu
  */
 public class BushMissionGen {
-	public static final String VERSION = "1.75";
+	public static final String VERSION = "1.76";
 
 	// NEWS
-	// - Added missing area for mission area failues for GeoJSON maps.
-	// - Fix for counterActivateTriggers and counterDeactivateTriggers. They were never activated. Now they are! Thanks to Don Done!
+	// - Updated the manual. Thanks to cptdev the manual is now MUCH better formatted and structured! Great work!
+	// - Added a PDF version of the manual to the Help menu.
+	// - 
 
 	// TO DO
 	// - What is the Overview.htm file used for in landing challenges?
