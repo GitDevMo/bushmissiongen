@@ -116,6 +116,10 @@ public class MetaEntry extends GenericEntry {
 	public String useOneShotTriggers = "True";
 	public String standardAirportExitAreaSideLength = "";
 	public String standardEnterAreaSideLength = "";
+	public String deactivateDialogsAtStart = "";
+	public String deactivateWarningsAtStart = "";
+	public String deactivateFailuresAtStart = "";
+	public String deactivateMissionFailuresAtStart = "";
 
 	public List<DelayedText> introSpeeches = new ArrayList<>();
 	public List<String> coPilots = new ArrayList<>();

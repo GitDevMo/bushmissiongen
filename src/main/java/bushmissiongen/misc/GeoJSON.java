@@ -1,13 +1,35 @@
 package bushmissiongen.misc;
 
+import java.util.EnumMap;
+
 import bushmissiongen.entries.MissionEntry;
 
 public class GeoJSON {
 	private StringBuffer mBuffer = new StringBuffer();
 	private int mCount;
-	
-	public GeoJSON() {}
-	
+
+	public enum GeoColor {
+		INTRO,
+		POI,
+		DIALOGENTRY,
+		DIALOGEXIT,
+		AIRPORT,
+		FAILURE,
+		MISSIONFAILURE
+	}
+
+	private EnumMap<GeoColor, String> mColorMap = new EnumMap<>(GeoColor.class);
+
+	public GeoJSON() {
+		mColorMap.put(GeoColor.INTRO, "#00ffff");
+		mColorMap.put(GeoColor.POI, "#007700");
+		mColorMap.put(GeoColor.DIALOGENTRY, "#000077");
+		mColorMap.put(GeoColor.DIALOGEXIT, "#0000ff");
+		mColorMap.put(GeoColor.AIRPORT, "#00ff00");
+		mColorMap.put(GeoColor.FAILURE, "#ff0000");
+		mColorMap.put(GeoColor.MISSIONFAILURE, "#ff3300");
+	}
+
 	public void reset() {
 		mCount = 0;
 		mBuffer = new StringBuffer();
@@ -26,7 +48,7 @@ public class GeoJSON {
 		mBuffer.append("]").append(System.lineSeparator());
 		mBuffer.append("}").append(System.lineSeparator());
 	}
-	
+
 	public void appendLine(String fromLatLon, String toLatLon) {
 		mBuffer.append(mCount==0 ? "{" : ",{").append(System.lineSeparator());
 		mBuffer.append("\"type\": \"Feature\",").append(System.lineSeparator());
@@ -43,7 +65,7 @@ public class GeoJSON {
 		mBuffer.append("}").append(System.lineSeparator());
 		mCount++;
 	}
-	
+
 	public void appendPoint(String latLon, String color) {
 		mBuffer.append(mCount==0 ? "{" : ",{").append(System.lineSeparator());
 		mBuffer.append("\"type\": \"Feature\",").append(System.lineSeparator());
@@ -62,8 +84,9 @@ public class GeoJSON {
 		mBuffer.append("}").append(System.lineSeparator());
 		mCount++;
 	}
-	
-	public void appendPolygon(String latLon, String width, String height, String heading, String stroke, String fill) {
+
+	public void appendPolygon(String latLon, String width, String height, String heading, String stroke, GeoColor geoColor) {
+		String fill = mColorMap.get(geoColor);
 		mBuffer.append(mCount==0 ? "{" : ",{").append(System.lineSeparator());
 		mBuffer.append("\"type\": \"Feature\",").append(System.lineSeparator());
 		mBuffer.append("\"properties\": {").append(System.lineSeparator());

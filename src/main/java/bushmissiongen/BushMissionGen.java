@@ -45,6 +45,7 @@ import bushmissiongen.messages.InfoMessage;
 import bushmissiongen.messages.Message;
 import bushmissiongen.misc.DelayedText;
 import bushmissiongen.misc.GeoJSON;
+import bushmissiongen.misc.GeoJSON.GeoColor;
 import bushmissiongen.misc.Localization;
 import bushmissiongen.misc.SimData;
 import bushmissiongen.misc.ToggleTrigger;
@@ -60,7 +61,10 @@ public class BushMissionGen {
 	// NEWS
 	// - Updated the manual. Thanks to cptdev the manual is now MUCH better formatted and structured! Great work!
 	// - Added a PDF version of the manual to the Help menu.
-	// - 
+	// - Added a field to deactivate dialogs when the mission starts (deactivateDialogsAtStart=[True/False]).
+	// - Added a field to deactivate warnings when the mission starts (deactivateWarningsAtStart=[True/False]).
+	// - Added a field to deactivate failures when the mission starts (deactivateFailuresAtStart=[True/False]).
+	// - Added a field to deactivate mission failures when the mission starts (deactivateMissionFailuresAtStart=[True/False]).
 
 	// TO DO
 	// - What is the Overview.htm file used for in landing challenges?
@@ -500,6 +504,22 @@ public class BushMissionGen {
 					if (metaField.equalsIgnoreCase("useAGL")) {
 						String val = metaString.trim().toLowerCase();
 						metaEntry.useAGL = val.equals("true") ? "True" : "";
+					}
+					if (metaField.equalsIgnoreCase("deactivateDialogsAtStart")) {
+						String val = metaString.trim().toLowerCase();
+						metaEntry.deactivateDialogsAtStart = val.equals("true") ? "True" : "";
+					}
+					if (metaField.equalsIgnoreCase("deactivateWarningsAtStart")) {
+						String val = metaString.trim().toLowerCase();
+						metaEntry.deactivateWarningsAtStart = val.equals("true") ? "True" : "";
+					}
+					if (metaField.equalsIgnoreCase("deactivateFailuresAtStart")) {
+						String val = metaString.trim().toLowerCase();
+						metaEntry.deactivateFailuresAtStart = val.equals("true") ? "True" : "";
+					}
+					if (metaField.equalsIgnoreCase("deactivateMissionFailuresAtStart")) {
+						String val = metaString.trim().toLowerCase();
+						metaEntry.deactivateMissionFailuresAtStart = val.equals("true") ? "True" : "";
 					}
 					if (metaField.equalsIgnoreCase("useOneShotTriggers")) {
 						String val = metaString.trim().toLowerCase();
@@ -1896,6 +1916,7 @@ public class BushMissionGen {
 					refId4 += String.format("%03d", count + 1);
 					ss = ss.replace("##REF_ID_TRIGGER##", refId4);
 					ss = ss.replace("##DESCR_TRIGGER##", "ProximityTriggerPOI" + (count + 0));
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", "True");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 					String boxSideSize = de.width;
@@ -1918,7 +1939,7 @@ public class BushMissionGen {
 					ss = ss.replace("##TOGGLE_COUNT_ACTIONS##", "");
 
 					// JSON
-					mGeoJSON.appendPolygon(me.latlon, boxSideSize, boxSideSize, de.heading, "#555555", "#007700");
+					mGeoJSON.appendPolygon(me.latlon, boxSideSize, boxSideSize, de.heading, "#555555", GeoColor.POI);
 
 					sb_DIALOGS.append(ss);
 					sb_DIALOGS.append(System.lineSeparator());
@@ -1959,6 +1980,7 @@ public class BushMissionGen {
 					refId4 += String.format("%03d", count + 1);
 					ss = ss.replace("##REF_ID_TRIGGER##", refId4);
 					ss = ss.replace("##DESCR_TRIGGER##", "ProximityTriggerPOI" + (count + 0));
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", "True");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 					String refId5 = "FDC6F3F4-F6CF-47BA-A1CD-A4951D95A";
@@ -1977,7 +1999,7 @@ public class BushMissionGen {
 						ss = ss.replace("##HEIGHT_AREA##", de.height);
 
 						// JSON
-						mGeoJSON.appendPolygon(prevMe.latlon, boxSideSize, boxSideSize, de.heading, "#555555", "#00ff00");
+						mGeoJSON.appendPolygon(prevMe.latlon, boxSideSize, boxSideSize, de.heading, "#555555", GeoColor.AIRPORT);
 					} else {
 						String boxSideSize = de.width;
 						if (!metaEntry.standardEnterAreaSideLength.isEmpty()) {
@@ -1989,7 +2011,7 @@ public class BushMissionGen {
 						ss = ss.replace("##HEIGHT_AREA##", de.height);
 
 						// JSON
-						mGeoJSON.appendPolygon(prevMe.latlon, boxSideSize, boxSideSize, de.heading, "#555555", "#007700");
+						mGeoJSON.appendPolygon(prevMe.latlon, boxSideSize, boxSideSize, de.heading, "#555555", GeoColor.POI);
 					}
 					ss = ss.replace("##HEADING_AREA##", de.heading);
 					ss = ss.replace("##LLA_AREA##", prevMe.latlon + ",-000200.00");
@@ -2056,6 +2078,7 @@ public class BushMissionGen {
 				de.triggerId = triggerName;
 				de.triggerGUID = refId4;
 				ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+				ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateDialogsAtStart.isEmpty() ? "True" : "False");
 				ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 				String refId5 = "9204A2ED-3C98-44C3-B7F3-2A4266485";
@@ -2108,7 +2131,7 @@ public class BushMissionGen {
 				}
 
 				// JSON
-				mGeoJSON.appendPolygon(de.latlon, de.width, de.length, de.heading, "#555555", de.exit ? "#0000ff" : "#000077");
+				mGeoJSON.appendPolygon(de.latlon, de.width, de.length, de.heading, "#555555", de.exit ? GeoColor.DIALOGEXIT : GeoColor.DIALOGENTRY);
 
 				sb_DIALOGS.append(ss);
 				sb_DIALOGS.append(System.lineSeparator());
@@ -2149,6 +2172,7 @@ public class BushMissionGen {
 					fe.triggerId = triggerName;
 					fe.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", fe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : fe.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", fe.height);
@@ -2174,6 +2198,7 @@ public class BushMissionGen {
 					fe.triggerId = triggerName;
 					fe.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##SPEED_TRIGGER##", fe.speed);
 					ss = ss.replace("##DESCR_ACTION##",  "SpeedFailureEntry" + (count + 1));
@@ -2198,6 +2223,7 @@ public class BushMissionGen {
 					fe.triggerId = triggerName;
 					fe.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", fe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : fe.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", fe.height);
@@ -2224,6 +2250,7 @@ public class BushMissionGen {
 					fe.triggerId = triggerName;
 					fe.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##FORMULA_TRIGGER##", fe.formula);
 					ss = ss.replace("##DESCR_ACTION##",  "FormulaFailureEntry" + (count + 1));
@@ -2245,6 +2272,7 @@ public class BushMissionGen {
 					fe.triggerId = triggerName;
 					fe.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 					String refId3 = "3B74D4C2-22B3-4405-B1FA-7CEE2AE3D";
@@ -2259,7 +2287,7 @@ public class BushMissionGen {
 					ss = ss.replace("##USE_AGL##", fe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : fe.agl);
 
 					// JSON
-					mGeoJSON.appendPolygon(fe.latlon, fe.width, fe.length, fe.heading, "#555555", "#ff0000");
+					mGeoJSON.appendPolygon(fe.latlon, fe.width, fe.length, fe.heading, "#555555", GeoColor.FAILURE);
 				}
 
 				if (foundMode) {
@@ -2346,7 +2374,7 @@ public class BushMissionGen {
 				ss = ss.replace("##DELAY_TRIGGER##", is.delay);
 
 				// JSON
-				mGeoJSON.appendPolygon(entries.get(0).latlon, "150.000", "150.000", "0.000", "#555555", "#00ffff");
+				mGeoJSON.appendPolygon(entries.get(0).latlon, "150.000", "150.000", "0.000", "#555555", GeoColor.INTRO);
 
 				sb_INTRODIALOG.append(System.lineSeparator());
 				sb_INTRODIALOG.append(System.lineSeparator());
@@ -2402,6 +2430,7 @@ public class BushMissionGen {
 					we.triggerId = triggerName;
 					we.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateWarningsAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", we.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : we.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", we.height);
@@ -2428,6 +2457,7 @@ public class BushMissionGen {
 					we.triggerId = triggerName;
 					we.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateWarningsAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##SPEED_TRIGGER##", we.speed);
 					ss = ss.replace("##DESCR_ACTION##",  "DialogSpeed" + (count2 + 1));
@@ -2453,6 +2483,7 @@ public class BushMissionGen {
 					we.triggerId = triggerName;
 					we.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateWarningsAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", we.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : we.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", we.height);
@@ -2480,6 +2511,7 @@ public class BushMissionGen {
 					we.triggerId = triggerName;
 					we.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateWarningsAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##FORMULA_TRIGGER##", we.formula);
 					ss = ss.replace("##DESCR_ACTION##",  "DialogFormula" + (count4 + 1));
@@ -2579,6 +2611,7 @@ public class BushMissionGen {
 					ss = ss.replace("##HEADING_AREA##", mfe.heading);
 					ss = ss.replace("##LLA_AREA##", mfe.latlon + ",-000200.00");
 					ss = ss.replace("##USE_AGL##", mfe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : mfe.agl);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##REF_ID_AREA##", refId5);
 					ss = ss.replace("##DESCR_AREA##",  "RectangleAreaLimit" + count_MISSIONFAILURES);
@@ -2607,7 +2640,7 @@ public class BushMissionGen {
 					sb_GOALS.append(su);
 
 					// JSON
-					mGeoJSON.appendPolygon(mfe.latlon, mfe.width, mfe.length, mfe.heading, "#555555", "#ff3300");
+					mGeoJSON.appendPolygon(mfe.latlon, mfe.width, mfe.length, mfe.heading, "#555555", GeoColor.MISSIONFAILURE);
 
 					// Finished actions
 					sb_FINISHEDACTIONS.append(System.lineSeparator());
@@ -2633,6 +2666,7 @@ public class BushMissionGen {
 					mfe.triggerId = triggerName;
 					mfe.triggerGUID = refId1;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", mfe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : mfe.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", mfe.value1);
@@ -2684,6 +2718,7 @@ public class BushMissionGen {
 					mfe.triggerId = triggerName;
 					mfe.triggerGUID = refId1;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##SPEED_TRIGGER##", mfe.value1);
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");
@@ -2734,6 +2769,7 @@ public class BushMissionGen {
 					mfe.triggerId = triggerName;
 					mfe.triggerGUID = refId1;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", mfe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : mfe.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", mfe.value1);
@@ -2788,6 +2824,7 @@ public class BushMissionGen {
 					mfe.triggerId = triggerName;
 					mfe.triggerGUID = refId1;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##DELAY_TRIGGER##", mfe.value1);
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");
 					ss = ss.replace("##REF_ID_ACTION##", refId3);
@@ -2848,6 +2885,7 @@ public class BushMissionGen {
 					mfe.triggerId = triggerName;
 					mfe.triggerGUID = refId1;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
+					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##FORMULA_TRIGGER##", mfe.value1);
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");
