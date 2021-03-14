@@ -378,7 +378,7 @@
         <CalculatorAction>
           <CalculatorFormula>
             (A:ATC RUNWAY DISTANCE, nautical miles)
-            10
+            ##META_MAXDISTANCETORUNWAY##
             &gt;
           </CalculatorFormula>
           <Actions>

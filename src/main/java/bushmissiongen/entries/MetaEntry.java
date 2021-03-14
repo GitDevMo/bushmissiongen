@@ -55,6 +55,7 @@ public class MetaEntry extends GenericEntry {
 	public String rightFlap = "050.00";
 	public String elevatorTrim = "050.00";
 	public String noGear = "";
+	public String maxDistanceToRunway = "10";
 
 	public static final String LandingChallenge_DefaultFile = "Missions\\Asobo\\LandingChallenges\\default\\LandingChallenge_Private";
 	public static final String LandingChallenge_PrivateTemplate = "land_private_template";

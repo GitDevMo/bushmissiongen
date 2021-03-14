@@ -56,15 +56,10 @@ import bushmissiongen.misc.ToggleTrigger;
  * @author  f99mlu
  */
 public class BushMissionGen {
-	public static final String VERSION = "1.76";
+	public static final String VERSION = "1.77";
 
 	// NEWS
-	// - Updated the manual. Thanks to cptdev the manual is now MUCH better formatted and structured! Great work!
-	// - Added a PDF version of the manual to the Help menu.
-	// - Added a field to deactivate dialogs when the mission starts (deactivateDialogsAtStart=[True/False]).
-	// - Added a field to deactivate warnings when the mission starts (deactivateWarningsAtStart=[True/False]).
-	// - Added a field to deactivate failures when the mission starts (deactivateFailuresAtStart=[True/False]).
-	// - Added a field to deactivate mission failures when the mission starts (deactivateMissionFailuresAtStart=[True/False]).
+	// - 
 
 	// TO DO
 	// - What is the Overview.htm file used for in landing challenges?
@@ -658,6 +653,16 @@ public class BushMissionGen {
 					if (metaField.equalsIgnoreCase("noGear")) {
 						String val = metaString.trim().toLowerCase();
 						metaEntry.noGear = val.equals("true") ? "True" : "";
+					}
+					if (metaField.equalsIgnoreCase("maxDistanceToRunway")) {
+						String val = metaString.trim();
+						Pattern pattern = Pattern.compile("^\\d+$");
+						boolean resVal = pattern.matcher(val).find();
+						if (!resVal) {
+							return new ErrorMessage("Wrong format for maxDistanceToRunway:\n\n" + line);
+						} else {
+							metaEntry.maxDistanceToRunway = val;
+						}
 					}
 				} else if (split.length == WP_SPLIT_LEN) {
 					MissionEntry entry = new MissionEntry();				
@@ -3246,6 +3251,7 @@ public class BushMissionGen {
 
 		XML_FILE = XML_FILE.replace("##META_PROJECT##", metaEntry.project);
 		XML_FILE = XML_FILE.replace("##META_TITLE##", metaEntry.titleID);
+		XML_FILE = XML_FILE.replace("##META_MAXDISTANCETORUNWAY##", metaEntry.maxDistanceToRunway);
 
 		Message msg = mFileHandling.writeStringToFile(outFile, XML_FILE, cs);
 		if (msg != null) {
