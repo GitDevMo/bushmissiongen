@@ -110,6 +110,7 @@ public class MetaEntry extends GenericEntry {
 	public String enableAtc = "";
 	public String enableChecklist = "";
 	public String enableObjectives = "";
+	public String requireNothing = "";
 	public String requireEnginesOff = "";
 	public String requireBatteryOff = "";
 	public String requireAvionicsOff = "";

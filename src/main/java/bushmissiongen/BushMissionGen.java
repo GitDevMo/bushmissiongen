@@ -59,6 +59,8 @@ public class BushMissionGen {
 	public static final String VERSION = "1.77";
 
 	// NEWS
+	// - Added a field to change the maximum distance from the runway in landing challenges (maxDistanceToRunway={length in nautical miles}).
+	// - Added a field to override the warning dialog when using the same airport twice (requireNothing=[True/False]).
 	// - 
 
 	// TO DO
@@ -483,6 +485,10 @@ public class BushMissionGen {
 					if (metaField.equalsIgnoreCase("enableObjectives")) {
 						String val = metaString.trim().toLowerCase();
 						metaEntry.enableObjectives = val.equals("true") ? "True" : "";
+					}
+					if (metaField.equalsIgnoreCase("requireNothing")) {
+						String val = metaString.trim().toLowerCase();
+						metaEntry.requireNothing = val.equals("true") ? "True" : "";
 					}
 					if (metaField.equalsIgnoreCase("requireEnginesOff")) {
 						String val = metaString.trim().toLowerCase();
@@ -1146,7 +1152,8 @@ public class BushMissionGen {
 			checkSet.addAll(airportICAOs);
 			if (airportICAOs.size() != checkSet.size()) {
 				mMultipleSameAirports = true;
-				if (metaEntry.requireEnginesOff.isEmpty() &&
+				if (metaEntry.requireNothing.isEmpty() &&
+						metaEntry.requireEnginesOff.isEmpty() &&
 						metaEntry.requireBatteryOff.isEmpty() &&
 						metaEntry.requireAvionicsOff.isEmpty()) {
 					return new ErrorMessage("Same airports appear more than once but none of the fields\nrequiresEnginesOff/requireBatteryOff/requireAvionicsOff\nare set to True!");
