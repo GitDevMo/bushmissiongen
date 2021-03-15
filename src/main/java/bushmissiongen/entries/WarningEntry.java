@@ -17,6 +17,8 @@ public class WarningEntry {
 	public String formula = "";
 	public String agl = "";
 
+	public String oneShot = "";
+
 	public String procWave = "";
 	public String procText = "";
 	public String procTextID = "";
@@ -52,8 +54,26 @@ public class WarningEntry {
 
 		if (currentMode == WarningEntryMode.ALTITUDE) {
 			height = split[1];
+			if (split.length>2) {
+				oneShot = split[2];
+
+				Pattern pattern = Pattern.compile("^(True|False)$");
+				boolean res = pattern.matcher(oneShot).find();
+				if (!res) {
+					return new ErrorMessage("Wrong format for WarningEntry:\n\n" + mField + "=" + mString);
+				}
+			}
 		} else if (currentMode == WarningEntryMode.SPEED) {
 			speed = split[1];
+			if (split.length>2) {
+				oneShot = split[2];
+
+				Pattern pattern = Pattern.compile("^(True|False)$");
+				boolean res = pattern.matcher(oneShot).find();
+				if (!res) {
+					return new ErrorMessage("Wrong format for WarningEntry:\n\n" + mField + "=" + mString);
+				}
+			}
 		} else if (currentMode == WarningEntryMode.ALTITUDE_AND_SPEED) {
 			// Text validation
 			if (split.length < 3 || split[2].trim().length()==0) {
@@ -62,8 +82,26 @@ public class WarningEntry {
 
 			height = split[1];
 			speed = split[2];
+			if (split.length>3) {
+				oneShot = split[3];
+
+				Pattern pattern = Pattern.compile("^(True|False)$");
+				boolean res = pattern.matcher(oneShot).find();
+				if (!res) {
+					return new ErrorMessage("Wrong format for WarningEntry:\n\n" + mField + "=" + mString);
+				}
+			}
 		} else if (currentMode == WarningEntryMode.FORMULA) {
 			formula = split[1];
+			if (split.length>2) {
+				oneShot = split[2];
+
+				Pattern pattern = Pattern.compile("^(True|False)$");
+				boolean res = pattern.matcher(oneShot).find();
+				if (!res) {
+					return new ErrorMessage("Wrong format for WarningEntry:\n\n" + mField + "=" + mString);
+				}
+			}
 		} else {
 			return new ErrorMessage("Wrong format for WarningEntry:\n\n" + mField + "=" + mString);
 		}

@@ -24,6 +24,8 @@ public class DialogEntry {
 
 	public String delay = "0.000";
 
+	public String oneShot = "";
+
 	public boolean exit = false;
 
 	public String procWave = "";
@@ -80,7 +82,7 @@ public class DialogEntry {
 						agl = "False";
 					}
 				}
-			}			
+			}
 		}
 
 		if (split.length>=7) {
@@ -89,6 +91,16 @@ public class DialogEntry {
 			Pattern pattern1 = Pattern.compile("^\\d+(\\.\\d{3})$");
 			boolean res6 = pattern1.matcher(delay).find();
 			if (!res6) {
+				return new ErrorMessage("Wrong format for dialogEntry:\n\n" + mField + "=" + mString);
+			}
+		}
+
+		if (split.length>=8) {
+			oneShot = split[7];
+
+			Pattern pattern2 = Pattern.compile("^(True|False)$");
+			boolean res7 = pattern2.matcher(oneShot).find();
+			if (!res7) {
 				return new ErrorMessage("Wrong format for dialogEntry:\n\n" + mField + "=" + mString);
 			}
 		}

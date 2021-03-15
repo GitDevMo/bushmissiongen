@@ -56,12 +56,11 @@ import bushmissiongen.misc.ToggleTrigger;
  * @author  f99mlu
  */
 public class BushMissionGen {
-	public static final String VERSION = "1.77";
+	public static final String VERSION = "1.78";
 
 	// NEWS
-	// - Added a field to change the maximum distance from the runway in landing challenges (maxDistanceToRunway={length in nautical miles}).
-	// - Added a field to override the warning dialog when using the same airport twice (requireNothing=[True/False]).
-	// - 
+	// - All mission failures now have a variant with a text.
+	// - Dialog and warnings now have variants to change the re-triggering behavior.
 
 	// TO DO
 	// - What is the Overview.htm file used for in landing challenges?
@@ -1929,6 +1928,7 @@ public class BushMissionGen {
 					ss = ss.replace("##REF_ID_TRIGGER##", refId4);
 					ss = ss.replace("##DESCR_TRIGGER##", "ProximityTriggerPOI" + (count + 0));
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", "True");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", "True");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 					String boxSideSize = de.width;
@@ -1993,6 +1993,7 @@ public class BushMissionGen {
 					ss = ss.replace("##REF_ID_TRIGGER##", refId4);
 					ss = ss.replace("##DESCR_TRIGGER##", "ProximityTriggerPOI" + (count + 0));
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", "True");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", "True");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 					String refId5 = "FDC6F3F4-F6CF-47BA-A1CD-A4951D95A";
@@ -2091,7 +2092,8 @@ public class BushMissionGen {
 				de.triggerGUID = refId4;
 				ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 				ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateDialogsAtStart.isEmpty() ? "True" : "False");
-				ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
+				ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateDialogsAtStart.isEmpty() ? "True" : "False");
+				ss = ss.replace("##ONESHOT_TRIGGER##", de.oneShot.isEmpty() ? (metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True") : de.oneShot);
 
 				String refId5 = "9204A2ED-3C98-44C3-B7F3-2A4266485";
 				refId5 += String.format("%03d", count + 1);
@@ -2185,6 +2187,7 @@ public class BushMissionGen {
 					fe.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", fe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : fe.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", fe.height);
@@ -2211,6 +2214,7 @@ public class BushMissionGen {
 					fe.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##SPEED_TRIGGER##", fe.speed);
 					ss = ss.replace("##DESCR_ACTION##",  "SpeedFailureEntry" + (count + 1));
@@ -2236,6 +2240,7 @@ public class BushMissionGen {
 					fe.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", fe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : fe.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", fe.height);
@@ -2263,6 +2268,7 @@ public class BushMissionGen {
 					fe.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##FORMULA_TRIGGER##", fe.formula);
 					ss = ss.replace("##DESCR_ACTION##",  "FormulaFailureEntry" + (count + 1));
@@ -2285,6 +2291,7 @@ public class BushMissionGen {
 					fe.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 					String refId3 = "3B74D4C2-22B3-4405-B1FA-7CEE2AE3D";
@@ -2443,7 +2450,9 @@ public class BushMissionGen {
 					we.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateWarningsAtStart.isEmpty() ? "True" : "False");
-					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateWarningsAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ONESHOT_TRIGGER##", we.oneShot.isEmpty() ? (metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True") : we.oneShot);
+
 					ss = ss.replace("##ALTITUDEMODE##", we.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : we.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", we.height);
 					ss = ss.replace("##DESCR_ACTION##",  "DialogAltitude" + (count1 + 1));
@@ -2470,7 +2479,8 @@ public class BushMissionGen {
 					we.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateWarningsAtStart.isEmpty() ? "True" : "False");
-					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateWarningsAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ONESHOT_TRIGGER##", we.oneShot.isEmpty() ? (metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True") : we.oneShot);
 					ss = ss.replace("##SPEED_TRIGGER##", we.speed);
 					ss = ss.replace("##DESCR_ACTION##",  "DialogSpeed" + (count2 + 1));
 					ss = ss.replace("##REF_ID_ACTION##", refId1);
@@ -2496,7 +2506,8 @@ public class BushMissionGen {
 					we.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateWarningsAtStart.isEmpty() ? "True" : "False");
-					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateWarningsAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ONESHOT_TRIGGER##", we.oneShot.isEmpty() ? (metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True") : we.oneShot);
 					ss = ss.replace("##ALTITUDEMODE##", we.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : we.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", we.height);
 					ss = ss.replace("##SPEED_TRIGGER##", we.speed);
@@ -2524,7 +2535,8 @@ public class BushMissionGen {
 					we.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateWarningsAtStart.isEmpty() ? "True" : "False");
-					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateWarningsAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ONESHOT_TRIGGER##", we.oneShot.isEmpty() ? (metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True") : we.oneShot);
 					ss = ss.replace("##FORMULA_TRIGGER##", we.formula);
 					ss = ss.replace("##DESCR_ACTION##",  "DialogFormula" + (count4 + 1));
 					ss = ss.replace("##REF_ID_ACTION##", refId1);
@@ -2624,6 +2636,7 @@ public class BushMissionGen {
 					ss = ss.replace("##LLA_AREA##", mfe.latlon + ",-000200.00");
 					ss = ss.replace("##USE_AGL##", mfe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : mfe.agl);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##REF_ID_AREA##", refId5);
 					ss = ss.replace("##DESCR_AREA##",  "RectangleAreaLimit" + count_MISSIONFAILURES);
@@ -2639,7 +2652,11 @@ public class BushMissionGen {
 					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
 					st = st.replace("##REF_ID_GOAL##", refId2);
-					st = st.replace("##FAILURETEXT_GOAL##", "ILLEGAL AREA!");
+					if (!mfe.value2.isEmpty()) {
+						st = st.replace("##FAILURETEXT_GOAL##", mfe.value2);
+					} else {
+						st = st.replace("##FAILURETEXT_GOAL##", "ILLEGAL AREA!");
+					}
 					sb_OBJECTIVES.append(st);
 
 					// GOALS
@@ -2679,6 +2696,7 @@ public class BushMissionGen {
 					mfe.triggerGUID = refId1;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", mfe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : mfe.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", mfe.value1);
@@ -2694,7 +2712,11 @@ public class BushMissionGen {
 					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
 					st = st.replace("##REF_ID_GOAL##", refId2);
-					st = st.replace("##FAILURETEXT_GOAL##", "TOO HIGH UP!");
+					if (!mfe.value2.isEmpty()) {
+						st = st.replace("##FAILURETEXT_GOAL##", mfe.value2);
+					} else {
+						st = st.replace("##FAILURETEXT_GOAL##", "TOO HIGH UP!");
+					}
 					sb_OBJECTIVES.append(st);
 
 					// GOALS
@@ -2731,6 +2753,7 @@ public class BushMissionGen {
 					mfe.triggerGUID = refId1;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##SPEED_TRIGGER##", mfe.value1);
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");
@@ -2745,7 +2768,11 @@ public class BushMissionGen {
 					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
 					st = st.replace("##REF_ID_GOAL##", refId2);
-					st = st.replace("##FAILURETEXT_GOAL##", "TOO FAST!");
+					if (!mfe.value2.isEmpty()) {
+						st = st.replace("##FAILURETEXT_GOAL##", mfe.value2);
+					} else {
+						st = st.replace("##FAILURETEXT_GOAL##", "TOO FAST!");
+					}
 					sb_OBJECTIVES.append(st);
 
 					// GOALS
@@ -2782,6 +2809,7 @@ public class BushMissionGen {
 					mfe.triggerGUID = refId1;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##ALTITUDEMODE##", mfe.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "AMSL" : "AGL") : mfe.agl.equals("False") ? "AMSL" : "AGL");
 					ss = ss.replace("##HEIGHT_TRIGGER##", mfe.value1);
@@ -2798,7 +2826,11 @@ public class BushMissionGen {
 					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
 					st = st.replace("##REF_ID_GOAL##", refId2);
-					st = st.replace("##FAILURETEXT_GOAL##", "TOO HIGH UP AND TOO FAST!");
+					if (!mfe.value3.isEmpty()) {
+						st = st.replace("##FAILURETEXT_GOAL##", mfe.value3);
+					} else {
+						st = st.replace("##FAILURETEXT_GOAL##", "TOO HIGH UP AND TOO FAST!");
+					}
 					sb_OBJECTIVES.append(st);
 
 					// GOALS
@@ -2837,6 +2869,7 @@ public class BushMissionGen {
 					mfe.triggerGUID = refId1;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##DELAY_TRIGGER##", mfe.value1);
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");
 					ss = ss.replace("##REF_ID_ACTION##", refId3);
@@ -2851,7 +2884,11 @@ public class BushMissionGen {
 					String st = XML_OBJECTIVE;
 					sb_OBJECTIVES.append(System.lineSeparator());
 					st = st.replace("##REF_ID_GOAL##", refId2);
-					st = st.replace("##FAILURETEXT_GOAL##", "TIME OUT!");
+					if (!mfe.value2.isEmpty()) {
+						st = st.replace("##FAILURETEXT_GOAL##", mfe.value2);
+					} else {
+						st = st.replace("##FAILURETEXT_GOAL##", "TIME OUT!");
+					}
 					sb_OBJECTIVES.append(st);
 
 					// GOALS
@@ -2898,6 +2935,7 @@ public class BushMissionGen {
 					mfe.triggerGUID = refId1;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
+					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateMissionFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 					ss = ss.replace("##FORMULA_TRIGGER##", mfe.value1);
 					ss = ss.replace("##DESCR_ACTION##", "ACT_FailGoal");

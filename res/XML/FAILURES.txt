@@ -7,6 +7,7 @@
     <SimMission.ProximityTrigger InstanceId="{##REF_ID_TRIGGER##}">
       <Descr>##DESCR_TRIGGER##</Descr>
       <DefaultActivated>##DEFAULTACTIVATED_TRIGGER##</DefaultActivated>
+      <Activated>##ACTIVATED_TRIGGER##</Activated>
       <OneShot>##ONESHOT_TRIGGER##</OneShot>
       <OnEnterActions>
         <ObjectReference id="##DESCR_FAILURE##" InstanceId="{##REF_ID_FAILURE##}"/>##TOGGLE_ACTIONS####TOGGLE_COUNT_ACTIONS##
