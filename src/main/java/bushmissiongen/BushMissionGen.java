@@ -1928,7 +1928,7 @@ public class BushMissionGen {
 					ss = ss.replace("##REF_ID_TRIGGER##", refId4);
 					ss = ss.replace("##DESCR_TRIGGER##", "ProximityTriggerPOI" + (count + 0));
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", "True");
-					ss = ss.replace("##ACTIVATED_TRIGGER##", "True");
+//					ss = ss.replace("##ACTIVATED_TRIGGER##", "True");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 					String boxSideSize = de.width;
@@ -1993,7 +1993,7 @@ public class BushMissionGen {
 					ss = ss.replace("##REF_ID_TRIGGER##", refId4);
 					ss = ss.replace("##DESCR_TRIGGER##", "ProximityTriggerPOI" + (count + 0));
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", "True");
-					ss = ss.replace("##ACTIVATED_TRIGGER##", "True");
+//					ss = ss.replace("##ACTIVATED_TRIGGER##", "True");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 					String refId5 = "FDC6F3F4-F6CF-47BA-A1CD-A4951D95A";
@@ -2092,7 +2092,7 @@ public class BushMissionGen {
 				de.triggerGUID = refId4;
 				ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 				ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateDialogsAtStart.isEmpty() ? "True" : "False");
-				ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateDialogsAtStart.isEmpty() ? "True" : "False");
+//				ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateDialogsAtStart.isEmpty() ? "True" : "False");
 				ss = ss.replace("##ONESHOT_TRIGGER##", de.oneShot.isEmpty() ? (metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True") : de.oneShot);
 
 				String refId5 = "9204A2ED-3C98-44C3-B7F3-2A4266485";
@@ -2291,7 +2291,7 @@ public class BushMissionGen {
 					fe.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
-					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
+//					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 					String refId3 = "3B74D4C2-22B3-4405-B1FA-7CEE2AE3D";
