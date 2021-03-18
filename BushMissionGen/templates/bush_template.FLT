@@ -238,7 +238,6 @@ RequestedFlightPlan=False
 AcState=ACSTATE_REQUEST_TAXI_CLEARANCE_OUT_VFR_ATIS
 ##WAYPOINTS##
 NumberofWaypoints=##WAYPOINTS_COUNT##
-
 ClearanceFlags=88a
 CtCur=CLEARANCE_NONE
 WaypointNext=1

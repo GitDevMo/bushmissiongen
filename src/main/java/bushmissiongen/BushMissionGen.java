@@ -1148,6 +1148,19 @@ public class BushMissionGen {
 
 		// CHECKING CHECKING CHECKING CHECKING!!!
 		if (metaEntry.missionType.equals("bush")) {
+			int count_APS = 0;
+			MissionEntry lastME = null;
+			// Make sure there is only one airport
+			for (MissionEntry me : entries) {
+				if (me.type.equals(WpType.AIRPORT)) {
+					count_APS++;
+				}
+				lastME = me;
+			}
+			if (count_APS<2) {
+				return new ErrorMessage("A bush mission must start and end at airports.");
+			}
+
 			// Make sure there are POIs in every legs
 			boolean foundA = false;
 			boolean foundU = true;
@@ -1181,6 +1194,16 @@ public class BushMissionGen {
 						metaEntry.requireAvionicsOff.isEmpty()) {
 					return new ErrorMessage("Same airports appear more than once but none of the fields\nrequiresEnginesOff/requireBatteryOff/requireAvionicsOff\nare set to True!");
 				}
+			}
+
+			// The first entry must be an airport!
+			if (!entries.get(0).type.equals(WpType.AIRPORT)) {
+				return new ErrorMessage("The first entry must be an airport!");
+			}
+
+			// The last entry must be an airport!
+			if (!lastME.type.equals(WpType.AIRPORT)) {
+				return new ErrorMessage("The last entry must be an airport!");
 			}
 		} else {
 			int count_CUSTS = 0;
