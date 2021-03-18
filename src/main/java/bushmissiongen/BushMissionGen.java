@@ -56,11 +56,10 @@ import bushmissiongen.misc.ToggleTrigger;
  * @author  f99mlu
  */
 public class BushMissionGen {
-	public static final String VERSION = "1.78";
+	public static final String VERSION = "1.79";
 
 	// NEWS
-	// - All mission failures now have a variant with a text.
-	// - Dialog and warnings now have variants to change the re-triggering behavior.
+	// - 
 
 	// TO DO
 	// - What is the Overview.htm file used for in landing challenges?
@@ -1000,13 +999,24 @@ public class BushMissionGen {
 
 		String recept_fileXML = "##PATH_DIR##" + File.separator + "templates" + File.separator + metaEntry.missionType + "_template.xml";
 		if (metaEntry.missionType.equals("land")) {
-			String recept_landing_private = "##PATH_DIR##" + File.separator + "templates" + File.separator + MetaEntry.LandingChallenge_PrivateTemplate + ".xml";
-			String recept_landing_nogear = "##PATH_DIR##" + File.separator + "templates" + File.separator + MetaEntry.LandingChallenge_NoGearTemplate + ".xml";
+			if (mSimData.airliners.contains(metaEntry.plane)) {
+				String recept_landing_airliner = "##PATH_DIR##" + File.separator + "templates" + File.separator + MetaEntry.LandingChallenge_AirlinerTemplate + ".xml";
+				String recept_landing_airliner_nogear = "##PATH_DIR##" + File.separator + "templates" + File.separator + MetaEntry.LandingChallenge_AirlinerNoGearTemplate + ".xml";
 
-			if (metaEntry.noGear.isEmpty()) {
-				recept_fileXML = recept_landing_private;
+				if (metaEntry.noGear.isEmpty()) {
+					recept_fileXML = recept_landing_airliner;
+				} else {
+					recept_fileXML = recept_landing_airliner_nogear;
+				}
 			} else {
-				recept_fileXML = recept_landing_nogear;
+				String recept_landing_private = "##PATH_DIR##" + File.separator + "templates" + File.separator + MetaEntry.LandingChallenge_PrivateTemplate + ".xml";
+				String recept_landing_private_nogear = "##PATH_DIR##" + File.separator + "templates" + File.separator + MetaEntry.LandingChallenge_PrivateNoGearTemplate + ".xml";
+
+				if (metaEntry.noGear.isEmpty()) {
+					recept_fileXML = recept_landing_private;
+				} else {
+					recept_fileXML = recept_landing_private_nogear;
+				}
 			}
 		}
 		String recept_root = "##PATH_DIR##";

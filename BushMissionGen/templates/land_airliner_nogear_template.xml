@@ -1,0 +1,991 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<SimBase.Document Type="MissionFile" version="1,0">
+  <Title>##META_TITLE##</Title>
+  <Filename>##META_PROJECT##.spb</Filename>
+  <WorldBase.Flight>
+    <SimMission.ObjectActivationAction InstanceId="{23EEAA99-5BF4-46EB-94C8-9F143237E918}">
+      <WorldBase.ObjectReferenceList>
+        <ObjectReference id="Goal GL_Mission" InstanceId="{B488630F-D746-4676-A1FB-5375C6EBA07B}" />
+      </WorldBase.ObjectReferenceList>
+    </SimMission.ObjectActivationAction>
+    <SimMission.Goal id="GL_Mission" InstanceId="{B488630F-D746-4676-A1FB-5375C6EBA07B}">
+      <SimBase.Descr>landing success</SimBase.Descr>
+      <SimBase.Text>TT:MISSIONMESSAGE.LANDING.SUCCESS</SimBase.Text>
+      <WorldBase.Activated>false</WorldBase.Activated>
+      <Order>0</Order>
+    </SimMission.Goal>
+    <SimMission.GoalResolutionAction id="GR_SUCCESS" InstanceId="{D437B9F0-7CD5-4D49-996A-7C27CBCB7B90}">
+      <SimBase.Descr>End Of Mission</SimBase.Descr>
+      <Immediate>false</Immediate>
+      <GoalResolution>completed</GoalResolution>
+      <Goals>
+        <WorldBase.ObjectReference id="GL_Mission" InstanceId="{B488630F-D746-4676-A1FB-5375C6EBA07B}" />
+      </Goals>
+    </SimMission.GoalResolutionAction>
+    <SimMission.GoalResolutionAction id="GR_FAILURE" InstanceId="{05117509-527A-43EE-B5DC-6B435450DA26}">
+      <SimBase.Descr>End Of Mission</SimBase.Descr>
+      <Immediate>false</Immediate>
+      <GoalResolution>failed</GoalResolution>
+      <Goals>
+        <WorldBase.ObjectReference id="GL_Mission" InstanceId="{B488630F-D746-4676-A1FB-5375C6EBA07B}" />
+      </Goals>
+    </SimMission.GoalResolutionAction>
+    <SimMission.GoalResolutionAction id="GR_ABORTED" InstanceId="{B0D68517-CDBF-4ED8-8E20-60307FA3EC20}">
+      <SimBase.Descr>End Of Mission</SimBase.Descr>
+      <Immediate>false</Immediate>
+      <GoalResolution>aborted</GoalResolution>
+      <Goals>
+        <WorldBase.ObjectReference id="GL_Mission" InstanceId="{B488630F-D746-4676-A1FB-5375C6EBA07B}" />
+      </Goals>
+    </SimMission.GoalResolutionAction>
+    <SimMission.SubGoal id="SGL_StayInLandingZone" InstanceId="{F86554A6-AD74-40E3-A9AC-EC64C909519C}">
+      <SimBase.Descr>SGL_StayInLandingZone</SimBase.Descr>
+      <WorldBase.Activated>true</WorldBase.Activated>
+      <SubGoalState>completed</SubGoalState>
+    </SimMission.SubGoal>
+    <SimMission.SubGoalResolutionAction InstanceId="{3D96BFCE-90B7-4CD4-9A99-A440361E2F60}">
+      <SimBase.Descr>SGL_StayInLandingZone_completed</SimBase.Descr>
+      <SubGoalResolution>completed</SubGoalResolution>
+      <SubGoals>
+        <WorldBase.ObjectReference id="SGL_StayInLandingZone" InstanceId="{F86554A6-AD74-40E3-A9AC-EC64C909519C}" />
+      </SubGoals>
+    </SimMission.SubGoalResolutionAction>
+    <SimMission.SubGoalResolutionAction InstanceId="{CDEACA4C-D1EC-4332-8018-F567074DC04F}">
+      <SimBase.Descr>SGL_StayInLandingZone_aborted</SimBase.Descr>
+      <SubGoalResolution>aborted</SubGoalResolution>
+      <SubGoals>
+        <WorldBase.ObjectReference id="SGL_StayInLandingZone" InstanceId="{F86554A6-AD74-40E3-A9AC-EC64C909519C}" />
+      </SubGoals>
+    </SimMission.SubGoalResolutionAction>
+    <SimMission.SubGoal id="SGL_LandOnRunway" InstanceId="{DAC8E9A8-8ECE-4F48-93AC-8BCEA08DED4E}">
+      <SimBase.Descr>SGL_LandOnRunway</SimBase.Descr>
+      <WorldBase.Activated>true</WorldBase.Activated>
+      <SubGoalState>pending</SubGoalState>
+    </SimMission.SubGoal>
+    <SimMission.SubGoalResolutionAction InstanceId="{5FD1A882-EF78-4D84-9E0E-442E7563399E}">
+      <SimBase.Descr>SGL_LandOnRunway_completed</SimBase.Descr>
+      <SubGoalResolution>completed</SubGoalResolution>
+      <SubGoals>
+        <WorldBase.ObjectReference id="SGL_LandOnRunway" InstanceId="{DAC8E9A8-8ECE-4F48-93AC-8BCEA08DED4E}" />
+      </SubGoals>
+    </SimMission.SubGoalResolutionAction>
+    <SimMission.SubGoalResolutionAction InstanceId="{1950C33C-81E8-4422-BA8F-23E626644C3D}">
+      <SimBase.Descr>SGL_LandOnRunway_failed</SimBase.Descr>
+      <SubGoalResolution>failed</SubGoalResolution>
+      <SubGoals>
+        <WorldBase.ObjectReference id="SGL_LandOnRunway" InstanceId="{DAC8E9A8-8ECE-4F48-93AC-8BCEA08DED4E}" />
+      </SubGoals>
+    </SimMission.SubGoalResolutionAction>
+    <SimMission.SubGoal id="SGL_LandOnRightSideOfRunway" InstanceId="{0A3D23EA-3A3E-487D-98A1-3888CA0256CE}">
+      <SimBase.Descr>SGL_LandOnRightSideOfRunway</SimBase.Descr>
+      <WorldBase.Activated>true</WorldBase.Activated>
+      <SubGoalState>pending</SubGoalState>
+    </SimMission.SubGoal>
+    <SimMission.SubGoalResolutionAction InstanceId="{6F1FDDDA-4E09-4BD4-80F2-0360B08C6996}">
+      <SimBase.Descr>SGL_LandOnRightSideOfRunway_completed</SimBase.Descr>
+      <SubGoalResolution>completed</SubGoalResolution>
+      <SubGoals>
+        <WorldBase.ObjectReference id="SGL_LandOnRightSideOfRunway" InstanceId="{0A3D23EA-3A3E-487D-98A1-3888CA0256CE}" />
+      </SubGoals>
+    </SimMission.SubGoalResolutionAction>
+    <SimMission.SubGoalResolutionAction InstanceId="{5A062543-A25F-4EC7-88ED-8F7E6CE2FB6A}">
+      <SimBase.Descr>SGL_LandOnRightSideOfRunway_failed</SimBase.Descr>
+      <SubGoalResolution>failed</SubGoalResolution>
+      <SubGoals>
+        <WorldBase.ObjectReference id="SGL_LandOnRightSideOfRunway" InstanceId="{0A3D23EA-3A3E-487D-98A1-3888CA0256CE}" />
+      </SubGoals>
+    </SimMission.SubGoalResolutionAction>
+    <SimMission.SubGoal id="SGL_FullStopLanding" InstanceId="{CCB14657-7E82-4D08-B073-3560C344F16F}">
+      <SimBase.Descr>SGL_FullStopLanding</SimBase.Descr>
+      <WorldBase.Activated>true</WorldBase.Activated>
+      <SubGoalState>pending</SubGoalState>
+    </SimMission.SubGoal>
+    <SimMission.SubGoalResolutionAction InstanceId="{EBF2229B-66D4-46DF-BF3C-063265436781}">
+      <SimBase.Descr>SGL_FullStopLanding_completed</SimBase.Descr>
+      <SubGoalResolution>completed</SubGoalResolution>
+      <SubGoals>
+        <WorldBase.ObjectReference id="SGL_FullStopLanding" InstanceId="{CCB14657-7E82-4D08-B073-3560C344F16F}" />
+      </SubGoals>
+    </SimMission.SubGoalResolutionAction>
+    <SimMission.SubGoalResolutionAction InstanceId="{C5B486FF-E7F8-4E26-A10F-834E8F13CA4A}">
+      <SimBase.Descr>SGL_FullStopLanding_failed</SimBase.Descr>
+      <SubGoalResolution>failed</SubGoalResolution>
+      <SubGoals>
+        <WorldBase.ObjectReference id="SGL_FullStopLanding" InstanceId="{CCB14657-7E82-4D08-B073-3560C344F16F}" />
+      </SubGoals>
+    </SimMission.SubGoalResolutionAction>
+    <SimMission.Calculator id="CLTR_RunwayLandingCheck" InstanceId="{3A7218C5-4549-40A8-9A4E-749ACB60E6FE}">
+      <SimBase.Descr>Landing check</SimBase.Descr>
+      <WorldBase.Activated>true</WorldBase.Activated>
+      <CalculatorFormula>
+        [LandingComplete]
+        if{	1 }	els{ 0 }
+      </CalculatorFormula>
+      <CalculatorParameterList>
+        <FormulaParameter NameInFormula="OnGround">
+          <CalculatorFormula>
+            (A:SIM ON GROUND, Boolean) 0 &gt;
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="FirstTouchDown">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            [OnGround]
+            [FirstTouchDown] !
+            and
+            [FirstTouchDownDone] !
+            and
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="FirstTouchDownDone">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            [FirstTouchDown]
+            [FirstTouchDownDone]
+            max
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="OverRunwayArea">
+          <CalculatorFormula>
+            (A:ATC RUNWAY RELATIVE POSITION X, meters) abs
+            0.6 (A:ATC RUNWAY WIDTH, meters) *
+            &lt;
+
+            (A:ATC RUNWAY RELATIVE POSITION Z, meters) abs
+            0.6 (A:ATC RUNWAY LENGTH, meters) *
+            &lt;
+            and
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="WrongLanding">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            (A:PLANE HEADING DEGREES TRUE, degrees)
+            (A:ATC RUNWAY HEADING DEGREES TRUE, degrees) -
+			900 +
+            360	%
+			180 -
+            abs
+            90 &gt;
+            [FirstTouchDown]
+            and
+            [OverRunwayArea]
+            and
+            [WrongLanding]
+            or
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="Timer_AfterLanding">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            (A:AIRSPEED TRUE, Knots) 20 &lt;
+            [Timer_InsideOfRunway] 15 &gt;
+            or
+            [OnGround]
+            and
+            [OverRunwayArea]
+            and
+            [WrongLanding] not
+            and
+            if{
+            [Timer_AfterLanding]
+            [dtime]
+            +
+            }
+            els{
+            0
+            }
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="LandingComplete">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            [Timer_AfterLanding] 1 &gt;
+            [LandingComplete]
+            or
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="Timer_WrongLanding">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            [WrongLanding] if{
+            [Timer_WrongLanding]
+            [dtime]
+            +
+            }
+            els{
+            0
+            }
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="Timer_TouchdownCancelled">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            [LandingComplete] not
+            [OnGround] not
+            [FirstTouchDownDone]
+            and
+            and
+            if{
+            [Timer_TouchdownCancelled]
+            [dtime]
+            +
+            }
+            els{
+            0
+            }
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="Timer_OutOfRunway">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            [LandingComplete] not
+            [OnGround]
+            [OverRunwayArea] not
+            and
+            and
+            if{
+            [Timer_OutOfRunway]
+            [dtime]
+            +
+            }
+            els{
+            0
+            }
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="Timer_InsideOfRunway">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            [LandingComplete] not
+            [OnGround]
+            [OverRunwayArea]
+            and
+            and
+            if{
+            [Timer_InsideOfRunway]
+            [dtime]
+            +
+            }
+            els{
+            0
+            }
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="EndOfChallenge">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            [LandingComplete]
+            (A:ATC RUNWAY DISTANCE, feet) 4000 &gt;
+            and
+            [OnGround] not
+            and
+            [EndOfChallenge]
+            or
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="Timer_EndOfChallenge">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            [EndOfChallenge]
+            if{
+            [Timer_EndOfChallenge]
+            [dtime]
+            +
+            }
+            els{
+            0
+            }
+          </CalculatorFormula>
+        </FormulaParameter>
+      </CalculatorParameterList>
+      <CalculatorActions>
+        <CalculatorAction>
+          <CalculatorFormula>
+            [EndOfChallenge]
+          </CalculatorFormula>
+          <Actions>
+            <WorldBase.ObjectReference id="Act_FreeFlightMode" InstanceId="{69D8E5C9-91CC-4BAC-A5BB-BFA3F8BAE915}" />
+          </Actions>
+        </CalculatorAction>
+        <CalculatorAction>
+          <CalculatorFormula>
+            [Timer_EndOfChallenge]  5 &gt;
+          </CalculatorFormula>
+          <Actions>
+            <WorldBase.ObjectReference id="ACT_ContinueToFreeFlight" InstanceId="{2AC1BAB1-9099-4108-9157-2E7ACC7299F7}" />
+          </Actions>
+        </CalculatorAction>
+        <CalculatorAction>
+          <CalculatorFormula>
+            [Timer_WrongLanding] 3 &gt;
+          </CalculatorFormula>
+          <Actions>
+            <WorldBase.ObjectReference id="SGL_LandOnRightSideOfRunway_failed" InstanceId="{5A062543-A25F-4EC7-88ED-8F7E6CE2FB6A}" />
+            <WorldBase.ObjectReference id="GR_FAILURE" InstanceId="{05117509-527A-43EE-B5DC-6B435450DA26}" />
+          </Actions>
+        </CalculatorAction>
+        <CalculatorAction>
+          <CalculatorFormula>
+            [Timer_TouchdownCancelled] 10 &gt;
+          </CalculatorFormula>
+          <Actions>
+            <WorldBase.ObjectReference id="SGL_FullStopLanding_failed" InstanceId="{C5B486FF-E7F8-4E26-A10F-834E8F13CA4A}" />
+            <WorldBase.ObjectReference id="GR_FAILURE" InstanceId="{05117509-527A-43EE-B5DC-6B435450DA26}" />
+          </Actions>
+        </CalculatorAction>
+        <CalculatorAction>
+          <CalculatorFormula>
+            [Timer_OutOfRunway] 5 &gt;
+          </CalculatorFormula>
+          <Actions>
+            <WorldBase.ObjectReference id="SGL_LandOnRunway_failed" InstanceId="{1950C33C-81E8-4422-BA8F-23E626644C3D}" />
+            <WorldBase.ObjectReference id="GR_FAILURE" InstanceId="{05117509-527A-43EE-B5DC-6B435450DA26}" />
+          </Actions>
+        </CalculatorAction>
+        <CalculatorAction>
+          <CalculatorFormula>
+            [OnGround] not
+            and
+          </CalculatorFormula>
+        </CalculatorAction>
+        <CalculatorAction>
+          <CalculatorFormula>
+            [OnGround] not
+            and
+          </CalculatorFormula>
+        </CalculatorAction>
+        <CalculatorAction>
+          <CalculatorFormula>
+            [OnGround]
+            and
+          </CalculatorFormula>
+          <Actions>
+            <WorldBase.ObjectReference id="GR_FAILURE" InstanceId="{05117509-527A-43EE-B5DC-6B435450DA26}" />
+          </Actions>
+        </CalculatorAction>
+        <CalculatorAction>
+          <CalculatorFormula>
+            [LandingComplete]
+          </CalculatorFormula>
+          <Actions>
+            <WorldBase.ObjectReference id="SGL_StayInLandingZone_completed" InstanceId="{3D96BFCE-90B7-4CD4-9A99-A440361E2F60}" />
+            <WorldBase.ObjectReference id="SGL_LandOnRunway_completed" InstanceId="{5FD1A882-EF78-4D84-9E0E-442E7563399E}" />
+            <WorldBase.ObjectReference id="SGL_LandOnRightSideOfRunway_completed" InstanceId="{6F1FDDDA-4E09-4BD4-80F2-0360B08C6996}" />
+            <WorldBase.ObjectReference id="SGL_FullStopLanding_completed" InstanceId="{EBF2229B-66D4-46DF-BF3C-063265436781}" />
+          </Actions>
+        </CalculatorAction>
+        <CalculatorAction>
+          <CalculatorFormula>
+            (A:ATC RUNWAY DISTANCE, nautical miles)
+            ##META_MAXDISTANCETORUNWAY##
+            &gt;
+          </CalculatorFormula>
+          <Actions>
+            <WorldBase.ObjectReference id="SGL_StayInLandingZone_aborted" InstanceId="{CDEACA4C-D1EC-4332-8018-F567074DC04F}" />
+            <WorldBase.ObjectReference id="GR_ABORTED" InstanceId="{B0D68517-CDBF-4ED8-8E20-60307FA3EC20}" />
+          </Actions>
+        </CalculatorAction>
+        <CalculatorAction>
+          <CalculatorFormula>
+            [FirstTouchDown]
+          </CalculatorFormula>
+          <Actions>
+            <WorldBase.ObjectReference id="ACTActive_Touchdown" InstanceId="{96C39544-0367-4ABD-A39B-CF21A6A16C2E}" />
+            <WorldBase.ObjectReference id="ACTActive_GroundRoll" InstanceId="{E616B69B-9068-481C-869D-DB240CCA4AAA}" />
+          </Actions>
+        </CalculatorAction>
+      </CalculatorActions>
+    </SimMission.Calculator>
+    <SimMission.MissionLandingChallenge InstanceId="{5066DDF9-784D-4752-BEEA-3D31383A9528}">
+      <SimBase.Descr>Landing challenge</SimBase.Descr>
+      <WorldBase.Activated>true</WorldBase.Activated>
+      <SuccessText>TT:MISSIONMESSAGE.LANDING.SUCCESS</SuccessText>
+      <FailureText>TT:MISSIONMESSAGE.LANDING.FAILED</FailureText>
+      <AbortedText>TT:MISSIONMESSAGE.ACTIVITY.FAILED</AbortedText>
+      <Objectives>
+        <Objective id="Obj_LandingChallenge" UniqueRefId="{B488630F-D746-4676-A1FB-5375C6EBA07B}">
+          <Optional>false</Optional>
+          <SimBase.Descr>Hard conditions landing</SimBase.Descr>
+          <AbortedText>TT:MISSIONMESSAGE.ACTIVITY.OUT_OF_BOUNDS</AbortedText>
+          <TriggerNotification>false</TriggerNotification>
+          <Steps>
+            <Step id="SGL_LandOnRunway" UniqueRefId="{DAC8E9A8-8ECE-4F48-93AC-8BCEA08DED4E}">
+              <SimBase.Descr>land on designated runway</SimBase.Descr>
+              <SuccessText>Done</SuccessText>
+              <FailureText>TT:MISSIONMESSAGE.ACTIVITY.WRONG_RUNWAY</FailureText>
+              <TriggerNotification>false</TriggerNotification>
+            </Step>
+            <Step id="SGL_LandOnRightSideOfRunway" UniqueRefId="{0A3D23EA-3A3E-487D-98A1-3888CA0256CE}">
+              <SimBase.Descr>land on correct side of the designated runway</SimBase.Descr>
+              <SuccessText>Done</SuccessText>
+              <FailureText>TT:MISSIONMESSAGE.ACTIVITY.WRONG_RUNWAY</FailureText>
+              <TriggerNotification>false</TriggerNotification>
+            </Step>
+            <Step id="SGL_FullStopLanding" UniqueRefId="{CCB14657-7E82-4D08-B073-3560C344F16F}">
+              <SimBase.Descr>Land on the runway</SimBase.Descr>
+              <SuccessText>Done</SuccessText>
+              <FailureText>TT:MISSIONMESSAGE.ACTIVITY.CANCEL_TD</FailureText>
+              <TriggerNotification>false</TriggerNotification>
+            </Step>
+          </Steps>
+        </Objective>
+      </Objectives>
+      <Score id="CLTR_GlobalScore" UniqueRefId="{146CC350-796C-4062-BE6D-B81E5B965D9E}">
+        <SimBase.Text>TT:MISSIONMESSAGE.ACTIVITY.LC_GLOBAL_SCORE</SimBase.Text>
+        <ScoreList>
+          <Score id="EV_TDDistanceScore" UniqueRefId="{73F567B1-E018-4C55-9DF7-29282F37E8B8}" TrackedValueInstanceId="{F7A94BF5-2944-4D6D-AD9F-A964CF31C1E8}">
+            <MaxValue>5000.000</MaxValue>
+            <ValueSuffix>ft</ValueSuffix>
+            <SimBase.Text>TT:MISSIONMESSAGE.ACTIVITY.LC_LANDING_PRECISION</SimBase.Text>
+            <IconName>landing_precision.svg</IconName>
+            <ScoreType>Add</ScoreType>
+          </Score>
+          <Score id="EV_AverageDistRunwayCenter_X" UniqueRefId="{69A11CE0-0C29-480C-A0F3-5C74C4BD0BC5}" TrackedValueInstanceId="{BB8DFFE3-DE18-427F-81D3-717CF1BA0291}">
+            <MaxValue>5000.000</MaxValue>
+            <ValueSuffix>ft</ValueSuffix>
+            <SimBase.Text>TT:MISSIONMESSAGE.ACTIVITY.LC_CENTERLINE</SimBase.Text>
+            <IconName>center_line.svg</IconName>
+            <ScoreType>Add</ScoreType>
+          </Score>
+          <Score id="EV_VerticalS" UniqueRefId="{55476438-FB40-4AA4-A25C-C49BE58DA336}" TrackedValueInstanceId="{1A6F0319-B3D4-4237-B697-8E5459964E3B}">
+            <MaxValue>200.000</MaxValue>
+            <ValueSuffix>fpm</ValueSuffix>
+            <SimBase.Text>TT:MISSIONMESSAGE.ACTIVITY.LC_LANDING_SMOOTHNESS</SimBase.Text>
+            <IconName>landing_smoothness.svg</IconName>
+            <ScoreType>Multiply</ScoreType>
+          </Score>
+        </ScoreList>
+      </Score>
+    </SimMission.MissionLandingChallenge>
+    <SimMission.TimerTrigger InstanceId="{975FF37B-2962-476E-B906-1DFD54CAC4A7}">
+      <SimBase.Descr>StartTrigger</SimBase.Descr>
+      <WorldBase.Activated>true</WorldBase.Activated>
+      <OneShot>true</OneShot>
+      <OnScreenTimer>true</OnScreenTimer>
+      <StartTime>0.000</StartTime>
+      <StopTime>0.000</StopTime>
+      <Actions>
+        <WorldBase.ObjectReference id="LANDINGCHALLENGE" InstanceId="{80E2EEDE-4C46-4AFD-BD05-23DFDA5F33C4}" />
+        <WorldBase.ObjectReference id="WiseAFSSet" InstanceId="{43071EAB-D106-41CC-88D6-B113CDAE289B}" />
+        <WorldBase.ObjectReference id="WWiseIntroState" InstanceId="{2D07717A-AEFD-454C-9A18-9520423DBB3C}" />
+        <WorldBase.ObjectReference id="AI takes controls" InstanceId="{4B05ACB0-24FF-4E91-9C8B-2A71F881DE6F}" />
+      </Actions>
+    </SimMission.TimerTrigger>
+    <SimMission.AITakeControlsAction InstanceId="{4B05ACB0-24FF-4E91-9C8B-2A71F881DE6F}">
+      <SimBase.Descr>AI takes controls</SimBase.Descr>
+      <AIControl>true</AIControl>
+      <SimActionsLimited>true</SimActionsLimited>
+    </SimMission.AITakeControlsAction>
+    <SimMission.AITakeControlsAction InstanceId="{1AA91671-30AD-4A5C-8DEF-7D80C558EBDC}">
+      <SimBase.Descr>AI leaves controls</SimBase.Descr>
+      <AIControl>false</AIControl>
+    </SimMission.AITakeControlsAction>
+    <SimMission.TimerTrigger InstanceId="{875FF37B-2962-476E-B906-1DFD54CAC4A7}">
+      <SimBase.Descr>TimerTrigger_EndBriefing</SimBase.Descr>
+      <WorldBase.Activated>false</WorldBase.Activated>
+      <OneShot>true</OneShot>
+      <StartTime>0.000</StartTime>
+      <StopTime>10.000</StopTime>
+      <Actions>
+        <WorldBase.ObjectReference id="FlowEvent_End_Briefing" InstanceId="{F4FEBADA-8867-43E7-832D-947FAFCD8187}" />
+      </Actions>
+    </SimMission.TimerTrigger>
+    <SimMission.FlowEventAction InstanceId="{F4FEBADA-8867-43E7-832D-947FAFCD8187}">
+      <SimBase.Descr>FlowEvent_End_Briefing</SimBase.Descr>
+      <FlowEvents>
+        <FlowEvent id="END_BRIEFING" />
+      </FlowEvents>
+    </SimMission.FlowEventAction>
+    <SimMission.FlowEventAction InstanceId="{E4FEBADA-8867-43E7-832D-947FAFCD8187}">
+      <SimBase.Descr>FlowEvent_UnPause_Sim</SimBase.Descr>
+      <FlowEvents>
+        <FlowEvent id="UNPAUSE_SIM" />
+      </FlowEvents>
+    </SimMission.FlowEventAction>
+    <SimMission.ObjectActivationAction InstanceId="{B4D57F9A-4CED-49CB-B0B4-26E0C1090ED5}">
+      <SimBase.Descr>TurnOff_TimerTrigger_EndBriefing</SimBase.Descr>
+      <NewObjectState>false</NewObjectState>
+      <WorldBase.ObjectReferenceList>
+        <ObjectReference id="TimerTrigger_EndBriefing" InstanceId="{875FF37B-2962-476E-B906-1DFD54CAC4A7}" />
+      </WorldBase.ObjectReferenceList>
+    </SimMission.ObjectActivationAction>
+    <SimMission.ObjectActivationAction InstanceId="{A4D57F9A-4CED-49CB-B0B4-26E0C1090ED5}">
+      <SimBase.Descr>TurnOn_TimerTrigger_EndBriefing</SimBase.Descr>
+      <NewObjectState>true</NewObjectState>
+      <WorldBase.ObjectReferenceList>
+        <ObjectReference id="TimerTrigger_EndBriefing" InstanceId="{875FF37B-2962-476E-B906-1DFD54CAC4A7}" />
+      </WorldBase.ObjectReferenceList>
+    </SimMission.ObjectActivationAction>
+    <SimMission.FlowStateAction InstanceId="{80E2EEDE-4C46-4AFD-BD05-23DFDA5F33C4}">
+      <FlowStateName>LANDINGCHALLENGE</FlowStateName>
+      <FromSpawn>true</FromSpawn>
+      <TeleportActions>
+        <WorldBase.ObjectReference id="WWiseRTCState_RTC_IN_FLIGHT" InstanceId="{97CD6888-5DA9-45FA-8800-70A7000DB7FA}" />
+        <WorldBase.ObjectReference id="RTC_Airport_Intro" InstanceId="{18818CE1-18B4-4943-A8CC-D5362D943993}" />
+        <WorldBase.ObjectReference id="FlowEvent_UnPause_Sim" InstanceId="{E4FEBADA-8867-43E7-832D-947FAFCD8187}" />
+        <WorldBase.ObjectReference id="WWiseRTCState_NON_RTC" InstanceId="{C3271B26-2A26-4830-A0DA-BB6AF9020A87}" />
+        <WorldBase.ObjectReference id="TurnOn_TimerTrigger_EndBriefing" InstanceId="{A4D57F9A-4CED-49CB-B0B4-26E0C1090ED5}" />
+        <WorldBase.ObjectReference id="RTC_Flying_Aircraft_Intro" InstanceId="{7B45E0FC-F507-4AFB-99EE-53DBE8291374}" />
+      </TeleportActions>
+      <TeleportFlowEvents>
+        <FlowEvent id="SHOW_MISSION_STARTUP" />
+        <FlowEvent id="PAUSE_SIM" />
+      </TeleportFlowEvents>
+      <StartActions>
+        <WorldBase.ObjectReference id="ACTActive_GL_Mission" InstanceId="{23EEAA99-5BF4-46EB-94C8-9F143237E918}" />
+        <WorldBase.ObjectReference id="WWiseRTCState_NON_RTC" InstanceId="{C3271B26-2A26-4830-A0DA-BB6AF9020A87}" />
+        <WorldBase.ObjectReference id="AI leaves controls" InstanceId="{1AA91671-30AD-4A5C-8DEF-7D80C558EBDC}" />
+        <WorldBase.ObjectReference id="TurnOff_TimerTrigger_EndBriefing" InstanceId="{B4D57F9A-4CED-49CB-B0B4-26E0C1090ED5}" />
+      </StartActions>
+      <StartFlowEvents>
+        <FlowEvent id="PANEL_ATC_FORCE_DISABLED" />
+        <FlowEvent id="PANEL_CHECKLIST_FORCE_DISABLED" />
+        <FlowEvent id="PANEL_FUEL_PAYLOAD_FORCE_DISABLED" />
+        <FlowEvent id="PANEL_TELEPORT_FORCE_DISABLED" />
+        <FlowEvent id="PANEL_REPLAY_FORCE_DISABLED" />
+        <FlowEvent id="PANEL_COPILOT_FORCE_DISABLED" />
+        <FlowEvent id="PANEL_OBJECTIVES_FORCE_DISABLED" />
+        <FlowEvent id="UNPAUSE_SIM" />
+      </StartFlowEvents>
+      <EventTriggersFiles>
+        <EventTriggersFile id="missions\Asobo\LandingChallenges\default\EventTriggersLandingChallenge" />
+      </EventTriggersFiles>
+    </SimMission.FlowStateAction>
+    <SimMission.FlowStateWise InstanceId="{43071EAB-D106-41CC-88D6-B113CDAE289B}">
+      <SimBase.Descr>WiseAFSSet</SimBase.Descr>
+      <GroupName>ACTIVITIES_FLOW_STATE</GroupName>
+      <ElementName>LANDING_CHALLENGE</ElementName>
+    </SimMission.FlowStateWise>
+    <SimMission.FlowStateWise InstanceId="{2D07717A-AEFD-454C-9A18-9520423DBB3C}">
+      <SimBase.Descr>WWiseIntroState</SimBase.Descr>
+      <GroupName>GAME_FLOW_STATE</GroupName>
+      <ElementName>INTRO</ElementName>
+    </SimMission.FlowStateWise>
+    <SimMission.FlowStateWise InstanceId="{97CD6888-5DA9-45FA-8800-70A7000DB7FA}">
+      <SimBase.Descr>WWiseRTCState_RTC_IN_FLIGHT</SimBase.Descr>
+      <GroupName>GAME_RTC_STATE</GroupName>
+      <ElementName>RTC_IN_FLIGHT</ElementName>
+    </SimMission.FlowStateWise>
+    <SimMission.FlowStateWise InstanceId="{C3271B26-2A26-4830-A0DA-BB6AF9020A87}">
+      <SimBase.Descr>WWiseRTCState_NON_RTC</SimBase.Descr>
+      <GroupName>GAME_RTC_STATE</GroupName>
+      <ElementName>NON_RTC</ElementName>
+    </SimMission.FlowStateWise>
+    <SimMission.EventTriggerAction id="Act_SendNotif" InstanceId="{952743E5-F838-4F51-A1A0-07E8DCD44019}">
+      <SimBase.Descr>Scoring done</SimBase.Descr>
+      <Name>EVENT_TRIGGER_LANDING_SCORE_NOTIF</Name>
+    </SimMission.EventTriggerAction>
+    <SimMission.EventTriggerAction id="Act_FreeFlightMode" InstanceId="{69D8E5C9-91CC-4BAC-A5BB-BFA3F8BAE915}">
+      <SimBase.Descr>End of challenge</SimBase.Descr>
+      <Name>EVENT_TRIGGER_SWITCH_FREEFLIGHT</Name>
+    </SimMission.EventTriggerAction>
+    <SimMission.MissionScoreToLeaderboardAction id="Act_SendScoreToLeaderboard" InstanceId="{9E3D0E3D-8E03-421A-9260-C354CA97D042}">
+      <SimBase.Descr>Send score to leaderboard action</SimBase.Descr>
+    </SimMission.MissionScoreToLeaderboardAction>
+    <SimMission.ObjectActivationAction id="StopScoring" InstanceId="{4DA9F87E-8226-4FDD-B2CC-A67B5F137106}">
+      <SimBase.Descr>Deactive scoring objects</SimBase.Descr>
+      <NewObjectState>false</NewObjectState>
+      <WorldBase.ObjectReferenceList>
+        <ObjectReference id="CLTR_VerticalS" InstanceId="{1A6F0319-B3D4-4237-B697-8E5459964E3B}" />
+        <ObjectReference id="EV_VerticalS" InstanceId="{55476438-FB40-4AA4-A25C-C49BE58DA336}" />
+        <ObjectReference id="CLTR_TDDist" InstanceId="{498F329F-EBBE-4A38-8943-2730B0EE727E}" />
+        <ObjectReference id="CLTR_TDDistScoring" InstanceId="{F7A94BF5-2944-4D6D-AD9F-A964CF31C1E8}" />
+        <ObjectReference id="EV_TDDistanceScore" InstanceId="{73F567B1-E018-4C55-9DF7-29282F37E8B8}" />
+        <ObjectReference id="CLTR_MaxDistToRunwayCenter" InstanceId="{BB8DFFE3-DE18-427F-81D3-717CF1BA0291}" />
+        <ObjectReference id="EV_DistRunwayCenter" InstanceId="{69A11CE0-0C29-480C-A0F3-5C74C4BD0BC5}" />
+      </WorldBase.ObjectReferenceList>
+    </SimMission.ObjectActivationAction>
+    <SimMission.FlowEventAction InstanceId="{2AC1BAB1-9099-4108-9157-2E7ACC7299F7}">
+      <SimBase.Descr>Continue to free flight</SimBase.Descr>
+      <FlowEvents>
+        <FlowEvent id="ASK_CONTINUE_TO_FREE_FLIGHT" />
+      </FlowEvents>
+    </SimMission.FlowEventAction>
+    <SimMission.ObjectActivationAction id="ACTActive_Touchdown" InstanceId="{96C39544-0367-4ABD-A39B-CF21A6A16C2E}">
+      <SimBase.Descr>Active TD calculators</SimBase.Descr>
+      <NewObjectState>true</NewObjectState>
+      <WorldBase.ObjectReferenceList>
+        <ObjectReference id="EV_TDDistanceScore" InstanceId="{73F567B1-E018-4C55-9DF7-29282F37E8B8}" />
+        <ObjectReference id="CLTR_TDDist" InstanceId="{498F329F-EBBE-4A38-8943-2730B0EE727E}" />
+        <ObjectReference id="CLTR_TDDistScoring" InstanceId="{F7A94BF5-2944-4D6D-AD9F-A964CF31C1E8}" />
+        <ObjectReference id="CLTR_VerticalS" InstanceId="{1A6F0319-B3D4-4237-B697-8E5459964E3B}" />
+      </WorldBase.ObjectReferenceList>
+    </SimMission.ObjectActivationAction>
+    <SimMission.Calculator id="CLTR_VerticalS" InstanceId="{1A6F0319-B3D4-4237-B697-8E5459964E3B}">
+      <SimBase.Descr>Touchdown VerticalSpeed</SimBase.Descr>
+      <WorldBase.Activated>false</WorldBase.Activated>
+      <StartValue>0.000</StartValue>
+      <CalculatorFormula>
+		[activated] if{ [result] (A:PLANE TOUCHDOWN NORMAL VELOCITY, feet per minute) max } els{ [result] }
+       </CalculatorFormula>
+    </SimMission.Calculator>
+    <SimMission.Evaluator id="EV_VerticalS" InstanceId="{55476438-FB40-4AA4-A25C-C49BE58DA336}" UniqueRefId="{1A6F0319-B3D4-4237-B697-8E5459964E3B}">
+      <SimBase.Descr>Touchdown Vertical Speed Evaluator</SimBase.Descr>
+      <WorldBase.Activated>true</WorldBase.Activated>
+      <Thresholds>
+        <Threshold ThresholdValue="0.000" ResultValue="100.000" />
+        <Threshold ThresholdValue="12.000" ResultValue="199.000" />
+        <Threshold ThresholdValue="20.000" ResultValue="198.000" />
+        <Threshold ThresholdValue="33.000" ResultValue="197.000" />
+        <Threshold ThresholdValue="53.000" ResultValue="195.000" />
+        <Threshold ThresholdValue="86.000" ResultValue="191.000" />
+        <Threshold ThresholdValue="137.000" ResultValue="184.000" />
+        <Threshold ThresholdValue="213.000" ResultValue="173.000" />
+        <Threshold ThresholdValue="321.000" ResultValue="155.000" />
+        <Threshold ThresholdValue="465.000" ResultValue="131.000" />
+        <Threshold ThresholdValue="638.000" ResultValue="102.000" />
+        <Threshold ThresholdValue="825.000" ResultValue="73.000" />
+        <Threshold ThresholdValue="1002.000" ResultValue="48.000" />
+        <Threshold ThresholdValue="1153.000" ResultValue="30.000" />
+        <Threshold ThresholdValue="1268.000" ResultValue="17.000" />
+        <Threshold ThresholdValue="1350.000" ResultValue="10.000" />
+        <Threshold ThresholdValue="1500.000" ResultValue="1.000" />
+      </Thresholds>
+    </SimMission.Evaluator>
+    <SimMission.Calculator id="CLTR_TDDist" InstanceId="{F7A94BF5-2944-4D6D-AD9F-A964CF31C1E8}">
+      <SimBase.Descr>Touch down distance</SimBase.Descr>
+      <WorldBase.Activated>false</WorldBase.Activated>
+      <StartValue>0.000</StartValue>
+      <CalculatorFormula>
+        [TDDistZ]
+      </CalculatorFormula>
+      <CalculatorParameterList>
+        <FormulaParameter NameInFormula="BreakExec">
+          <CalculatorFormula>
+				(X:activated) not (&gt;X:break)
+			</CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="TouchedDown">
+          <CalculatorFormula>
+            (A:SIM ON GROUND, Boolean) 0 &gt;
+            [OnGround] not
+            and
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="OnGround">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            (A:SIM ON GROUND, Boolean) 0 &gt;
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="TDDistZ">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            [TouchedDown]
+            if{
+            [TDDistZ] (A:ATC RUNWAY TDPOINT RELATIVE POSITION Z, feet) abs max
+            }
+            els{
+            [TDDistZ]
+            }
+          </CalculatorFormula>
+        </FormulaParameter>
+      </CalculatorParameterList>
+    </SimMission.Calculator>
+    <SimMission.Calculator id="CLTR_TDDistRatio" InstanceId="{498F329F-EBBE-4A38-8943-2730B0EE727E}">
+      <SimBase.Descr>Touch down distance</SimBase.Descr>
+      <WorldBase.Activated>false</WorldBase.Activated>
+      <StartValue>0.000</StartValue>
+      <CalculatorFormula>
+        [TDDistZ] [DistToStart] / 100 * abs
+      </CalculatorFormula>
+      <CalculatorParameterList>
+        <ReferenceParameter id="CLTR_TDDist" UniqueRefId="{F7A94BF5-2944-4D6D-AD9F-A964CF31C1E8}" NameInFormula="TDDistZ" />
+        <FormulaParameter NameInFormula="DistZTDPoint">
+          <CalculatorFormula>
+            (A:ATC RUNWAY TDPOINT RELATIVE POSITION Z, feet)
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="DistZCenter">
+          <CalculatorFormula>
+            (A:ATC RUNWAY RELATIVE POSITION Z, feet)
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="RunwayHalfLength">
+          <CalculatorFormula>
+            0.5 (A:ATC RUNWAY LENGTH, feet) *
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="DistToStart">
+          <CalculatorFormula>
+            [RunwayHalfLength] [DistZCenter] + [DistZTDPoint] -
+          </CalculatorFormula>
+        </FormulaParameter>
+      </CalculatorParameterList>
+    </SimMission.Calculator>
+    <SimMission.Evaluator id="EV_TDDistanceScore" InstanceId="{73F567B1-E018-4C55-9DF7-29282F37E8B8}" UniqueRefId="{498F329F-EBBE-4A38-8943-2730B0EE727E}">
+      <SimBase.Descr>Touch down distance Evaluator</SimBase.Descr>
+      <WorldBase.Activated>true</WorldBase.Activated>
+      <Thresholds>
+        <Threshold ThresholdValue="0.000" ResultValue="5000.000" />
+        <Threshold ThresholdValue="5.000" ResultValue="4853.000" />
+        <Threshold ThresholdValue="7.000" ResultValue="4763.000" />
+        <Threshold ThresholdValue="11.000" ResultValue="4621.000" />
+        <Threshold ThresholdValue="15.000" ResultValue="4404.000" />
+        <Threshold ThresholdValue="22.000" ResultValue="4088.000" />
+        <Threshold ThresholdValue="30.000" ResultValue="3655.000" />
+        <Threshold ThresholdValue="40.000" ResultValue="3112.000" />
+        <Threshold ThresholdValue="50.000" ResultValue="2500.000" />
+        <Threshold ThresholdValue="60.000" ResultValue="1888.000" />
+        <Threshold ThresholdValue="70.000" ResultValue="1345.000" />
+        <Threshold ThresholdValue="78.000" ResultValue="912.000" />
+        <Threshold ThresholdValue="85.000" ResultValue="596.000" />
+        <Threshold ThresholdValue="89.000" ResultValue="379.000" />
+        <Threshold ThresholdValue="93.000" ResultValue="237.000" />
+        <Threshold ThresholdValue="95.000" ResultValue="147.000" />
+        <Threshold ThresholdValue="100.000" ResultValue="1.000" />
+      </Thresholds>
+    </SimMission.Evaluator>
+    <SimMission.ObjectActivationAction id="ACTActive_GroundRoll" InstanceId="{E616B69B-9068-481C-869D-DB240CCA4AAA}">
+      <SimBase.Descr>Active Groundroll</SimBase.Descr>
+      <NewObjectState>true</NewObjectState>
+      <WorldBase.ObjectReferenceList>
+        <ObjectReference id="CLTR_RunwayCenterScore" InstanceId="{BB8DFFE3-DE18-427F-81D3-717CF1BA0291}" />
+        <ObjectReference id="EV_DistRunwayCenter" InstanceId="{69A11CE0-0C29-480C-A0F3-5C74C4BD0BC5}" />
+      </WorldBase.ObjectReferenceList>
+    </SimMission.ObjectActivationAction>
+    <SimMission.Calculator id="CLTR_MaxDistToRunwayCenter" InstanceId="{BB8DFFE3-DE18-427F-81D3-717CF1BA0291}">
+      <SimBase.Descr>Ground Roll</SimBase.Descr>
+      <WorldBase.Activated>false</WorldBase.Activated>
+      <StartValue>0.000</StartValue>
+      <CalculatorFormula>
+        [TouchDownX] [FinalScore]+
+        [Multiplier] *
+      </CalculatorFormula>
+      <CalculatorParameterList>
+        <FormulaParameter NameInFormula="BreakExec">
+          <CalculatorFormula>
+				(X:activated) not (&gt;X:break)
+			</CalculatorFormula>
+        </FormulaParameter>
+        <ReferenceParameter id="CLTR_RunwayLandingCheck" UniqueRefId="{3A7218C5-4549-40A8-9A4E-749ACB60E6FE}" NameInFormula="LandingComplete" />
+        <FormulaParameter NameInFormula="FinalScore">
+          <CalculatorFormula>
+            [LandingComplete] [LandingCompleteDone] not and
+            if{
+            [SumDist] [X] +
+            }
+            els{
+            [SumDist]
+            }
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="LandingCompleteDone">
+          <CalculatorFormula>
+            [LandingComplete]
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="prevX">
+          <CalculatorFormula>
+            [X]
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="X">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            (A:ATC RUNWAY TDPOINT RELATIVE POSITION X, feet) abs
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="TouchDownX">
+          <CalculatorFormula>
+            [Changed] 0 &lt;
+            if{
+            [X]
+            }
+            els{
+            [TouchDownX]
+            }
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="Changed">
+          <StartValue>-1.000</StartValue>
+          <CalculatorFormula>
+            [X] [prevX] - 0 &gt;
+            [DXPositive]
+            !=
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="DXPositive">
+          <StartValue>1.000</StartValue>
+          <CalculatorFormula>
+            [X] [prevX] - 0 &gt;
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="LocalMin">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            [Changed] if{
+            [DXPositive]
+            if{
+            [prevX] [LocalMin] - 6 - 0 &gt;
+            [prevX] [LocalMin] &lt;
+            or
+            if{
+            [prevX]
+            }
+            els{
+            [LocalMin]
+            }
+            }
+            els{
+            [LocalMin]
+            }
+            }
+            els{
+            [LocalMin]
+            }
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="SumDist">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            [Changed] if{
+            [DXPositive] not
+            if{
+            [prevX] [LocalMin] - 6 - 0 &gt;
+            if{
+            [SumDist] [prevX] +
+            }
+            els{
+            [SumDist]
+            }
+            }
+            els{
+            [SumDist]
+            }
+            }
+            els{
+            [SumDist]
+            }
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="OutOfRunway">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            [X] abs
+            0.5 (A:ATC RUNWAY WIDTH, feet) *
+            &gt;
+            [OutOfRunway]
+            or
+
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="Multiplier">
+          <CalculatorFormula>
+            [OutOfRunway]
+            if{
+            2
+            }
+            els{
+            1
+            }
+
+          </CalculatorFormula>
+        </FormulaParameter>
+      </CalculatorParameterList>
+    </SimMission.Calculator>
+    <SimMission.Evaluator id="EV_DistRunwayCenter" InstanceId="{69A11CE0-0C29-480C-A0F3-5C74C4BD0BC5}" UniqueRefId="{BB8DFFE3-DE18-427F-81D3-717CF1BA0291}">
+      <SimBase.Descr>Max distance to runway center score</SimBase.Descr>
+      <WorldBase.Activated>false</WorldBase.Activated>
+      <Thresholds>
+        <Threshold ThresholdValue="0.000" ResultValue="5000.000" />
+        <Threshold ThresholdValue="4.000" ResultValue="4853.000" />
+        <Threshold ThresholdValue="6.000" ResultValue="4763.000" />
+        <Threshold ThresholdValue="8.000" ResultValue="4621.000" />
+        <Threshold ThresholdValue="11.000" ResultValue="4404.000" />
+        <Threshold ThresholdValue="16.000" ResultValue="4088.000" />
+        <Threshold ThresholdValue="21.000" ResultValue="3655.000" />
+        <Threshold ThresholdValue="29.000" ResultValue="3112.000" />
+        <Threshold ThresholdValue="37.000" ResultValue="2500.000" />
+        <Threshold ThresholdValue="48.000" ResultValue="1888.000" />
+        <Threshold ThresholdValue="60.000" ResultValue="1345.000" />
+        <Threshold ThresholdValue="73.000" ResultValue="912.000" />
+        <Threshold ThresholdValue="86.000" ResultValue="596.000" />
+        <Threshold ThresholdValue="99.000" ResultValue="379.000" />
+        <Threshold ThresholdValue="110.000" ResultValue="237.000" />
+        <Threshold ThresholdValue="119.000" ResultValue="147.000" />
+        <Threshold ThresholdValue="150.000" ResultValue="1.000" />
+      </Thresholds>
+    </SimMission.Evaluator>
+    <SimMission.Calculator id="CLTR_GlobalScore" InstanceId="{146CC350-796C-4062-BE6D-B81E5B965D9E}">
+      <SimBase.Descr>Global score calculator</SimBase.Descr>
+      <CalculatorFormula>
+        [LandingComplete]
+        if{ [FinalScore] } els{ 0 }
+      </CalculatorFormula>
+      <CalculatorParameterList>
+        <ReferenceParameter id="EV_VerticalS" UniqueRefId="{55476438-FB40-4AA4-A25C-C49BE58DA336}" NameInFormula="LandingSmoothness" />
+        <ReferenceParameter id="CLTR_TDDistScore" UniqueRefId="{73F567B1-E018-4C55-9DF7-29282F37E8B8}" NameInFormula="LandingPrecision" />
+        <ReferenceParameter id="EV_DistRunwayCenter_X" UniqueRefId="{69A11CE0-0C29-480C-A0F3-5C74C4BD0BC5}" NameInFormula="Centerline" />
+        <ReferenceParameter id="CLTR_RunwayLandingCheck" UniqueRefId="{3A7218C5-4549-40A8-9A4E-749ACB60E6FE}" NameInFormula="LandingComplete" />
+        <FormulaParameter NameInFormula="Timer_LandingComplete">
+          <StartValue>0.000</StartValue>
+          <CalculatorFormula>
+            [LandingComplete]
+            if{
+            [Timer_LandingComplete]
+            [dtime]
+            +
+            }
+            els{
+            0
+            }
+          </CalculatorFormula>
+        </FormulaParameter>
+        <FormulaParameter NameInFormula="FinalScore">
+          <CalculatorFormula>
+            [Centerline]
+            [LandingPrecision]
+            +
+            [LandingSmoothness]
+            *
+            near
+            
+          </CalculatorFormula>
+        </FormulaParameter>
+      </CalculatorParameterList>
+      <CalculatorActions>
+        <CalculatorAction>
+          <CalculatorFormula>
+            [LandingComplete]
+          </CalculatorFormula>
+          <Actions>
+            <WorldBase.ObjectReference id="StopScoring" InstanceId="{4DA9F87E-8226-4FDD-B2CC-A67B5F137106}" />
+            <WorldBase.ObjectReference id="Act_SendScoreToLeaderboard" InstanceId="{9E3D0E3D-8E03-421A-9260-C354CA97D042}" />
+          </Actions>
+        </CalculatorAction>
+        <CalculatorAction>
+          <CalculatorFormula>
+            [Timer_LandingComplete] 4 &gt;
+          </CalculatorFormula>
+          <Actions>
+            <WorldBase.ObjectReference id="Act_SendNotif" InstanceId="{952743E5-F838-4F51-A1A0-07E8DCD44019}" />
+          </Actions>
+        </CalculatorAction>
+        <CalculatorAction>
+          <CalculatorFormula>
+            [LandingComplete]
+            (A:GROUND VELOCITY, Knots) 2 &lt;
+            and
+          </CalculatorFormula>
+          <Actions>
+            <WorldBase.ObjectReference id="GR_SUCCESS" InstanceId="{D437B9F0-7CD5-4D49-996A-7C27CBCB7B90}" />
+          </Actions>
+        </CalculatorAction>
+      </CalculatorActions>
+    </SimMission.Calculator>
+  </WorldBase.Flight>
+  <WorldBase.PreloadedLibraryObject>
+    <SimBase.Node>
+      <ResourceName>Mission</ResourceName>
+      <Node>
+        <ResourceName>LandingChallenge</ResourceName>
+        <File>
+          <ResourceName>TouchpointTarget</ResourceName>
+          <GUID>{C68C163B-5863-4085-92C8-462A4D8C88FB}</GUID>
+        </File>
+      </Node>
+    </SimBase.Node>
+  </WorldBase.PreloadedLibraryObject>
+</SimBase.Document>
