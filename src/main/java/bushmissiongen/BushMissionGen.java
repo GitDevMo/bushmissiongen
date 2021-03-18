@@ -59,6 +59,8 @@ public class BushMissionGen {
 	public static final String VERSION = "1.79";
 
 	// NEWS
+	// - Added airliner landing template files to the project. It is used for the standard airliners.
+	// - Added an optional field to force the usage of airliner landing templates (forceAirliner=[True/False]).
 	// - 
 
 	// TO DO
@@ -668,6 +670,10 @@ public class BushMissionGen {
 							metaEntry.maxDistanceToRunway = val;
 						}
 					}
+					if (metaField.equalsIgnoreCase("forceAirliner")) {
+						String val = metaString.trim().toLowerCase();
+						metaEntry.forceAirliner = val.equals("true") ? "True" : "";
+					}
 				} else if (split.length == WP_SPLIT_LEN) {
 					MissionEntry entry = new MissionEntry();				
 
@@ -999,7 +1005,7 @@ public class BushMissionGen {
 
 		String recept_fileXML = "##PATH_DIR##" + File.separator + "templates" + File.separator + metaEntry.missionType + "_template.xml";
 		if (metaEntry.missionType.equals("land")) {
-			if (mSimData.airliners.contains(metaEntry.plane)) {
+			if (mSimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty()) {
 				String recept_landing_airliner = "##PATH_DIR##" + File.separator + "templates" + File.separator + MetaEntry.LandingChallenge_AirlinerTemplate + ".xml";
 				String recept_landing_airliner_nogear = "##PATH_DIR##" + File.separator + "templates" + File.separator + MetaEntry.LandingChallenge_AirlinerNoGearTemplate + ".xml";
 
@@ -1007,6 +1013,10 @@ public class BushMissionGen {
 					recept_fileXML = recept_landing_airliner;
 				} else {
 					recept_fileXML = recept_landing_airliner_nogear;
+				}
+
+				if (metaEntry.maxDistanceToRunway.isEmpty()) {
+					metaEntry.maxDistanceToRunway = MetaEntry.LandingChallenge_AirlinerMaxDistanceToRunway;
 				}
 			} else {
 				String recept_landing_private = "##PATH_DIR##" + File.separator + "templates" + File.separator + MetaEntry.LandingChallenge_PrivateTemplate + ".xml";
@@ -1016,6 +1026,10 @@ public class BushMissionGen {
 					recept_fileXML = recept_landing_private;
 				} else {
 					recept_fileXML = recept_landing_private_nogear;
+				}
+
+				if (metaEntry.maxDistanceToRunway.isEmpty()) {
+					metaEntry.maxDistanceToRunway = MetaEntry.LandingChallenge_PrivateMaxDistanceToRunway;
 				}
 			}
 		}
@@ -1938,7 +1952,6 @@ public class BushMissionGen {
 					ss = ss.replace("##REF_ID_TRIGGER##", refId4);
 					ss = ss.replace("##DESCR_TRIGGER##", "ProximityTriggerPOI" + (count + 0));
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", "True");
-//					ss = ss.replace("##ACTIVATED_TRIGGER##", "True");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 					String boxSideSize = de.width;
@@ -2003,7 +2016,6 @@ public class BushMissionGen {
 					ss = ss.replace("##REF_ID_TRIGGER##", refId4);
 					ss = ss.replace("##DESCR_TRIGGER##", "ProximityTriggerPOI" + (count + 0));
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", "True");
-//					ss = ss.replace("##ACTIVATED_TRIGGER##", "True");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 					String refId5 = "FDC6F3F4-F6CF-47BA-A1CD-A4951D95A";
@@ -2102,7 +2114,6 @@ public class BushMissionGen {
 				de.triggerGUID = refId4;
 				ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 				ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateDialogsAtStart.isEmpty() ? "True" : "False");
-//				ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateDialogsAtStart.isEmpty() ? "True" : "False");
 				ss = ss.replace("##ONESHOT_TRIGGER##", de.oneShot.isEmpty() ? (metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True") : de.oneShot);
 
 				String refId5 = "9204A2ED-3C98-44C3-B7F3-2A4266485";
@@ -2301,7 +2312,6 @@ public class BushMissionGen {
 					fe.triggerGUID = refId2;
 					ss = ss.replace("##DESCR_TRIGGER##", triggerName);
 					ss = ss.replace("##DEFAULTACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
-//					ss = ss.replace("##ACTIVATED_TRIGGER##", metaEntry.deactivateFailuresAtStart.isEmpty() ? "True" : "False");
 					ss = ss.replace("##ONESHOT_TRIGGER##", metaEntry.useOneShotTriggers.isEmpty() ? "False" : "True");
 
 					String refId3 = "3B74D4C2-22B3-4405-B1FA-7CEE2AE3D";
@@ -3556,14 +3566,14 @@ public class BushMissionGen {
 
 		// Airliner bush?
 		String airlinerBushText = "";
-		if (mSimData.airliners.contains(metaEntry.plane)) {
+		if (mSimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty()) {
 			airlinerBushText = FLT_AIRLINER_BUSH;
 		}
 		FLT_FILE = FLT_FILE.replace("##META_AIRLINER_BUSH##", airlinerBushText);
 
 		// Airliner landing?
 		String airlinerLandText = "";
-		if (mSimData.airliners.contains(metaEntry.plane)) {
+		if (mSimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty()) {
 			airlinerLandText = FLT_AIRLINER_LAND;
 		}
 		FLT_FILE = FLT_FILE.replace("##META_AIRLINER_LAND##", airlinerLandText);

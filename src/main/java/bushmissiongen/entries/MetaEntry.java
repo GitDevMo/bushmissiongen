@@ -55,13 +55,17 @@ public class MetaEntry extends GenericEntry {
 	public String rightFlap = "050.00";
 	public String elevatorTrim = "050.00";
 	public String noGear = "";
-	public String maxDistanceToRunway = "10";
+	public String maxDistanceToRunway = "";
+	public String forceAirliner = "";
 
 	//public static final String LandingChallenge_DefaultFile = "Missions\\Asobo\\LandingChallenges\\default\\LandingChallenge_Private";
 	public static final String LandingChallenge_PrivateTemplate = "land_private_template";
 	public static final String LandingChallenge_PrivateNoGearTemplate = "land_private_nogear_template";
 	public static final String LandingChallenge_AirlinerTemplate = "land_airliner_template";
 	public static final String LandingChallenge_AirlinerNoGearTemplate = "land_airliner_nogear_template";
+
+	public static final String LandingChallenge_PrivateMaxDistanceToRunway = "10";
+	public static final String LandingChallenge_AirlinerMaxDistanceToRunway = "15";
 
 	public List<String> requiredFields = new ArrayList<>();
 
