@@ -18,6 +18,8 @@ public class LibraryObject {
 	public String scale = "1.000";
 	public String agl = "";
 
+	public String activated = "";
+
 	public String triggerId = "";
 	public String triggerGUID = "";
 
@@ -34,36 +36,44 @@ public class LibraryObject {
 		String[] split = mString.split("#");
 
 		// Coordinate validation
-		if (split.length != 5) {
-			return new ErrorMessage("Wrong format for libaryObject:\n\n" + mField + "=" + mString);
-		}
+		if (split.length >= 5) {
+			mdlGUID = split[0];
+			latlon = split[1];
+			altitude = split[2];
+			heading = split[3];
+			scale = split[4];
 
-		mdlGUID = split[0];
-		latlon = split[1];
-		altitude = split[2];
-		heading = split[3];
-		scale = split[4];
+			Pattern pattern1 = Pattern.compile("^\\d+(\\.\\d{3})$");
 
-		Pattern pattern1 = Pattern.compile("^\\d+(\\.\\d{3})$");
-
-		boolean res2 = pattern1.matcher(heading).find();
-		boolean res3 = pattern1.matcher(scale).find();
-		if (!res2 || !res3) {
-			return new ErrorMessage("Wrong format for libaryObject:\n\n" + mField + "=" + mString);
-		}
-
-		Pattern pattern5 = Pattern.compile("^(\\d+\\.\\d{3})([A-Z]+)?$");
-		Matcher matcher5 = pattern5.matcher(altitude);
-		if (matcher5.find()) {
-			altitude = matcher5.group(1);
-			if (matcher5.group(2) != null) {
-				String altMode = matcher5.group(2);
-				if (altMode.equals("AGL")) {
-					agl = "True";
-				} else if (altMode.equals("AMSL")) {
-					agl = "False";
-				}
+			boolean res2 = pattern1.matcher(heading).find();
+			boolean res3 = pattern1.matcher(scale).find();
+			if (!res2 || !res3) {
+				return new ErrorMessage("Wrong format for libraryObject:\n\n" + mField + "=" + mString);
 			}
+
+			Pattern pattern5 = Pattern.compile("^(\\d+\\.\\d{3})([A-Z]+)?$");
+			Matcher matcher5 = pattern5.matcher(altitude);
+			if (matcher5.find()) {
+				altitude = matcher5.group(1);
+				if (matcher5.group(2) != null) {
+					String altMode = matcher5.group(2);
+					if (altMode.equals("AGL")) {
+						agl = "True";
+					} else if (altMode.equals("AMSL")) {
+						agl = "False";
+					}
+				}
+			} else {
+				return new ErrorMessage("Wrong format for libraryObject:\n\n" + mField + "=" + mString);
+			}
+
+			if (split.length == 6) {
+				activated = split[5].trim();
+			} else if (split.length > 6) {
+				return new ErrorMessage("Wrong format for libraryObject:\n\n" + mString);
+			}
+		} else {
+			return new ErrorMessage("Wrong format for libraryObject:\n\n" + mField + "=" + mString);
 		}
 
 		// Coordinate transformation

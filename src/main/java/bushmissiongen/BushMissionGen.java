@@ -57,11 +57,10 @@ import bushmissiongen.misc.ToggleTrigger;
  * @author  f99mlu
  */
 public class BushMissionGen {
-	public static final String VERSION = "1.80";
+	public static final String VERSION = "1.81";
 
 	// NEWS
-	// - Added a field to place library objects in the world (libraryObject=mdlGUID#coordinate#altitude in feet#heading#scale).
-	// - Added a field to disable library objects at mission startup (deactivateLibObjsAtStart=[True/False]).
+	// - Added a variant of the libraryObject field with activation information (libraryObject=mdlGUID#coordinate#altitude#heading#scale#[True/False]  (in feet)).
 	// - 
 
 	// TO DO
@@ -2667,7 +2666,10 @@ public class BushMissionGen {
 				ss = ss.replace("##LLA_LIBOBJ##", lo.latlon + ",+" + lo.altitude);
 				ss = ss.replace("##SCALE_LIBOBJ##", lo.scale);
 				ss = ss.replace("##USE_AGL##", lo.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : lo.agl);
-				ss = ss.replace("##ACTIVATED_LIBOBJ##", metaEntry.deactivateLibObjsAtStart.isEmpty() ? "" : System.lineSeparator() + "		<Activated>False</Activated>");
+
+				String deactivatedXML = System.lineSeparator() + "		<Activated>False</Activated>";
+				String activated = lo.activated.isEmpty() ? (metaEntry.deactivateLibObjsAtStart.isEmpty() ? "" : deactivatedXML) : (lo.activated.equals("True") ? "" : deactivatedXML);
+				ss = ss.replace("##ACTIVATED_LIBOBJ##", activated);
 
 				// JSON
 				mGeoJSON.appendPoint(lo.latlon, "#0000ff");

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>se.hobbesapps</groupId>
 	<artifactId>bushmissiongen</artifactId>
-	<version>1.80</version>
+	<version>1.81</version>
 
 	<dependencies>
 		<dependency>
