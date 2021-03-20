@@ -1,0 +1,8 @@
+	<SceneryObjects.LibraryObject InstanceId="{##REF_ID_LIBOBJ##}">
+		<Descr>##DESCR_LIBOBJ##</Descr>
+		<WorldPosition>##LLA_LIBOBJ##</WorldPosition>
+		<Orientation>0.0000,0.0000,##HEADING_LIBOBJ##</Orientation>
+		<MDLGuid>{##MDLGUID_LIBOBJ##}</MDLGuid>
+		<AltitudeIsAGL>##USE_AGL##</AltitudeIsAGL>
+		<Scale>##SCALE_LIBOBJ##</Scale>##ACTIVATED_LIBOBJ##		
+	</SceneryObjects.LibraryObject>

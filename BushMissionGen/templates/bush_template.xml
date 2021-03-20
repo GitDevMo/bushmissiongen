@@ -2,7 +2,7 @@
 <SimBase.Document Type="MissionFile" version="1,0" id="##META_PROJECT##">
   <Title>##META_TITLE##</Title>
   <Filename>##META_PROJECT##.spb</Filename>
-  <WorldBase.Flight InstanceId="{9104F8D7-DC5B-453D-A7A4-6FE64834CF9A}">##ACTIONS####INTRODIALOG####WARNINGS##
+  <WorldBase.Flight InstanceId="{9104F8D7-DC5B-453D-A7A4-6FE64834CF9A}">##ACTIONS####INTRODIALOG####WARNINGS####LIBOBJS##
     <SimMission.MissionBushTrip InstanceId="{3A6B7600-FAF1-4840-897B-D19749B4F698}" id="Bushtrip_##META_PROJECT##">
       <Descr>##META_TITLE##</Descr>
       <Legs>

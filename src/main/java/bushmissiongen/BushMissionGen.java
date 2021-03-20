@@ -31,6 +31,7 @@ import org.jsoup.nodes.Element;
 import bushmissiongen.entries.DialogEntry;
 import bushmissiongen.entries.FailureEntry;
 import bushmissiongen.entries.FailureEntry.FailureEntryMode;
+import bushmissiongen.entries.LibraryObject;
 import bushmissiongen.entries.MetaEntry;
 import bushmissiongen.entries.MissionEntry;
 import bushmissiongen.entries.MissionEntry.WpType;
@@ -56,11 +57,11 @@ import bushmissiongen.misc.ToggleTrigger;
  * @author  f99mlu
  */
 public class BushMissionGen {
-	public static final String VERSION = "1.79";
+	public static final String VERSION = "1.80";
 
 	// NEWS
-	// - Added airliner landing template files to the project. It is used for the standard airliners.
-	// - Added an optional field to force the usage of airliner landing templates (forceAirliner=[True/False]).
+	// - Added a field to place library objects in the world (libraryObject=mdlGUID#coordinate#altitude in feet#heading#scale).
+	// - Added a field to disable library objects at mission startup (deactivateLibObjsAtStart=[True/False]).
 	// - 
 
 	// TO DO
@@ -124,6 +125,7 @@ public class BushMissionGen {
 	private static String XML_LANDEDDIALOGS;
 	private static String XML_LANDEDTRIGGER;
 	private static String XML_LEG;
+	private static String XML_LIBRARYOBJECT;
 	private static String XML_OBJECTIVE;
 	private static String XML_OBJECTACTIVATIONACTION;
 	private static String XML_PROXIMITYTRIGGER;
@@ -421,6 +423,14 @@ public class BushMissionGen {
 						}
 						metaEntry.dialogEntries.add(de);						
 					}
+					if (metaField.startsWith("libraryObject")) {
+						LibraryObject lo = new LibraryObject(metaName, metaField.trim(), metaString.trim());
+						Message msgLO = lo.handle();
+						if (msgLO != null) {
+							return msgLO;
+						}
+						metaEntry.libraryObjects.add(lo);
+					}
 					if (metaField.equalsIgnoreCase("activateTriggers") || metaField.equalsIgnoreCase("deactivateTriggers")) {
 						String[] splitTR = metaString.split("#");
 						if (splitTR!= null && splitTR.length==2) {
@@ -521,6 +531,10 @@ public class BushMissionGen {
 					if (metaField.equalsIgnoreCase("deactivateMissionFailuresAtStart")) {
 						String val = metaString.trim().toLowerCase();
 						metaEntry.deactivateMissionFailuresAtStart = val.equals("true") ? "True" : "";
+					}
+					if (metaField.equalsIgnoreCase("deactivateLibObjsAtStart")) {
+						String val = metaString.trim().toLowerCase();
+						metaEntry.deactivateLibObjsAtStart = val.equals("true") ? "True" : "";
 					}
 					if (metaField.equalsIgnoreCase("useOneShotTriggers")) {
 						String val = metaString.trim().toLowerCase();
@@ -1453,6 +1467,7 @@ public class BushMissionGen {
 		XML_LANDEDDIALOGS = mFileHandling.readUrlToString("XML/LANDEDDIALOGS.txt", Charset.forName("windows-1252"));
 		XML_LANDEDTRIGGER = mFileHandling.readUrlToString("XML/LANDEDTRIGGER.txt", Charset.forName("windows-1252"));
 		XML_LEG = mFileHandling.readUrlToString("XML/LEG.txt", Charset.forName("windows-1252"));
+		XML_LIBRARYOBJECT = mFileHandling.readUrlToString("XML/LIBRARYOBJECT.txt", Charset.forName("windows-1252"));
 		XML_OBJECTIVE = mFileHandling.readUrlToString("XML/OBJECTIVE.txt", Charset.forName("windows-1252"));
 		XML_OBJECTACTIVATIONACTION = mFileHandling.readUrlToString("XML/OBJECTACTIVATIONACTION.txt", Charset.forName("windows-1252"));
 		XML_PROXIMITYTRIGGER = mFileHandling.readUrlToString("XML/PROXIMITYTRIGGER.txt", Charset.forName("windows-1252"));
@@ -2633,6 +2648,38 @@ public class BushMissionGen {
 			}
 		}
 
+		StringBuffer sb_LIBOBJECTS = new StringBuffer();
+		if (!metaEntry.libraryObjects.isEmpty()) {
+			int count = 0;
+
+			for (LibraryObject lo : metaEntry.libraryObjects) {
+				String ss = XML_LIBRARYOBJECT;
+
+				String refId1 = "EAB4F59C-0EA6-49C0-8082-DCEC24450";
+				refId1 += String.format("%03d", count + 1);
+				ss = ss.replace("##REF_ID_LIBOBJ##", refId1);
+				String triggerName = "LibraryObject" + (count + 1);
+				lo.triggerId = triggerName;
+				lo.triggerGUID = refId1;
+				ss = ss.replace("##DESCR_LIBOBJ##",  triggerName);
+				ss = ss.replace("##HEADING_LIBOBJ##", lo.heading);
+				ss = ss.replace("##MDLGUID_LIBOBJ##", lo.mdlGUID);
+				ss = ss.replace("##LLA_LIBOBJ##", lo.latlon + ",+" + lo.altitude);
+				ss = ss.replace("##SCALE_LIBOBJ##", lo.scale);
+				ss = ss.replace("##USE_AGL##", lo.agl.isEmpty() ? (metaEntry.useAGL.isEmpty() ? "False" : "True") : lo.agl);
+				ss = ss.replace("##ACTIVATED_LIBOBJ##", metaEntry.deactivateLibObjsAtStart.isEmpty() ? "" : System.lineSeparator() + "		<Activated>False</Activated>");
+
+				// JSON
+				mGeoJSON.appendPoint(lo.latlon, "#0000ff");
+
+				sb_LIBOBJECTS.append(System.lineSeparator());
+				sb_LIBOBJECTS.append(System.lineSeparator());
+				sb_LIBOBJECTS.append(ss);
+
+				count++;
+			}
+		}
+
 		StringBuffer sb_ACTIONS = new StringBuffer();
 		StringBuffer sb_OBJECTIVES = new StringBuffer();
 		StringBuffer sb_GOALS = new StringBuffer();
@@ -3114,6 +3161,9 @@ public class BushMissionGen {
 		// To be able to manipulate the warning data
 		String text_WARNINGS = sb_WARNINGS.toString();
 
+		// To be able to manipulate the warning data
+		String text_LIBOBJECTS = sb_LIBOBJECTS.toString();
+
 		// To be able to manipulate the mission failure data
 		String text_ACTIONS = sb_ACTIONS.toString();
 
@@ -3131,6 +3181,8 @@ public class BushMissionGen {
 					text_FAILURES = text_FAILURES.replaceAll(find2, replace2);
 					text_WARNINGS = text_WARNINGS.replaceAll(find1, replace1);
 					text_WARNINGS = text_WARNINGS.replaceAll(find2, replace2);
+					text_LIBOBJECTS = text_LIBOBJECTS.replaceAll(find1, replace1);
+					text_LIBOBJECTS = text_LIBOBJECTS.replaceAll(find2, replace2);
 					text_ACTIONS = text_ACTIONS.replaceAll(find1, replace1);
 					text_ACTIONS = text_ACTIONS.replaceAll(find2, replace2);
 				}
@@ -3159,6 +3211,8 @@ public class BushMissionGen {
 					text_FAILURES = text_FAILURES.replaceAll(find2, replace2);
 					text_WARNINGS = text_WARNINGS.replaceAll(find1, replace1);
 					text_WARNINGS = text_WARNINGS.replaceAll(find2, replace2);
+					text_LIBOBJECTS = text_LIBOBJECTS.replaceAll(find1, replace1);
+					text_LIBOBJECTS = text_LIBOBJECTS.replaceAll(find2, replace2);
 					text_ACTIONS = text_ACTIONS.replaceAll(find1, replace1);
 					text_ACTIONS = text_ACTIONS.replaceAll(find2, replace2);
 				}
@@ -3187,6 +3241,8 @@ public class BushMissionGen {
 					text_FAILURES = text_FAILURES.replaceAll(find2, replace2);
 					text_WARNINGS = text_WARNINGS.replaceAll(find1, replace1);
 					text_WARNINGS = text_WARNINGS.replaceAll(find2, replace2);
+					text_LIBOBJECTS = text_LIBOBJECTS.replaceAll(find1, replace1);
+					text_LIBOBJECTS = text_LIBOBJECTS.replaceAll(find2, replace2);
 					text_ACTIONS = text_ACTIONS.replaceAll(find1, replace1);
 					text_ACTIONS = text_ACTIONS.replaceAll(find2, replace2);
 				}
@@ -3195,6 +3251,36 @@ public class BushMissionGen {
 					String find2 = "\\{" + we.mName + "_ccguid\\}";
 					String replace1 = "\"" + we.triggerId + "\"";
 					String replace2 = "{" + we.triggerGUID + "}";
+					text_COUNTERS = text_COUNTERS.replaceAll(find1, replace1);
+					text_COUNTERS = text_COUNTERS.replaceAll(find2, replace2);
+				}
+			}
+		}
+
+		// LibraryObject triggers
+		if (!metaEntry.libraryObjects.isEmpty()) {
+			for (LibraryObject lo : metaEntry.libraryObjects) {
+				if (lo.mName != null) {
+					String find1 = "\"" + lo.mName + "_id\"";
+					String find2 = "\\{" + lo.mName + "_guid\\}";
+					String replace1 = "\"" + lo.triggerId + "\"";
+					String replace2 = "{" + lo.triggerGUID + "}";
+					text_DIALOGS = text_DIALOGS.replaceAll(find1, replace1);
+					text_DIALOGS = text_DIALOGS.replaceAll(find2, replace2);
+					text_FAILURES = text_FAILURES.replaceAll(find1, replace1);
+					text_FAILURES = text_FAILURES.replaceAll(find2, replace2);
+					text_WARNINGS = text_WARNINGS.replaceAll(find1, replace1);
+					text_WARNINGS = text_WARNINGS.replaceAll(find2, replace2);
+					text_LIBOBJECTS = text_LIBOBJECTS.replaceAll(find1, replace1);
+					text_LIBOBJECTS = text_LIBOBJECTS.replaceAll(find2, replace2);
+					text_ACTIONS = text_ACTIONS.replaceAll(find1, replace1);
+					text_ACTIONS = text_ACTIONS.replaceAll(find2, replace2);
+				}
+				if (lo.mName != null) {
+					String find1 = "\"" + lo.mName + "_ccid\"";
+					String find2 = "\\{" + lo.mName + "_ccguid\\}";
+					String replace1 = "\"" + lo.triggerId + "\"";
+					String replace2 = "{" + lo.triggerGUID + "}";
 					text_COUNTERS = text_COUNTERS.replaceAll(find1, replace1);
 					text_COUNTERS = text_COUNTERS.replaceAll(find2, replace2);
 				}
@@ -3215,6 +3301,8 @@ public class BushMissionGen {
 					text_FAILURES = text_FAILURES.replaceAll(find2, replace2);
 					text_WARNINGS = text_WARNINGS.replaceAll(find1, replace1);
 					text_WARNINGS = text_WARNINGS.replaceAll(find2, replace2);
+					text_LIBOBJECTS = text_LIBOBJECTS.replaceAll(find1, replace1);
+					text_LIBOBJECTS = text_LIBOBJECTS.replaceAll(find2, replace2);
 					text_ACTIONS = text_ACTIONS.replaceAll(find1, replace1);
 					text_ACTIONS = text_ACTIONS.replaceAll(find2, replace2);
 				}
@@ -3246,6 +3334,8 @@ public class BushMissionGen {
 				text_FAILURES = text_FAILURES.replaceAll(find2, replace2);
 				text_WARNINGS = text_WARNINGS.replaceAll(find1, replace1);
 				text_WARNINGS = text_WARNINGS.replaceAll(find2, replace2);
+				text_LIBOBJECTS = text_LIBOBJECTS.replaceAll(find1, replace1);
+				text_LIBOBJECTS = text_LIBOBJECTS.replaceAll(find2, replace2);
 				text_ACTIONS = text_ACTIONS.replaceAll(find1, replace1);
 				text_ACTIONS = text_ACTIONS.replaceAll(find2, replace2);
 
@@ -3318,6 +3408,7 @@ public class BushMissionGen {
 		XML_FILE = XML_FILE.replace("##DIALOGS##", text_DIALOGS);
 		XML_FILE = XML_FILE.replace("##FAILURES##", text_FAILURES);
 		XML_FILE = XML_FILE.replace("##WARNINGS##", text_WARNINGS);
+		XML_FILE = XML_FILE.replace("##LIBOBJS##", text_LIBOBJECTS);
 		XML_FILE = XML_FILE.replace("##LANDINGACTIONS##", sb_LANDINGACTIONS);
 		XML_FILE = XML_FILE.replace("##COUNTERS##", text_COUNTERS);
 		XML_FILE = XML_FILE.replace("##DISABLE_STUFF##", sb_DISABLE_STUFF);

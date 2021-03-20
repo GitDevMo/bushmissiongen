@@ -128,6 +128,7 @@ public class MetaEntry extends GenericEntry {
 	public String deactivateWarningsAtStart = "";
 	public String deactivateFailuresAtStart = "";
 	public String deactivateMissionFailuresAtStart = "";
+	public String deactivateLibObjsAtStart = "";
 
 	public List<DelayedText> introSpeeches = new ArrayList<>();
 	public List<String> coPilots = new ArrayList<>();
@@ -136,6 +137,7 @@ public class MetaEntry extends GenericEntry {
 	public List<FailureEntry> failureEntries = new ArrayList<>();
 	public List<MissionFailureEntry> missionFailures = new ArrayList<>();
 	public Map<String, List<DelayedText>> finishedEntries = new HashMap<>();
+	public List<LibraryObject> libraryObjects = new ArrayList<>();
 
 	public Map<String, ToggleTrigger> toggleTriggers = new HashMap<>();
 	public Map<String, ToggleTrigger> counterToggleTriggers = new HashMap<>();
