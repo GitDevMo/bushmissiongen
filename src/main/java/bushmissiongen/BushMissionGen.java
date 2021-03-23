@@ -299,6 +299,25 @@ public class BushMissionGen {
 					if (metaField.equalsIgnoreCase("seconds")) {metaEntry.seconds = metaString.trim(); metaEntry.remove("seconds"); count_META++;}
 
 					// Optional
+					if (metaField.equalsIgnoreCase("navlogImageSize")) {
+						String[] splitIS = metaString.split("#");
+						boolean formatError = false;
+						if (splitIS != null && splitIS.length==2) {
+							Pattern pattern = Pattern.compile("^\\d+$");
+							boolean res1 = pattern.matcher(splitIS[0]).find();
+							boolean res2 = pattern.matcher(splitIS[1]).find();
+							if (!res1 || !res2) formatError = true;
+
+							if (!formatError) metaEntry.navlogImageSize = metaString.trim();
+
+							// Error?
+							if (formatError) {
+								return new ErrorMessage("Wrong format for navlogImageSize:\n\n" + line);
+							}
+						} else {
+							return new ErrorMessage("Wrong format for navlogImageSize:\n\n" + line);
+						}
+					}
 					if (metaField.equalsIgnoreCase("sdkPath")) {metaEntry.sdkPath = metaString.trim();}
 					if (metaField.equalsIgnoreCase("altitudeWarning")) {
 						WarningEntry we = new WarningEntry(metaName, metaField.trim(), metaString.trim(), WarningEntryMode.ALTITUDE);
@@ -1355,6 +1374,16 @@ public class BushMissionGen {
 			}
 		}
 
+		// Image sizes
+		int pngWidth = 1200;
+		int pngHeight = 800;
+		if (!metaEntry.navlogImageSize.isEmpty()) {
+			String[] split = metaEntry.navlogImageSize.split("#");
+			pngWidth = Integer.parseInt(split[0]);
+			pngHeight = Integer.parseInt(split[1]);
+		}
+
+		// Image creation
 		if (metaEntry.missionType.equals("bush")) {
 			// Create images for bush missions
 			int count_ENTRY = 0;
@@ -1372,7 +1401,7 @@ public class BushMissionGen {
 						if (msgJPG != null) {
 							return msgJPG;
 						}
-						Message msgPNG = mImageHandling.generateImage(new File(imageFile + ".png"), 1200, 800, "png", "NAVLOG - " + entry.id, Font.PLAIN, 1.0d);
+						Message msgPNG = mImageHandling.generateImage(new File(imageFile + ".png"), pngWidth, pngHeight, "png", "NAVLOG - " + entry.id, Font.PLAIN, 1.0d);
 						if (msgPNG != null) {
 							return msgPNG;
 						}
