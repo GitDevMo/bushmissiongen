@@ -61,6 +61,7 @@ public class BushMissionGen {
 
 	// NEWS
 	// - Added a variant of the libraryObject field with activation information (libraryObject=mdlGUID#coordinate#altitude#heading#scale#[True/False]  (in feet)).
+	// - Added an optional field to set the payload list of a plane (payloadList={comma-separated list}).
 	// - 
 
 	// TO DO
@@ -99,6 +100,10 @@ public class BushMissionGen {
 
 	private static String FLT_AIRLINER_BUSH;
 	private static String FLT_AIRLINER_LAND;
+	private static String FLT_CONTROLS_AIRLINER;
+	private static String FLT_PAYLOAD_BUSH;
+	private static String FLT_PAYLOAD_DEFAULT;
+	private static String FLT_PAYLOAD_AIRLINER;
 
 	private static String LOC_LANGUAGE;
 	private static String LOC_STRING;
@@ -464,6 +469,7 @@ public class BushMissionGen {
 					if (metaField.equalsIgnoreCase("simFile")) {metaEntry.simFile = metaString.trim();}
 					if (metaField.equalsIgnoreCase("fuelPercentage")) {metaEntry.fuelPercentage = metaString.trim();}
 					if (metaField.equalsIgnoreCase("parkingBrake")) {metaEntry.parkingBrake = metaString.trim();}
+					if (metaField.equalsIgnoreCase("payloadList")) {metaEntry.payloadList = metaString.trim();}
 					if (metaField.equalsIgnoreCase("tailNumber")) {metaEntry.tailNumber = metaString.trim();}
 					if (metaField.equalsIgnoreCase("airlineCallSign")) {metaEntry.airlineCallSign = metaString.trim();}
 					if (metaField.equalsIgnoreCase("flightNumber")) {metaEntry.flightNumber = metaString.trim();}
@@ -1441,6 +1447,10 @@ public class BushMissionGen {
 		// Load resource files
 		FLT_AIRLINER_BUSH = mFileHandling.readUrlToString("FLT/AIRLINER_BUSH.txt", StandardCharsets.UTF_8);
 		FLT_AIRLINER_LAND = mFileHandling.readUrlToString("FLT/AIRLINER_LAND.txt", StandardCharsets.UTF_8);
+		FLT_CONTROLS_AIRLINER = mFileHandling.readUrlToString("FLT/CONTROLS_AIRLINER.txt", StandardCharsets.UTF_8);
+		FLT_PAYLOAD_BUSH = mFileHandling.readUrlToString("FLT/PAYLOAD_BUSH.txt", StandardCharsets.UTF_8);
+		FLT_PAYLOAD_DEFAULT = mFileHandling.readUrlToString("FLT/PAYLOAD_DEFAULT.txt", StandardCharsets.UTF_8);
+		FLT_PAYLOAD_AIRLINER = mFileHandling.readUrlToString("FLT/PAYLOAD_AIRLINER.txt", StandardCharsets.UTF_8);
 
 		LOC_STRING = mFileHandling.readUrlToString("LOC/STRING.txt", StandardCharsets.UTF_8);
 		LOC_LANGUAGE = mFileHandling.readUrlToString("LOC/LANGUAGE.txt", StandardCharsets.UTF_8);
@@ -3689,10 +3699,20 @@ public class BushMissionGen {
 
 		// Airliner landing?
 		String airlinerLandText = "";
-		if (mSimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty()) {
+		String airlinerControlsText = "";
+		String payloadText = metaEntry.missionType.equals("bush") ? FLT_PAYLOAD_BUSH : FLT_PAYLOAD_DEFAULT;
+		if (metaEntry.missionType.equals("land") && (mSimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty())) {
 			airlinerLandText = FLT_AIRLINER_LAND;
+			airlinerControlsText = FLT_CONTROLS_AIRLINER;
+			payloadText = FLT_PAYLOAD_AIRLINER;
+		}
+		// Manual override if present
+		if (!metaEntry.payloadList.isEmpty()) {
+			payloadText = "PayloadList= " + metaEntry.payloadList;
 		}
 		FLT_FILE = FLT_FILE.replace("##META_AIRLINER_LAND##", airlinerLandText);
+		FLT_FILE = FLT_FILE.replace("##META_CONTROLS_AIRLINER##", airlinerControlsText);
+		FLT_FILE = FLT_FILE.replace("##META_PAYLOAD##", payloadText);
 
 		Message msg = mFileHandling.writeStringToFile(outFile, FLT_FILE, cs);
 		if (msg != null) {

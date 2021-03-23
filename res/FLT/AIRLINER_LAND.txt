@@ -36,8 +36,5 @@ AutoThrottleArm=True
 SpeedSlotIndex=1
 
 [LocalVars.0]
-A320_FCU_SHOW_SELECTED_SPEED=1
-XMLVAR_Throttle1Position=2
-XML_Airbus_Throttle1_Climb=1
-XMLVAR_Throttle2Position=2
-XML_Airbus_Throttle2_Climb=1
+BTN_TERRONND_ACTIVE=1
+BTN_TERRONND_1_ACTIVE=1

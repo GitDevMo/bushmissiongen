@@ -405,7 +405,7 @@ External 1=##META_FUELPERCENTAGE##
 External 2=##META_FUELPERCENTAGE##
 
 [Payload.0]
-PayloadList=  85.0,  85.0,   0.0,   0.0,   0.0
+##META_PAYLOAD##
 
 [Controls.0]
 LeftBrake=##META_PARKINGBRAKE##

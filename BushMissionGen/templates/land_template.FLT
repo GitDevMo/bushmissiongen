@@ -186,13 +186,14 @@ External 1=##META_FUELPERCENTAGE##
 External 2=##META_FUELPERCENTAGE##
 
 [Payload.0]
-PayloadList= 170.0, 170.0,   0.0,   0.0,   0.0,   0.0,  30.0,   0.0
+##META_PAYLOAD##
 
 [Controls.0]
 FlapsHandle=##META_FLAPSHANDLE##
 LeftFlap=##META_LEFTFLAP##
 RightFlap=##META_RIGHTFLAP##
 ElevatorTrim=##META_ELEVATORTRIM##
+##META_CONTROLS_AIRLINER##
 
 [Multiplayer]
 Status=##META_MULTIPLAYER##
