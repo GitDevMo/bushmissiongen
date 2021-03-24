@@ -2,7 +2,4 @@ SpoilersArmed=True
 AntiSkidActive=True
 
 [Systems.0]
-Autobrakes=3
-
-[Electrical.0]
-circuit.77=True,0.75
+Autobrakes=##AUTOBRAKES##

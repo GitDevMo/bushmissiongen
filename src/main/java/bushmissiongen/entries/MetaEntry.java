@@ -105,6 +105,8 @@ public class MetaEntry extends GenericEntry {
 	public String fuelPercentage = "100";
 	public String parkingBrake = "0.00";
 	public String payloadList = "";
+	public String tanksList = "";
+	public String pumpsList = "";
 	public String tailNumber = "";
 	public String airlineCallSign = "";
 	public String flightNumber = "";

@@ -1,33 +1,13 @@
 [Engine Parameters.2.0]
 ThrottleLeverPct=0.60
 
-[FuelSystem.0]
-Tank.1=0.30000001192092895508
-Tank.2=0.30000001192092895508
-Tank.3=0.30000001192092895508
-Tank.4=0.30000001192092895508
-Tank.5=0.30000001192092895508
-Pump.1=True
-Pump.2=True
-Pump.3=True
-Pump.4=True
-Pump.5=True
-Pump.6=True
-Pump.7=True
-Pump.8=True
-Pump.9=True
-Pump.10=True
-Pump.11=True
-Pump.12=True
-Pump.13=True
-Pump.14=True
-Pump.15=True
-Pump.16=True
-Pump.17=True
-Pump.18=True
-Pump.19=True
-Pump.20=True
-Pump.21=True
+[Engine Parameters.3.0]
+ThrottleLeverPct=0.60
+
+[Engine Parameters.4.0]
+ThrottleLeverPct=0.60
+
+[FuelSystem.0]##TANKS####PUMPS##
 
 [AutoPilot.0]
 AirspeedHold=True
@@ -35,6 +15,6 @@ AirspeedValue=160
 AutoThrottleArm=True
 SpeedSlotIndex=1
 
-[LocalVars.0]
+[LocalVars.0]##LOCALVARS##
 BTN_TERRONND_ACTIVE=1
 BTN_TERRONND_1_ACTIVE=1

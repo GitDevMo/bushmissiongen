@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,8 +62,10 @@ public class BushMissionGen {
 
 	// NEWS
 	// - Added a variant of the libraryObject field with activation information (libraryObject=mdlGUID#coordinate#altitude#heading#scale#[True/False]  (in feet)).
-	// - Added an optional field to set the payload list of a plane (payloadList={comma-separated list}).
-	// - 
+	// - Added an optional field to set the payload list of a plane (payloadList={list of payloads}).
+	// - Added an optional field to set the tanks list of a plane (tanksList={list of tanks}).
+	// - Added an optional field to set the fuel pumps list of a plane (pumpsList={list of fuel pump statuses}).
+	// - Added also the premium planes to the list of planes in the PLN conversion feature.
 
 	// TO DO
 	// - What is the Overview.htm file used for in landing challenges?
@@ -101,9 +104,6 @@ public class BushMissionGen {
 	private static String FLT_AIRLINER_BUSH;
 	private static String FLT_AIRLINER_LAND;
 	private static String FLT_CONTROLS_AIRLINER;
-	private static String FLT_PAYLOAD_BUSH;
-	private static String FLT_PAYLOAD_DEFAULT;
-	private static String FLT_PAYLOAD_AIRLINER;
 
 	private static String LOC_LANGUAGE;
 	private static String LOC_STRING;
@@ -488,7 +488,42 @@ public class BushMissionGen {
 					if (metaField.equalsIgnoreCase("simFile")) {metaEntry.simFile = metaString.trim();}
 					if (metaField.equalsIgnoreCase("fuelPercentage")) {metaEntry.fuelPercentage = metaString.trim();}
 					if (metaField.equalsIgnoreCase("parkingBrake")) {metaEntry.parkingBrake = metaString.trim();}
-					if (metaField.equalsIgnoreCase("payloadList")) {metaEntry.payloadList = metaString.trim();}
+					if (metaField.equalsIgnoreCase("payloadList")) {
+						String[] splitIS = metaString.split("#");
+						Pattern pattern = Pattern.compile("^\\d+(\\.\\d+)$");
+						for (String s : splitIS) {
+							boolean res = pattern.matcher(s).find();
+							
+							if (!res) {
+								return new ErrorMessage("Wrong format for " + metaField + ":\n\n" + line);
+							}
+						}
+						metaEntry.payloadList = metaString.trim();
+					}
+					if (metaField.equalsIgnoreCase("tanksList")) {
+						String[] splitIS = metaString.split("#");
+						Pattern pattern = Pattern.compile("^\\d+(\\.\\d+)$");
+						for (String s : splitIS) {
+							boolean res = pattern.matcher(s).find();
+							
+							if (!res) {
+								return new ErrorMessage("Wrong format for " + metaField + ":\n\n" + line);
+							}
+						}
+						metaEntry.tanksList = metaString.trim();
+					}
+					if (metaField.equalsIgnoreCase("pumpsList")) {
+						String[] splitIS = metaString.split("#");
+						Pattern pattern = Pattern.compile("^(True|False)$");
+						for (String s : splitIS) {
+							boolean res = pattern.matcher(s).find();
+							
+							if (!res) {
+								return new ErrorMessage("Wrong format for " + metaField + ":\n\n" + line);
+							}
+						}
+						metaEntry.pumpsList = metaString.trim();
+					}
 					if (metaField.equalsIgnoreCase("tailNumber")) {metaEntry.tailNumber = metaString.trim();}
 					if (metaField.equalsIgnoreCase("airlineCallSign")) {metaEntry.airlineCallSign = metaString.trim();}
 					if (metaField.equalsIgnoreCase("flightNumber")) {metaEntry.flightNumber = metaString.trim();}
@@ -1477,9 +1512,6 @@ public class BushMissionGen {
 		FLT_AIRLINER_BUSH = mFileHandling.readUrlToString("FLT/AIRLINER_BUSH.txt", StandardCharsets.UTF_8);
 		FLT_AIRLINER_LAND = mFileHandling.readUrlToString("FLT/AIRLINER_LAND.txt", StandardCharsets.UTF_8);
 		FLT_CONTROLS_AIRLINER = mFileHandling.readUrlToString("FLT/CONTROLS_AIRLINER.txt", StandardCharsets.UTF_8);
-		FLT_PAYLOAD_BUSH = mFileHandling.readUrlToString("FLT/PAYLOAD_BUSH.txt", StandardCharsets.UTF_8);
-		FLT_PAYLOAD_DEFAULT = mFileHandling.readUrlToString("FLT/PAYLOAD_DEFAULT.txt", StandardCharsets.UTF_8);
-		FLT_PAYLOAD_AIRLINER = mFileHandling.readUrlToString("FLT/PAYLOAD_AIRLINER.txt", StandardCharsets.UTF_8);
 
 		LOC_STRING = mFileHandling.readUrlToString("LOC/STRING.txt", StandardCharsets.UTF_8);
 		LOC_LANGUAGE = mFileHandling.readUrlToString("LOC/LANGUAGE.txt", StandardCharsets.UTF_8);
@@ -3729,16 +3761,73 @@ public class BushMissionGen {
 		// Airliner landing?
 		String airlinerLandText = "";
 		String airlinerControlsText = "";
-		String payloadText = metaEntry.missionType.equals("bush") ? FLT_PAYLOAD_BUSH : FLT_PAYLOAD_DEFAULT;
+		String payloadText = "PayloadList=  85.0,  85.0,   0.0,   0.0,   0.0";
+		String tanksList = "";
+		String pumpsList = "";
+		String localVars = "";
+		int nrOfTanks = 5;
+		int autoBrake = 3;
+		if (metaEntry.plane.contains("A320")) {
+			nrOfTanks = 5;
+			autoBrake = 3;
+			payloadText = "PayloadList= 170.0, 170.0,11115.0,3505.0,4000.0,11310.0";
+
+			localVars += "A320_FCU_SHOW_SELECTED_SPEED=1" + System.lineSeparator();
+			localVars += "XMLVAR_Throttle1Position=2" + System.lineSeparator();
+			localVars += "XML_Airbus_Throttle1_Climb=1" + System.lineSeparator();
+			localVars += "XMLVAR_Throttle2Position=2" + System.lineSeparator();
+			localVars += "XML_Airbus_Throttle2_Climb=1" + System.lineSeparator();
+		} else if (metaEntry.plane.contains("747-8")) {
+			nrOfTanks = 8;
+			autoBrake = 5;
+			payloadText = "PayloadList= 170.0, 170.0,1700.0,2500.0,2500.0,3500.0,5000.0,9000.0,12000.0,9000.0,3000.0";
+		} else if (metaEntry.plane.contains("787-10")) {
+			nrOfTanks = 5;
+			autoBrake = 5;
+			payloadText = "PayloadList= 170.0, 170.0,1700.0,2500.0,2500.0,3500.0,5000.0,9000.0,12000.0,9000.0,3000.0";
+		}
 		if (metaEntry.missionType.equals("land") && (mSimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty())) {
 			airlinerLandText = FLT_AIRLINER_LAND;
 			airlinerControlsText = FLT_CONTROLS_AIRLINER;
-			payloadText = FLT_PAYLOAD_AIRLINER;
 		}
 		// Manual override if present
 		if (!metaEntry.payloadList.isEmpty()) {
-			payloadText = "PayloadList= " + metaEntry.payloadList;
+			payloadText = "PayloadList=";
+			String[] splitPayload = metaEntry.payloadList.split("#");
+			for (int i=0; i<splitPayload.length; i++) {
+				if (i==0) {
+					payloadText += splitPayload[i];
+				} else {
+					payloadText += "," + splitPayload[i];
+				}
+			}
 		}
+		if (!metaEntry.tanksList.isEmpty()) {
+			String[] splitTanks = metaEntry.tanksList.split("#");
+			for (int i=0; i<splitTanks.length; i++) {
+				tanksList +=  System.lineSeparator() + "Tank." + (i+1) + "=" + splitTanks[i];
+			}
+		} else {
+			for (int i=0; i<nrOfTanks; i++) {
+				tanksList +=  System.lineSeparator() + "Tank." + (i+1) + "=0.30000001192092895508";
+			}
+		}
+		if (!metaEntry.pumpsList.isEmpty()) {
+			String[] splitPumps = metaEntry.pumpsList.split("#");
+			for (int i=0; i<splitPumps.length; i++) {
+				pumpsList +=  System.lineSeparator() + "Pump." + (i+1) + "=" + splitPumps[i];
+			}
+		} else {
+			for (int i=0; i<21; i++) {
+				pumpsList +=  System.lineSeparator() + "Pump." + (i+1) + "=True";
+			}
+		}
+		airlinerLandText = airlinerLandText.replace("##TANKS##", tanksList);
+		airlinerLandText = airlinerLandText.replace("##PUMPS##", pumpsList);
+		airlinerLandText = airlinerLandText.replace("##LOCALVARS##", localVars);
+		airlinerControlsText = airlinerControlsText.replace("##AUTOBRAKES##", String.valueOf(autoBrake));
+		
+		// Now add the values to the FLT file
 		FLT_FILE = FLT_FILE.replace("##META_AIRLINER_LAND##", airlinerLandText);
 		FLT_FILE = FLT_FILE.replace("##META_CONTROLS_AIRLINER##", airlinerControlsText);
 		FLT_FILE = FLT_FILE.replace("##META_PAYLOAD##", payloadText);
@@ -4496,7 +4585,9 @@ public class BushMissionGen {
 			}
 
 			// Select plane
-			Object[] planes = mSimData.planes;
+			List<Object> planesList = new ArrayList<>(Arrays.asList(mSimData.planes));
+			planesList.addAll(mSimData.encryptedOfficial);
+			Object[] planes = planesList.toArray();
 			String selectedPlane = (String)JOptionPane.showInputDialog(
 					null,
 					"Choose a plane:",
@@ -4588,7 +4679,7 @@ public class BushMissionGen {
 			sb1.append("flightNumber=").append(System.lineSeparator());
 			sb1.append("introSpeech=").append(System.lineSeparator());
 			sb1.append("simFile=runway.FLT").append(System.lineSeparator());
-			sb1.append("fuelPercentage=100").append(System.lineSeparator());
+			sb1.append("fuelPercentage=" + (missionType.equals("bush") ? "100" : "50")).append(System.lineSeparator());
 			sb1.append("parkingBrake=100.00").append(System.lineSeparator());
 			sb1.append("description=" + description).append(System.lineSeparator());
 			sb1.append("loadingTip=Generated by BushMissionGen.").append(System.lineSeparator());
@@ -4610,7 +4701,11 @@ public class BushMissionGen {
 			if (missionType.equals("land")) {
 				sb1.append("missionType=landing").append(System.lineSeparator());
 				sb1.append("challengeType=" + challengeType).append(System.lineSeparator());
-				sb1.append("velocity=100").append(System.lineSeparator());
+				if (mSimData.airliners.contains(plane)) {
+					sb1.append("velocity=270").append(System.lineSeparator());
+				} else {
+					sb1.append("velocity=100").append(System.lineSeparator());
+				}
 			} else {
 				// Check if airports are present more than once
 				List<String> airportICAOs = new ArrayList<>();
