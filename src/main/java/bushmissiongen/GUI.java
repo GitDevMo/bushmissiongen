@@ -51,6 +51,7 @@ public class GUI extends JFrame implements ActionListener {
 	private JMenuItem mNavItem1, mNavItem2, mNavItem3, mNavItem4, mNavItem5, mNavItem6;
 	private JScrollPane mScrollPane;
 	public JTextArea mTextArea;
+	private static String mLastFolder = "";
 
 	public GUI(BushMissionGen app) {
 		super("BushMissionGen v" + BushMissionGen.VERSION);
@@ -325,7 +326,16 @@ public class GUI extends JFrame implements ActionListener {
 
 	private void select() {
 		final JFileChooser fc = new JFileChooser();
-		fc.setCurrentDirectory(new File("."));
+		if (mLastFolder.isEmpty()) {
+			fc.setCurrentDirectory(new File("."));
+		} else {
+			File curDir = new File(mLastFolder);
+			if (curDir.exists()) {
+				fc.setCurrentDirectory(curDir);
+			} else {
+				fc.setCurrentDirectory(new File("."));
+			}
+		}
 		fc.setAcceptAllFileFilterUsed(false);
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fc.setFileFilter(new FileFilter() {
@@ -342,6 +352,7 @@ public class GUI extends JFrame implements ActionListener {
 
 		if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
+			mLastFolder = file.getParent();
 			selectShow(file);
 		}		
 	}
@@ -396,7 +407,16 @@ public class GUI extends JFrame implements ActionListener {
 
 	private void convert() {
 		final JFileChooser fc = new JFileChooser();
-		fc.setCurrentDirectory(new File("."));
+		if (mLastFolder.isEmpty()) {
+			fc.setCurrentDirectory(new File("."));
+		} else {
+			File curDir = new File(mLastFolder);
+			if (curDir.exists()) {
+				fc.setCurrentDirectory(curDir);
+			} else {
+				fc.setCurrentDirectory(new File("."));
+			}
+		}
 		fc.setAcceptAllFileFilterUsed(false);
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fc.setFileFilter(new FileFilter() {
@@ -413,6 +433,7 @@ public class GUI extends JFrame implements ActionListener {
 
 		if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
+			mLastFolder = file.getParent();
 			Message msg = mMyApp.convertPLN(file);
 			if (msg != null) {
 				if (msg instanceof ErrorMessage) {

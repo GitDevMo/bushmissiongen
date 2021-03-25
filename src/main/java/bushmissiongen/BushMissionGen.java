@@ -66,6 +66,7 @@ public class BushMissionGen {
 	// - Added an optional field to set the tanks list of a plane (tanksList={list of tanks}).
 	// - Added an optional field to set the fuel pumps list of a plane (pumpsList={list of fuel pump statuses}).
 	// - Added also the premium planes to the list of planes in the PLN conversion feature.
+	// - Added a field to set all fuel percentages in a list (fuelPercentageList={all eleven fuel percentages}).
 
 	// TO DO
 	// - What is the Overview.htm file used for in landing challenges?
@@ -487,6 +488,22 @@ public class BushMissionGen {
 					}
 					if (metaField.equalsIgnoreCase("simFile")) {metaEntry.simFile = metaString.trim();}
 					if (metaField.equalsIgnoreCase("fuelPercentage")) {metaEntry.fuelPercentage = metaString.trim();}
+					if (metaField.equalsIgnoreCase("fuelPercentageList")) {
+						String[] splitIS = metaString.split("#");
+						Pattern pattern = Pattern.compile("^\\d+$");
+						if (splitIS != null && splitIS.length == 11) {
+							for (String s : splitIS) {
+								boolean res = pattern.matcher(s).find();
+
+								if (!res) {
+									return new ErrorMessage("Wrong format for " + metaField + ":\n\n" + line);
+								}
+							}
+						} else {
+							return new ErrorMessage("Wrong format for " + metaField + ":\n\n" + line);
+						}
+						metaEntry.fuelPercentageList = metaString.trim();
+					}
 					if (metaField.equalsIgnoreCase("parkingBrake")) {metaEntry.parkingBrake = metaString.trim();}
 					if (metaField.equalsIgnoreCase("payloadList")) {
 						String[] splitIS = metaString.split("#");
@@ -3639,7 +3656,18 @@ public class BushMissionGen {
 		FLT_FILE = FLT_FILE.replace("##META_PLANE##", metaEntry.plane);
 
 		FLT_FILE = FLT_FILE.replace("##META_SIMFILE##", metaEntry.simFile);
-		FLT_FILE = FLT_FILE.replace("##META_FUELPERCENTAGE##", metaEntry.fuelPercentage);
+
+		if (!metaEntry.fuelPercentageList.isEmpty()) {
+			String[] splitIS = metaEntry.fuelPercentageList.split("#");
+			for (int i=0; i<11; i++) {
+				FLT_FILE = FLT_FILE.replace("##META_FUELPERCENTAGE" + (i+1) + "##", splitIS[i]);
+			}
+		} else {
+			for (int i=0; i<11; i++) {
+				FLT_FILE = FLT_FILE.replace("##META_FUELPERCENTAGE" + (i+1) + "##", metaEntry.fuelPercentage);
+			}
+		}
+
 		FLT_FILE = FLT_FILE.replace("##META_PARKINGBRAKE##", metaEntry.parkingBrake);
 		FLT_FILE = FLT_FILE.replace("##META_TAILNUMBER##", metaEntry.tailNumber);
 		FLT_FILE = FLT_FILE.replace("##META_AIRLINECALLSIGN##", metaEntry.airlineCallSign);
