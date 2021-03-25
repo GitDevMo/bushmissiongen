@@ -274,9 +274,9 @@ Description=##META_DESCR##
 type=VFR
 routetype=0
 cruising_altitude=1000
-departure_id=##START_ICAO##, ##START_LLA_SHORT##
+departure_id=##START_ICAO##, ##START_LLA##
 departure_position=
-destination_id=##STOP_ICAO##, ##STOP_LLA_SHORT##
+destination_id=##STOP_ICAO##, ##STOP_LLA##
 departure_name=##START_AP##
 destination_name=##STOP_AP##
 ##WAYPOINTS##
@@ -289,7 +289,7 @@ FrequencyNodes=0
 
 [GPS_Engine]
 Filename=##META_PROJECT##
-position=##START_LLA_SHORT##
+position=##START_LLA##
 Time=-1
 TimeWP=22020
 ArriveTime=47346

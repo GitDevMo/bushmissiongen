@@ -58,15 +58,10 @@ import bushmissiongen.misc.ToggleTrigger;
  * @author  f99mlu
  */
 public class BushMissionGen {
-	public static final String VERSION = "1.81";
+	public static final String VERSION = "1.82";
 
 	// NEWS
-	// - Added a variant of the libraryObject field with activation information (libraryObject=mdlGUID#coordinate#altitude#heading#scale#[True/False]  (in feet)).
-	// - Added an optional field to set the payload list of a plane (payloadList={list of payloads}).
-	// - Added an optional field to set the tanks list of a plane (tanksList={list of tanks}).
-	// - Added an optional field to set the fuel pumps list of a plane (pumpsList={list of fuel pump statuses}).
-	// - Added also the premium planes to the list of planes in the PLN conversion feature.
-	// - Added a field to set all fuel percentages in a list (fuelPercentageList={all eleven fuel percentages}).
+	// - 
 
 	// TO DO
 	// - What is the Overview.htm file used for in landing challenges?
@@ -3744,9 +3739,12 @@ public class BushMissionGen {
 		FLT_FILE = FLT_FILE.replace("##STOP_LLA_SHORT##", entries.get(entries.size()-1).getShortLatlon() + "," + entries.get(entries.size()-1).getShortAlt());
 
 		// [SimVars.0]
-		FLT_FILE = FLT_FILE.replace("##START_LAT##", metaEntry.getShortLat());
-		FLT_FILE = FLT_FILE.replace("##START_LON##", metaEntry.getShortLon());
-		FLT_FILE = FLT_FILE.replace("##START_ALT##", metaEntry.getShortAlt());
+		FLT_FILE = FLT_FILE.replace("##START_LAT##", metaEntry.lat);
+		FLT_FILE = FLT_FILE.replace("##START_LAT_SHORT##", metaEntry.getShortLat());
+		FLT_FILE = FLT_FILE.replace("##START_LON##", metaEntry.lon);
+		FLT_FILE = FLT_FILE.replace("##START_LON_SHORT##", metaEntry.getShortLon());
+		FLT_FILE = FLT_FILE.replace("##START_ALT##", metaEntry.alt);
+		FLT_FILE = FLT_FILE.replace("##START_ALT_SHORT##", metaEntry.getShortAlt());
 		FLT_FILE = FLT_FILE.replace("##START_PITCH##", metaEntry.pitch);
 		FLT_FILE = FLT_FILE.replace("##START_BANK##", metaEntry.bank);
 		FLT_FILE = FLT_FILE.replace("##START_HEADING##", metaEntry.heading);

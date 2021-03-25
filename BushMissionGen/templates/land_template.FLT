@@ -118,9 +118,9 @@ Description=##META_DESCR##
 type=VFR
 routetype=0
 cruising_altitude=0
-departure_id=CUST0, ##START_LLA_SHORT##
+departure_id=CUST0, ##START_LLA##
 departure_position=
-destination_id=##STOP_ICAO##, ##STOP_LLA_SHORT##
+destination_id=##STOP_ICAO##, ##STOP_LLA##
 departure_name=##START_AP##
 destination_name==##STOP_AP##
 ##WAYPOINTS##
