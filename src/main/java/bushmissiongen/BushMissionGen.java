@@ -493,7 +493,7 @@ public class BushMissionGen {
 						Pattern pattern = Pattern.compile("^\\d+(\\.\\d+)$");
 						for (String s : splitIS) {
 							boolean res = pattern.matcher(s).find();
-							
+
 							if (!res) {
 								return new ErrorMessage("Wrong format for " + metaField + ":\n\n" + line);
 							}
@@ -505,7 +505,7 @@ public class BushMissionGen {
 						Pattern pattern = Pattern.compile("^\\d+(\\.\\d+)$");
 						for (String s : splitIS) {
 							boolean res = pattern.matcher(s).find();
-							
+
 							if (!res) {
 								return new ErrorMessage("Wrong format for " + metaField + ":\n\n" + line);
 							}
@@ -517,7 +517,7 @@ public class BushMissionGen {
 						Pattern pattern = Pattern.compile("^(True|False)$");
 						for (String s : splitIS) {
 							boolean res = pattern.matcher(s).find();
-							
+
 							if (!res) {
 								return new ErrorMessage("Wrong format for " + metaField + ":\n\n" + line);
 							}
@@ -3772,11 +3772,11 @@ public class BushMissionGen {
 			autoBrake = 3;
 			payloadText = "PayloadList= 170.0, 170.0,11115.0,3505.0,4000.0,11310.0";
 
-			localVars += "A320_FCU_SHOW_SELECTED_SPEED=1" + System.lineSeparator();
-			localVars += "XMLVAR_Throttle1Position=2" + System.lineSeparator();
-			localVars += "XML_Airbus_Throttle1_Climb=1" + System.lineSeparator();
-			localVars += "XMLVAR_Throttle2Position=2" + System.lineSeparator();
-			localVars += "XML_Airbus_Throttle2_Climb=1" + System.lineSeparator();
+			localVars += System.lineSeparator() + "A320_FCU_SHOW_SELECTED_SPEED=1";
+			localVars += System.lineSeparator() + "XMLVAR_Throttle1Position=2";
+			localVars += System.lineSeparator() + "XML_Airbus_Throttle1_Climb=1";
+			localVars += System.lineSeparator() + "XMLVAR_Throttle2Position=2";
+			localVars += System.lineSeparator() + "XML_Airbus_Throttle2_Climb=1";
 		} else if (metaEntry.plane.contains("747-8")) {
 			nrOfTanks = 8;
 			autoBrake = 5;
@@ -3826,7 +3826,7 @@ public class BushMissionGen {
 		airlinerLandText = airlinerLandText.replace("##PUMPS##", pumpsList);
 		airlinerLandText = airlinerLandText.replace("##LOCALVARS##", localVars);
 		airlinerControlsText = airlinerControlsText.replace("##AUTOBRAKES##", String.valueOf(autoBrake));
-		
+
 		// Now add the values to the FLT file
 		FLT_FILE = FLT_FILE.replace("##META_AIRLINER_LAND##", airlinerLandText);
 		FLT_FILE = FLT_FILE.replace("##META_CONTROLS_AIRLINER##", airlinerControlsText);
