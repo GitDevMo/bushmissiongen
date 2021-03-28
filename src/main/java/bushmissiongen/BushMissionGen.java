@@ -63,7 +63,7 @@ public class BushMissionGen {
 
 	// NEWS
 	// - A new sub menu in the Help menu with VERY good to have documents by cptdev!
-	// - Better default values for fuel and payloads for airliners in landing challenges.
+	// - Better default values for fuel percentages and payloads for airliners.
 	// - 
 
 	// TO DO
@@ -4817,9 +4817,29 @@ public class BushMissionGen {
 				}
 
 				count_ENTRIES++;
-			}	
+			}
+
+			// Filename
+			String filename = null;
+			String filename1 = file.getName().substring(0, file.getName().length()-4);
+			String filename2 = projectName;
+			Object[] filenameList = {filename1, filename2};
+			int nFN = JOptionPane.showOptionDialog(mGUI,
+					"Which filename to use?",
+					"Filename selector",
+					JOptionPane.YES_NO_CANCEL_OPTION,
+					JOptionPane.QUESTION_MESSAGE,
+					null,
+					filenameList,
+					filenameList[0]);
+			if (nFN >= 0) {
+				filename = (String)filenameList[nFN];
+			} else {
+				filename = (String)filenameList[0];
+			}
 
 			// Save file
+			File plnPath = file.getParentFile();
 			Object[] options = {"Text file",
 			"XLSX file"};
 			int nOPT = JOptionPane.showOptionDialog(mGUI,
@@ -4831,7 +4851,7 @@ public class BushMissionGen {
 					options,
 					options[0]);
 			if (nOPT <= 0) {
-				String outFile = file.getAbsolutePath().substring(0, file.getAbsolutePath().length()-3) + "txt";
+				String outFile = plnPath + File.separator + filename + ".txt";
 				Message msg = mFileHandling.writeStringToFile(outFile, sb1, sb2WpHeader, sb2, cs);
 				if (msg != null) {
 					return msg;
@@ -4843,7 +4863,7 @@ public class BushMissionGen {
 				mGUI.showFileContents(outFile);
 				JOptionPane.showMessageDialog(mGUI, "Input file generated!\n\n" + outFile, "Convert", JOptionPane.INFORMATION_MESSAGE);
 			} else if (nOPT == 1) {
-				String outFileXLS = file.getAbsolutePath().substring(0, file.getAbsolutePath().length()-3) + "xlsx";
+				String outFileXLS = plnPath + File.separator + filename + ".xlsx";
 				Message msg = mFileHandling.writeToXLS(outFileXLS, sb1, sb3WpHeader, sb3);
 				if (msg != null) {
 					return msg;
