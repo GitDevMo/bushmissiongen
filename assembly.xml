@@ -29,5 +29,9 @@
 			<outputDirectory>BushMissionGen/templates</outputDirectory>
 			<directory>BushMissionGen/templates</directory>
 		</fileSet>
+		<fileSet>
+			<outputDirectory>BushMissionGen/extras</outputDirectory>
+			<directory>BushMissionGen/extras</directory>
+		</fileSet>
   </fileSets>
 </assembly>

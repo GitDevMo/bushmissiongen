@@ -16,7 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -46,8 +48,9 @@ public class GUI extends JFrame implements ActionListener {
 	public JTextField mInputPathField;
 	private JButton mGenerateButton, mSelectButton;
 	private JMenuItem mExitItem, mConvertItem, mHelpDocItem, mHelpPdfItem, mProjectPageItem, mCompileItem, mEditItem, mShowPlanesItem;
-	private JMenu mRecentFiles;
+	private JMenu mRecentFiles, mExtrasFiles;
 	private List<JMenuItem> mRecentFilesList = new ArrayList<>();
+	private Map<JMenuItem, File> mExtrasFilesMap = new HashMap<>();
 	private JMenuItem mNavItem1, mNavItem2, mNavItem3, mNavItem4, mNavItem5, mNavItem6;
 	private JScrollPane mScrollPane;
 	public JTextArea mTextArea;
@@ -116,6 +119,9 @@ public class GUI extends JFrame implements ActionListener {
 		mHelpPdfItem = new JMenuItem ("Show the manual (PDF)");
 		helpMenu.add (mHelpPdfItem);
 		mHelpPdfItem.addActionListener (this);
+		mExtrasFiles = new JMenu("Extras");
+		helpMenu.add (mExtrasFiles);
+		populateExtrasFiles();
 
 		menubar.add (helpMenu);
 		setJMenuBar (menubar);
@@ -190,6 +196,22 @@ public class GUI extends JFrame implements ActionListener {
 			item.addActionListener (this);
 			mRecentFiles.add(item);
 			mRecentFilesList.add(item);
+		}
+	}
+
+	private void populateExtrasFiles() {
+		// Populate recent files
+		mExtrasFiles.removeAll();
+		mExtrasFilesMap.clear();
+
+		File extrasPath = new File(System.getProperty("user.dir") + File.separator + "extras");
+		File[] extrasFiles = extrasPath.listFiles();
+
+		for (File file : extrasFiles) {
+			JMenuItem item = new JMenuItem(file.getName());
+			item.addActionListener (this);
+			mExtrasFiles.add(item);
+			mExtrasFilesMap.put(item, file);
 		}
 	}
 
@@ -318,6 +340,15 @@ public class GUI extends JFrame implements ActionListener {
 					String recentString = jmi.getText();
 					File recentFile = new File(recentString);
 					selectShow(recentFile);
+					break;
+				}
+			}
+
+			// Extras files?
+			for (JMenuItem jmi : mExtrasFilesMap.keySet()) {
+				if (e.getSource()==jmi) {
+					File extrasFile = mExtrasFilesMap.get(jmi);
+					showURL(extrasFile.toURI().toString());
 					break;
 				}
 			}

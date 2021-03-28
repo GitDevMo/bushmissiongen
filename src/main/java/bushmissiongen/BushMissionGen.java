@@ -61,6 +61,7 @@ public class BushMissionGen {
 	public static final String VERSION = "1.82";
 
 	// NEWS
+	// - A new sub menu in the Help menu with VERY good to have documents by cptdev!
 	// - 
 
 	// TO DO
@@ -3792,24 +3793,37 @@ public class BushMissionGen {
 		String pumpsList = "";
 		String localVars = "";
 		int nrOfTanks = 5;
+		int nrOfPumps = 21;
 		int autoBrake = 3;
 		if (metaEntry.plane.contains("A320")) {
 			nrOfTanks = 5;
 			autoBrake = 3;
-			payloadText = "PayloadList= 170.0, 170.0,11115.0,3505.0,4000.0,11310.0";
+			// Medium payload - 50% fuel
+			tanksList = "0#0.86#0.86#0#0";
+			payloadText = "PayloadList= 200.0, 200.0,1170.0,7500.0,13455.0,6800.0";
 
 			localVars += System.lineSeparator() + "A320_FCU_SHOW_SELECTED_SPEED=1";
 			localVars += System.lineSeparator() + "XMLVAR_Throttle1Position=2";
 			localVars += System.lineSeparator() + "XML_Airbus_Throttle1_Climb=1";
 			localVars += System.lineSeparator() + "XMLVAR_Throttle2Position=2";
 			localVars += System.lineSeparator() + "XML_Airbus_Throttle2_Climb=1";
+		} else if (metaEntry.plane.contains("A330-300")) {
+			nrOfTanks = 5;
+			autoBrake = 3;
+			// Medium payload - 25% fuel
+			tanksList = "0#0.30869764089584350586#0.30869764089584350586#1#1";
+			payloadText = "PayloadList= 200.0, 200.0,5200.0,30500.0,42100.0,18000.0";
 		} else if (metaEntry.plane.contains("747-8")) {
 			nrOfTanks = 8;
 			autoBrake = 5;
-			payloadText = "PayloadList= 170.0, 170.0,1700.0,2500.0,2500.0,3500.0,5000.0,9000.0,12000.0,9000.0,3000.0";
+			// Light payload - 42% fuel
+			tanksList = "0#1#0.33#0.33#1#1#1#1";
+			payloadText = "PayloadList= 200.0, 200.0,3120.0, 780.0,4680.0,3120.0,3510.0,20280.0,14000.0,35000.0,1950.0";
 		} else if (metaEntry.plane.contains("787-10")) {
-			nrOfTanks = 5;
-			autoBrake = 5;
+			nrOfTanks = 5; // WRONG?
+			autoBrake = 5; // WRONG?
+			// Not verifed values! Need more from cptdev!
+			tanksList = "0#0.86#0.86#0#0";
 			payloadText = "PayloadList= 170.0, 170.0,1700.0,2500.0,2500.0,3500.0,5000.0,9000.0,12000.0,9000.0,3000.0";
 		}
 		if (metaEntry.missionType.equals("land") && (mSimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty())) {
@@ -3833,6 +3847,11 @@ public class BushMissionGen {
 			for (int i=0; i<splitTanks.length; i++) {
 				tanksList +=  System.lineSeparator() + "Tank." + (i+1) + "=" + splitTanks[i];
 			}
+		} else if (!tanksList.isEmpty()) {
+			String[] splitTanks = tanksList.split("#");
+			for (int i=0; i<splitTanks.length; i++) {
+				tanksList +=  System.lineSeparator() + "Tank." + (i+1) + "=" + splitTanks[i];
+			}
 		} else {
 			for (int i=0; i<nrOfTanks; i++) {
 				tanksList +=  System.lineSeparator() + "Tank." + (i+1) + "=0.30000001192092895508";
@@ -3843,8 +3862,13 @@ public class BushMissionGen {
 			for (int i=0; i<splitPumps.length; i++) {
 				pumpsList +=  System.lineSeparator() + "Pump." + (i+1) + "=" + splitPumps[i];
 			}
+		} else if (!pumpsList.isEmpty()) {
+			String[] splitPumps = pumpsList.split("#");
+			for (int i=0; i<splitPumps.length; i++) {
+				pumpsList +=  System.lineSeparator() + "Pump." + (i+1) + "=" + splitPumps[i];
+			}
 		} else {
-			for (int i=0; i<21; i++) {
+			for (int i=0; i<nrOfPumps; i++) {
 				pumpsList +=  System.lineSeparator() + "Pump." + (i+1) + "=True";
 			}
 		}

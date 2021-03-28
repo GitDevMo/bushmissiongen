@@ -70,7 +70,7 @@ Order=255
 Active=True
 Undocked=False
 Maximized=True
-ScreenUniCoords=0, 0, 8192, 6143
+ScreenUniCoords=0, 0, 8192, 4000
 UndocCoords=0, 0, 0, 0
 CurrentCamera={BCA3FDD1-FB83-4BBA-8407-4922A7F0D00C}
 
