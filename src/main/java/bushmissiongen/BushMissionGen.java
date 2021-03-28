@@ -528,18 +528,6 @@ public class BushMissionGen {
 						}
 						metaEntry.tanksList = metaString.trim();
 					}
-					if (metaField.equalsIgnoreCase("pumpsList")) {
-						String[] splitIS = metaString.split("#");
-						Pattern pattern = Pattern.compile("^(True|False)$");
-						for (String s : splitIS) {
-							boolean res = pattern.matcher(s).find();
-
-							if (!res) {
-								return new ErrorMessage("Wrong format for " + metaField + ":\n\n" + line);
-							}
-						}
-						metaEntry.pumpsList = metaString.trim();
-					}
 					if (metaField.equalsIgnoreCase("tailNumber")) {metaEntry.tailNumber = metaString.trim();}
 					if (metaField.equalsIgnoreCase("airlineCallSign")) {metaEntry.airlineCallSign = metaString.trim();}
 					if (metaField.equalsIgnoreCase("flightNumber")) {metaEntry.flightNumber = metaString.trim();}
@@ -3792,7 +3780,7 @@ public class BushMissionGen {
 		// Airliner landing?
 		String airlinerLandText = "";
 		String airlinerControlsText = "";
-		PlaneData planeData = mSimData.getPlaneData(metaEntry.plane, metaEntry.missionType.equals("land"));
+		PlaneData planeData = mSimData.getPlaneData(metaEntry);
 		if (metaEntry.missionType.equals("land") && (mSimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty())) {
 			airlinerLandText = FLT_AIRLINER_LAND;
 			airlinerControlsText = FLT_CONTROLS_AIRLINER;
@@ -3821,7 +3809,7 @@ public class BushMissionGen {
 		String tanksText = "";
 		if (!metaEntry.tanksList.isEmpty()) {
 			String[] splitTanks = metaEntry.tanksList.split("#");
-			if (planeData.nrOfTanks != splitTanks.length) {
+			if (planeData.nrOfTanks>0 && planeData.nrOfTanks != splitTanks.length) {
 				return new ErrorMessage("Wrong number of tanks!");
 			}
 
@@ -3830,7 +3818,7 @@ public class BushMissionGen {
 			}
 		} else if (!planeData.tanksList.isEmpty()) {
 			String[] splitTanks = planeData.tanksList.split("#");
-			if (planeData.nrOfTanks != splitTanks.length) {
+			if (planeData.nrOfTanks>0 && planeData.nrOfTanks != splitTanks.length) {
 				return new ErrorMessage("Wrong number of tanks!");
 			}
 
@@ -3843,21 +3831,10 @@ public class BushMissionGen {
 			}
 		}
 		String pumpsText= "";
-		if (!metaEntry.pumpsList.isEmpty()) {
-			String[] splitPumps = metaEntry.pumpsList.split("#");
-			for (int i=0; i<splitPumps.length; i++) {
-				pumpsText +=  System.lineSeparator() + "Pump." + (i+1) + "=" + splitPumps[i];
-			}
-		} else if (!planeData.pumpsList.isEmpty()) {
-			String[] splitPumps = planeData.pumpsList.split("#");
-			for (int i=0; i<splitPumps.length; i++) {
-				pumpsText +=  System.lineSeparator() + "Pump." + (i+1) + "=" + splitPumps[i];
-			}
-		} else {
-			for (int i=0; i<planeData.nrOfPumps; i++) {
-				pumpsText +=  System.lineSeparator() + "Pump." + (i+1) + "=True";
-			}
+		for (int i=0; i<PlaneData.nrOfPumps; i++) {
+			pumpsText +=  System.lineSeparator() + "Pump." + (i+1) + "=True";
 		}
+
 		airlinerLandText = airlinerLandText.replace("##LOCALVARS##", planeData.localVars);
 		airlinerControlsText = airlinerControlsText.replace("##AUTOBRAKES##", String.valueOf(planeData.autoBrake));
 

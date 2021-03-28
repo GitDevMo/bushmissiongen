@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import bushmissiongen.BushMissionGen;
+import bushmissiongen.entries.MetaEntry;
 
 public class SimData {
 	public Object[] weatherTypes = new Object[] {
@@ -363,7 +364,10 @@ public class SimData {
 		return result;
 	}
 
-	public PlaneData getPlaneData(String plane, boolean landing) {
+	public PlaneData getPlaneData(MetaEntry metaEntry) {
+		String plane = metaEntry.plane;
+		boolean landing = metaEntry.missionType.equals("land");
+
 		PlaneData pd = new PlaneData();
 
 		if (plane.contains("A320") || plane.contains("A321") || plane.contains("A330-300")) {
@@ -390,13 +394,13 @@ public class SimData {
 			pd.autoBrake = 5;
 
 			if (landing) {
-				// Max payload - 6% fuel
-				pd.tanksList = "0#0#0#0#0#0.15#0.15#1";
+				// Max payload - 8% fuel
+				pd.tanksList = "0#0#0#0#0#0.5#0.5#1";
 				pd.payloadList = "200.0#200.0#6240.0#1560.0#9360.0#6240.0#7020.0#40560.0#24500.0#56000.0#2340.0";
 			} else {
-				// Max payload - 82% fuel
+				// Medium (light) payload - 82% fuel
 				pd.tanksList = "0.33#1#1#1#1#1#1#1";
-				pd.payloadList = "200.0#200.0#6240.0#1560.0#9360.0#6240.0#7020.0#40560.0#24500.0#56000.0#2340.0";
+				pd.payloadList = "200.0#200.0#3120.0#780.0#4680.0#3120.0#3510.0#20280.0#14000.0#35000.0#1950.0";
 			}
 		} else if (plane.contains("787-10")) {
 			pd.nrOfTanks = 3;
