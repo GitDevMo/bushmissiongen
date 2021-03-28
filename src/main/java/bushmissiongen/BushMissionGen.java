@@ -4667,12 +4667,14 @@ public class BushMissionGen {
 
 			// Title
 			String title = list.get(0).id + " to " + list.get(list.size()-1).id;
+			title = title.trim();
 
 			// Description
 			String description = title;
 			if (departureName != null && destinationName != null) {
 				description = departureName + " to " + destinationName;
 			}
+			description = description.trim();
 
 			// Create output file
 			StringBuffer sb1 = new StringBuffer();
