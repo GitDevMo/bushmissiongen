@@ -7,8 +7,6 @@ ThrottleLeverPct=0.60
 [Engine Parameters.4.0]
 ThrottleLeverPct=0.60
 
-[FuelSystem.0]##TANKS####PUMPS##
-
 [AutoPilot.0]
 AirspeedHold=True
 AirspeedValue=160

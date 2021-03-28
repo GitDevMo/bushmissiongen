@@ -247,7 +247,7 @@ public class SimData {
 		}
 		return foundPath;
 	}
-	
+
 	public String getPlanes() {
 		StringBuffer sb = new StringBuffer();		
 
@@ -361,5 +361,47 @@ public class SimData {
 			e.printStackTrace();      
 		}
 		return result;
+	}
+
+	public PlaneData getPlaneData(String plane) {
+		PlaneData pd = new PlaneData();
+
+		if (plane.contains("A320")) {
+			pd.nrOfTanks = 5;
+			pd.autoBrake = 3;
+
+			// Max payload - 25% fuel
+			pd.tanksList = "0#0.43#0.43#0#0";
+			pd.payloadList = "200.0#200.0#2340.0#7500.0#26910.0#9600.0";
+
+			pd.localVars += System.lineSeparator() + "A320_FCU_SHOW_SELECTED_SPEED=1";
+			pd.localVars += System.lineSeparator() + "XMLVAR_Throttle1Position=2";
+			pd.localVars += System.lineSeparator() + "XML_Airbus_Throttle1_Climb=1";
+			pd.localVars += System.lineSeparator() + "XMLVAR_Throttle2Position=2";
+			pd.localVars += System.lineSeparator() + "XML_Airbus_Throttle2_Climb=1";
+		} else if (plane.contains("A330-300")) {
+			pd.nrOfTanks = 5;
+			pd.autoBrake = 3;
+
+			// Max payload - 25% fuel
+			pd.tanksList = "0#0.30869764089584350586#0.30869764089584350586#1#1";
+			pd.payloadList = "200.0#200.0#5200.0#60500.0#70100.0#37000.0";
+		} else if (plane.contains("747-8")) {
+			pd.nrOfTanks = 8;
+			pd.autoBrake = 5;
+
+			// Max payload - 6% fuel
+			pd.tanksList = "0#0#0#0#0#0.15#.15#1";
+			pd.payloadList = "200.0#200.0#6240.0#1560.0#9360.0#6240.0#7020.0#40560.0#24500.0#56000.0#2340.0";
+		} else if (plane.contains("787-10")) {
+			pd.nrOfTanks = 3;
+			pd.autoBrake = 5; // WRONG?
+
+			// Not verified values!
+			pd.tanksList = "0.2496#1#1";
+			pd.payloadList = "170.0#170.0#3000.0#8000.0#15000.0#2000.0#2000.0";
+		}
+
+		return pd;
 	}
 }

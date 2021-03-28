@@ -372,7 +372,7 @@ public class GUI extends JFrame implements ActionListener {
 		fc.setFileFilter(new FileFilter() {
 			@Override
 			public boolean accept(File f) {
-				return f.isDirectory() || (!f.getName().equalsIgnoreCase("README.txt") && (f.getName().toLowerCase().endsWith(".txt") || f.getName().toLowerCase().endsWith(".xlsx")));
+				return f.isDirectory() || (!f.getName().equalsIgnoreCase("README.txt") && !f.getName().toLowerCase().endsWith(".docx") && !f.getName().toLowerCase().endsWith(".pdf") && (f.getName().toLowerCase().endsWith(".txt") || f.getName().toLowerCase().endsWith(".xlsx")));
 			}
 
 			@Override
