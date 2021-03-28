@@ -3792,7 +3792,7 @@ public class BushMissionGen {
 		// Airliner landing?
 		String airlinerLandText = "";
 		String airlinerControlsText = "";
-		PlaneData planeData = mSimData.getPlaneData(metaEntry.plane);
+		PlaneData planeData = mSimData.getPlaneData(metaEntry.plane, metaEntry.missionType.equals("land"));
 		if (metaEntry.missionType.equals("land") && (mSimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty())) {
 			airlinerLandText = FLT_AIRLINER_LAND;
 			airlinerControlsText = FLT_CONTROLS_AIRLINER;
@@ -3821,11 +3821,19 @@ public class BushMissionGen {
 		String tanksText = "";
 		if (!metaEntry.tanksList.isEmpty()) {
 			String[] splitTanks = metaEntry.tanksList.split("#");
+			if (planeData.nrOfTanks != splitTanks.length) {
+				return new ErrorMessage("Wrong number of tanks!");
+			}
+
 			for (int i=0; i<splitTanks.length; i++) {
 				tanksText +=  System.lineSeparator() + "Tank." + (i+1) + "=" + splitTanks[i];
 			}
 		} else if (!planeData.tanksList.isEmpty()) {
 			String[] splitTanks = planeData.tanksList.split("#");
+			if (planeData.nrOfTanks != splitTanks.length) {
+				return new ErrorMessage("Wrong number of tanks!");
+			}
+
 			for (int i=0; i<splitTanks.length; i++) {
 				tanksText +=  System.lineSeparator() + "Tank." + (i+1) + "=" + splitTanks[i];
 			}

@@ -1,6 +1,6 @@
 BushMissionGen by f99mlu @ 2021 - The first official mission generator for MSFS 2020!
 Requires: Java 8 or newer
-Big thanks to Lithilium for the original source files!
+Thanks to Lithilium for the original sim files. And to cptdev for the extra documents!
 
 The tool generates all the directories and files needed, including default single color images, to compile a bush or landing mission.
 The input file is one single text file or XLSX file containing waypoint names, coordinates, generic mission data, nav log texts, etc.
