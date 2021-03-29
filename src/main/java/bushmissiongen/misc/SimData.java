@@ -370,7 +370,7 @@ public class SimData {
 
 		PlaneData pd = new PlaneData();
 
-		if (plane.contains("A320") || plane.contains("A321") || plane.contains("A330-300")) {
+		if (plane.contains("A320") || plane.contains("A321")) {
 			pd.nrOfTanks = 5;
 			pd.autoBrake = 3;
 
@@ -385,17 +385,36 @@ public class SimData {
 				pd.localVars += System.lineSeparator() + "XMLVAR_Throttle2Position=2";
 				pd.localVars += System.lineSeparator() + "XML_Airbus_Throttle2_Climb=1";
 			} else {
-				// Medium payload - 87% fuel
+				// Light payload - 87% fuel
 				pd.tanksList = "0.63#1#1#1#1";
 				pd.payloadList = "200.0#200.0#1170.0#7500.0#13455.0#6800.0";
+			}
+		} else if (plane.contains("A330-300")) {
+			pd.nrOfTanks = 5;
+			pd.autoBrake = 3;
+
+			if (landing) {
+				// Max payload - 12% fuel
+				pd.tanksList = "0#0.11#0.11#1#1";
+				pd.payloadList = "200.0#200.0#5850.0#10000.0#59475.0#17000.0";
+
+				pd.localVars += System.lineSeparator() + "A320_FCU_SHOW_SELECTED_SPEED=1";
+				pd.localVars += System.lineSeparator() + "XMLVAR_Throttle1Position=2";
+				pd.localVars += System.lineSeparator() + "XML_Airbus_Throttle1_Climb=1";
+				pd.localVars += System.lineSeparator() + "XMLVAR_Throttle2Position=2";
+				pd.localVars += System.lineSeparator() + "XML_Airbus_Throttle2_Climb=1";
+			} else {
+				// Light payload - 67% fuel
+				pd.tanksList = "0#0.97#0.97#1#1";
+				pd.payloadList = "200.0#200.0#2925.0#5000.0#29835.0#8000.0";
 			}
 		} else if (plane.contains("747-8") || plane.contains("747-400")) {
 			pd.nrOfTanks = 8;
 			pd.autoBrake = 5;
 
 			if (landing) {
-				// Max payload - 8% fuel
-				pd.tanksList = "0#0#0#0#0#0.5#0.5#1";
+				// Max payload - 17% fuel
+				pd.tanksList = "0#0.42#0#0#0.42#1#1#1";
 				pd.payloadList = "200.0#200.0#6240.0#1560.0#9360.0#6240.0#7020.0#40560.0#24500.0#56000.0#2340.0";
 			} else {
 				// Medium (light) payload - 82% fuel
