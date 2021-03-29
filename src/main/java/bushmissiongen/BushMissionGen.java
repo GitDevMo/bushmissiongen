@@ -59,11 +59,9 @@ import bushmissiongen.misc.ToggleTrigger;
  * @author  f99mlu
  */
 public class BushMissionGen {
-	public static final String VERSION = "1.82";
+	public static final String VERSION = "1.83";
 
 	// NEWS
-	// - A new sub menu in the Help menu with VERY good to have documents by cptdev!
-	// - Better default values for fuel percentages and payloads for airliners.
 	// - 
 
 	// TO DO
