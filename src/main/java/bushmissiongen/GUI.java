@@ -482,7 +482,6 @@ public class GUI extends JFrame implements ActionListener {
 			try {
 				desktop.browse(new URI(url));
 			} catch (IOException | URISyntaxException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else{
@@ -490,7 +489,6 @@ public class GUI extends JFrame implements ActionListener {
 			try {
 				runtime.exec("xdg-open " + url);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

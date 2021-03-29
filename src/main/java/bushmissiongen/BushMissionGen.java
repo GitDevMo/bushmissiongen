@@ -3831,7 +3831,7 @@ public class BushMissionGen {
 			}
 		}
 		String pumpsText= "";
-		for (int i=0; i<PlaneData.nrOfPumps; i++) {
+		for (int i=0; i<PlaneData.NR_OF_PUMPS; i++) {
 			pumpsText +=  System.lineSeparator() + "Pump." + (i+1) + "=True";
 		}
 

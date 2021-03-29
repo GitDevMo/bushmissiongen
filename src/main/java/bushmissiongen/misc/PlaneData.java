@@ -5,6 +5,6 @@ public class PlaneData {
 	public String tanksList = "";
 	public String localVars = "";
 	public int nrOfTanks = -1;
-	public final static int nrOfPumps = 21;
+	public final static int NR_OF_PUMPS = 21;
 	public int autoBrake = 3;
 }
