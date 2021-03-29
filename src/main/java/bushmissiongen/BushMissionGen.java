@@ -518,7 +518,7 @@ public class BushMissionGen {
 					}
 					if (metaField.equalsIgnoreCase("tanksList")) {
 						String[] splitIS = metaString.split("#");
-						Pattern pattern = Pattern.compile("^\\d+(\\.\\d+)$");
+						Pattern pattern = Pattern.compile("^\\d+(\\.\\d+)?$");
 						for (String s : splitIS) {
 							boolean res = pattern.matcher(s).find();
 
@@ -3810,7 +3810,7 @@ public class BushMissionGen {
 		if (!metaEntry.tanksList.isEmpty()) {
 			String[] splitTanks = metaEntry.tanksList.split("#");
 			if (planeData.nrOfTanks>0 && planeData.nrOfTanks != splitTanks.length) {
-				return new ErrorMessage("Wrong number of tanks!");
+				return new ErrorMessage("Wrong number of tanks! "+ splitTanks.length + " != " + planeData.nrOfTanks);
 			}
 
 			for (int i=0; i<splitTanks.length; i++) {
@@ -3819,7 +3819,7 @@ public class BushMissionGen {
 		} else if (!planeData.tanksList.isEmpty()) {
 			String[] splitTanks = planeData.tanksList.split("#");
 			if (planeData.nrOfTanks>0 && planeData.nrOfTanks != splitTanks.length) {
-				return new ErrorMessage("Wrong number of tanks!");
+				return new ErrorMessage("Wrong number of tanks! "+ splitTanks.length + " != " + planeData.nrOfTanks);
 			}
 
 			for (int i=0; i<splitTanks.length; i++) {
