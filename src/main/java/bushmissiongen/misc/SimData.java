@@ -377,13 +377,24 @@ public class SimData {
 			if (landing) {
 				// Max payload - 25% fuel
 				pd.tanksList = "0#0.43#0.43#0#0";
-				pd.payloadList = "200.0#200.0#2340.0#7500.0#26910.0#9600.0";
+				pd.payloadList = "200.0#200.0#2340.0#7500.0#26910.0#6600.0";
 
 				pd.localVars += System.lineSeparator() + "A320_FCU_SHOW_SELECTED_SPEED=1";
 				pd.localVars += System.lineSeparator() + "XMLVAR_Throttle1Position=2";
 				pd.localVars += System.lineSeparator() + "XML_Airbus_Throttle1_Climb=1";
 				pd.localVars += System.lineSeparator() + "XMLVAR_Throttle2Position=2";
 				pd.localVars += System.lineSeparator() + "XML_Airbus_Throttle2_Climb=1";
+				pd.localVars += System.lineSeparator() + "A32NX_FWC_SKIP_STARTUP=1";
+				pd.localVars += System.lineSeparator() + "A32NX_ADIRS_PFD_ALIGNED_FIRST=1";
+				pd.localVars += System.lineSeparator() + "GPSPrimaryAcknowledged=0";
+				pd.localVars += System.lineSeparator() + "GPSPrimary=1";
+				pd.localVars += System.lineSeparator() + "A32NX_GPS_PRIMARY_LOST_MSG=0";
+				pd.localVars += System.lineSeparator() + "A32NX_ADIRS_TIMER_1=0";
+				pd.localVars += System.lineSeparator() + "A32NX_ADIRS_TIMER_2=0";
+				pd.localVars += System.lineSeparator() + "A32NX_ADIRS_TIMER_3=0";
+				pd.localVars += System.lineSeparator() + "A320_Neo_ADIRS_TIME=0";
+				pd.localVars += System.lineSeparator() + "A320_Neo_ADIRS_IN_ALIGN=0";
+				pd.localVars += System.lineSeparator() + "A32NX_ADIRS_PFD_ALIGNED_ATT=1";
 			} else {
 				// Light payload - 87% fuel
 				pd.tanksList = "0.63#1#1#1#1";
@@ -403,6 +414,17 @@ public class SimData {
 				pd.localVars += System.lineSeparator() + "XML_Airbus_Throttle1_Climb=1";
 				pd.localVars += System.lineSeparator() + "XMLVAR_Throttle2Position=2";
 				pd.localVars += System.lineSeparator() + "XML_Airbus_Throttle2_Climb=1";
+				pd.localVars += System.lineSeparator() + "A32NX_FWC_SKIP_STARTUP=1";
+				pd.localVars += System.lineSeparator() + "A32NX_ADIRS_PFD_ALIGNED_FIRST=1";
+				pd.localVars += System.lineSeparator() + "GPSPrimaryAcknowledged=0";
+				pd.localVars += System.lineSeparator() + "GPSPrimary=1";
+				pd.localVars += System.lineSeparator() + "A32NX_GPS_PRIMARY_LOST_MSG=0";
+				pd.localVars += System.lineSeparator() + "A32NX_ADIRS_TIMER_1=0";
+				pd.localVars += System.lineSeparator() + "A32NX_ADIRS_TIMER_2=0";
+				pd.localVars += System.lineSeparator() + "A32NX_ADIRS_TIMER_3=0";
+				pd.localVars += System.lineSeparator() + "A320_Neo_ADIRS_TIME=0";
+				pd.localVars += System.lineSeparator() + "A320_Neo_ADIRS_IN_ALIGN=0";
+				pd.localVars += System.lineSeparator() + "A32NX_ADIRS_PFD_ALIGNED_ATT=1";
 			} else {
 				// Light payload - 67% fuel
 				pd.tanksList = "0#0.97#0.97#1#1";
