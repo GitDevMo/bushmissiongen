@@ -15,6 +15,8 @@ import bushmissiongen.BushMissionGen;
 import bushmissiongen.entries.MetaEntry;
 
 public class SimData {
+	public static final String THIRD_PARTY_PLANE = "Third party vehicle";
+
 	public static String[] weatherTypes = new String[] {
 			"custom - use the Weather.WPR file",
 			"live - Everything is configured inside the game",

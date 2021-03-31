@@ -4634,6 +4634,16 @@ public class BushMissionGen {
 				String descriptionValue = description.trim();
 
 				String planeValue = values.get("plane");
+				if (planeValue.equals(SimData.THIRD_PARTY_PLANE)) {
+					while (true) {
+						planeValue = JOptionPane.showInputDialog(null, "Write the correct name of the plane.", "3rd party vehicle", JOptionPane.INFORMATION_MESSAGE);
+
+						// Must be non-empty string
+						if (!planeValue.trim().isEmpty()) {
+							break;
+						}
+					}
+				}
 
 				String weatherValue = values.get("weather");
 				int sep = weatherValue.indexOf(" - ");
@@ -4661,7 +4671,11 @@ public class BushMissionGen {
 				if (missionType.equals("bush")) {
 					sb1.append("simFile=runway.FLT").append(System.lineSeparator());
 				} else {
-					sb1.append("simFile=approach.FLT").append(System.lineSeparator());
+					if (list.size()>0 && list.get(0).type.equals(WpType.AIRPORT)) {
+						sb1.append("simFile=runway.FLT").append(System.lineSeparator());
+					} else {
+						sb1.append("simFile=approach.FLT").append(System.lineSeparator());
+					}
 				}
 				if (!SimData.airliners.contains(planeValue)) {
 					sb1.append("fuelPercentage=" + (missionType.equals("bush") ? "100" : "50")).append(System.lineSeparator());

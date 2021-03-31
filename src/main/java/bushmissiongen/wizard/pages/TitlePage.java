@@ -123,6 +123,7 @@ public class TitlePage extends AbstractWizardPage {
 		c.anchor=GridBagConstraints.EAST;
 		List<String> planesList = new ArrayList<>(Arrays.asList(SimData.planes));
 		planesList.addAll(SimData.encryptedOfficial);
+		planesList.add(SimData.THIRD_PARTY_PLANE);
 		planeCombo = new JComboBox<String>(planesList.toArray(String[]::new));
 		planeCombo.setSize(planeCombo.getPreferredSize());
 		add(planeCombo, c);
