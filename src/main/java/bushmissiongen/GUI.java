@@ -37,6 +37,7 @@ import javax.swing.filechooser.FileFilter;
 
 import bushmissiongen.messages.ErrorMessage;
 import bushmissiongen.messages.Message;
+import bushmissiongen.misc.SimData;
 
 public class GUI extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -230,7 +231,7 @@ public class GUI extends JFrame implements ActionListener {
 			WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
 			Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
 		} else if (e.getSource()==mShowPlanesItem) {
-			String planesText = mMyApp.mSimData.getPlanes();
+			String planesText = SimData.getPlanes();
 			mTextArea.setText(planesText);
 			mTextArea.setCaretPosition(0);
 		} else if (e.getSource()==mConvertItem) {

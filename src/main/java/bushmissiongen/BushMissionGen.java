@@ -11,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -52,6 +51,10 @@ import bushmissiongen.misc.Localization;
 import bushmissiongen.misc.PlaneData;
 import bushmissiongen.misc.SimData;
 import bushmissiongen.misc.ToggleTrigger;
+import bushmissiongen.wizard.AbstractWizardPage;
+import bushmissiongen.wizard.JFrameWizard;
+import bushmissiongen.wizard.WizardController;
+import bushmissiongen.wizard.pages.TitlePage;
 
 /**
  * BushMissionGen
@@ -62,12 +65,13 @@ public class BushMissionGen {
 	public static final String VERSION = "1.83";
 
 	// NEWS
-	// - 
+	// - PLN conversion wizard.
 
 	// TO DO
 	// - What is the Overview.htm file used for in landing challenges?
 	// - Leaderboards for landing challenges? Possible for 3rd party missions?
 	// - Is there the possibility of setting the flight departure at the parking area instead of on the runway (leg 2-X)?
+	// - Add 2 columns in the spreadsheet. One for an image name, the other for the image size, for each POI.
 
 	private static final int META_REQUIRED_ITEMS = 20;
 	private static final int META_SPLIT_LEN = 2;
@@ -96,7 +100,6 @@ public class BushMissionGen {
 	public FileHandling mFileHandling = new FileHandling();
 	public ImageHandling mImageHandling = new ImageHandling();
 	public Settings mSettings = new Settings();
-	public SimData mSimData = new SimData();
 
 	private static String FLT_AIRLINER_LAND;
 	private static String FLT_CONTROLS_AIRLINER;
@@ -140,7 +143,7 @@ public class BushMissionGen {
 		mArgs = args;
 		mGUI = new GUI(this);
 
-		String[] simPaths = mSimData.getPaths();
+		String[] simPaths = SimData.getPaths();
 		if (simPaths != null) {
 			COMMUNITY_DIR = simPaths[0];
 			OFFICIAL_DIR = simPaths[1];
@@ -695,7 +698,7 @@ public class BushMissionGen {
 						}
 
 						if (!system.isEmpty()) {
-							boolean wasFound = mSimData.systemsList.contains(system);
+							boolean wasFound = SimData.systemsList.contains(system);
 
 							if (wasFound) {
 								FailureEntry fe = new FailureEntry(metaName, "Failure", value.trim(), system, subIndex, exit, feMode);
@@ -1080,7 +1083,7 @@ public class BushMissionGen {
 
 		String recept_fileXML = "##PATH_DIR##" + File.separator + "templates" + File.separator + metaEntry.missionType + "_template.xml";
 		if (metaEntry.missionType.equals("land")) {
-			if (mSimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty()) {
+			if (SimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty()) {
 				String recept_landing_airliner = "##PATH_DIR##" + File.separator + "templates" + File.separator + MetaEntry.LandingChallenge_AirlinerTemplate + ".xml";
 				String recept_landing_airliner_nogear = "##PATH_DIR##" + File.separator + "templates" + File.separator + MetaEntry.LandingChallenge_AirlinerNoGearTemplate + ".xml";
 
@@ -1515,7 +1518,7 @@ public class BushMissionGen {
 		FLT_CONTROLS_AIRLINER = mFileHandling.readUrlToString("FLT/CONTROLS_AIRLINER.txt", StandardCharsets.UTF_8);
 		FLT_FUELSYSTEM = mFileHandling.readUrlToString("FLT/FUELSYSTEM.txt", StandardCharsets.UTF_8);
 		FLT_FUEL = mFileHandling.readUrlToString("FLT/FUEL.txt", StandardCharsets.UTF_8);
-		
+
 		LOC_STRING = mFileHandling.readUrlToString("LOC/STRING.txt", StandardCharsets.UTF_8);
 		LOC_LANGUAGE = mFileHandling.readUrlToString("LOC/LANGUAGE.txt", StandardCharsets.UTF_8);
 
@@ -3642,8 +3645,8 @@ public class BushMissionGen {
 		FLT_FILE = FLT_FILE.replace("##META_PLANE##", metaEntry.plane);
 
 		FLT_FILE = FLT_FILE.replace("##META_SIMFILE##", metaEntry.simFile);
-		
-		if (mSimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty()) {
+
+		if (SimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty()) {
 			FLT_FILE = FLT_FILE.replace("##META_FUEL##", FLT_FUELSYSTEM);
 		} else {
 			FLT_FILE = FLT_FILE.replace("##META_FUEL##", FLT_FUEL);
@@ -3706,7 +3709,7 @@ public class BushMissionGen {
 
 		for (FailureEntry fe : metaEntry.failureEntries) {
 			if (fe.currentMode == FailureEntryMode.ARM) {
-				String failureCode = mSimData.systemToFailureCodeMap.get(fe.system);
+				String failureCode = SimData.systemToFailureCodeMap.get(fe.system);
 
 				if (failureCode != null) {
 					String failure = failureTemplate.replace("##FAILURE_COUNT##", String.valueOf(count_FAILURES++));
@@ -3778,8 +3781,8 @@ public class BushMissionGen {
 		// Airliner landing?
 		String airlinerLandText = "";
 		String airlinerControlsText = "";
-		PlaneData planeData = mSimData.getPlaneData(metaEntry);
-		if (metaEntry.missionType.equals("land") && (mSimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty())) {
+		PlaneData planeData = SimData.getPlaneData(metaEntry);
+		if (metaEntry.missionType.equals("land") && (SimData.airliners.contains(metaEntry.plane) || !metaEntry.forceAirliner.isEmpty())) {
 			airlinerLandText = FLT_AIRLINER_LAND;
 			airlinerControlsText = FLT_CONTROLS_AIRLINER;
 		}
@@ -4394,7 +4397,7 @@ public class BushMissionGen {
 
 		// MissonType
 		String missionType = null;
-		Object[] missionTypeList = mSimData.missionTypeList;
+		Object[] missionTypeList = SimData.missionTypeList;
 		int nMT = JOptionPane.showOptionDialog(mGUI,
 				"Which type of mission to create?",
 				"Mission type selector",
@@ -4412,7 +4415,7 @@ public class BushMissionGen {
 		// ChallengeType
 		String challengeType = null;
 		if (missionType.equals("land")) {
-			Object[] challengeTypeList = mSimData.challengeTypeList;
+			Object[] challengeTypeList = SimData.challengeTypeList;
 			int nCT = JOptionPane.showOptionDialog(mGUI,
 					"Which type of challenge to create?",
 					"Challenge type selector",
@@ -4574,308 +4577,277 @@ public class BushMissionGen {
 				list.add(wpEntry);
 			}
 
-			String projectName = null;
-			String defaultProjectName = "unknown-" + missionType + "-generated";
-			while (true) {
-				projectName = JOptionPane.showInputDialog(null, "Leave empty for \"unknown-" + missionType + "-generated\"", "Enter a project name", JOptionPane.INFORMATION_MESSAGE);
-				if (projectName == null || projectName.isEmpty()) {
-					projectName = defaultProjectName;
+			Map<String, String> defaultValues = new HashMap<>();
+			if (headingSet) {
+				defaultValues.put("heading", metaEntry.heading);
+			}
+			JFrameWizard wizard = new JFrameWizard(mGUI, "PLN conversion wizard");
+			AbstractWizardPage wizardStartPage = new TitlePage(defaultValues);
+			WizardController wizardController = new WizardController(wizard);
+			wizardController.startWizard(wizardStartPage);
+			wizard.setVisible(true);
+
+			if (wizard.finishedPressed) {
+				Map<String, String> values = new HashMap<>();
+				for (AbstractWizardPage awp : wizardController.getPageHistoryList()) {
+					values.putAll(awp.getValues());
 				}
 
-				// Fulfill FS2020 package name validation
-				Pattern pattern = Pattern.compile("^[a-z0-9]+-[a-z0-9-]+$");
-				Matcher matcher = pattern.matcher(projectName);
-				if (!matcher.find()) {
-					JOptionPane.showMessageDialog(null,
-							"Project names must be in the form 'aaa-bbb-...-xxx'\nand only contain lower case letters or digits.",
-							"Project name error",
-							JOptionPane.ERROR_MESSAGE);
-				} else {
-					break;
+				String authorValue = values.get("author");
+				if (authorValue.isEmpty()) {
+					authorValue = "unknown";
 				}
-			}
 
-			// Select plane
-			List<Object> planesList = new ArrayList<>(Arrays.asList(mSimData.planes));
-			planesList.addAll(mSimData.encryptedOfficial);
-			Object[] planes = planesList.toArray();
-			String selectedPlane = (String)JOptionPane.showInputDialog(
-					null,
-					"Choose a plane:",
-					"Conversion",
-					JOptionPane.INFORMATION_MESSAGE,
-					null,
-					planes,
-					planes[0]);
+				String titleValue = values.get("title");
+				if (titleValue.isEmpty()) {
+					titleValue = list.get(0).id + " to " + list.get(list.size()-1).id;
+				}
 
-			String plane = (String)planes[0];
-			if (selectedPlane != null && selectedPlane.length() > 0) {
-				plane = selectedPlane;
-			}
+				String projectValue = values.get("project");
+				if (projectValue.isEmpty()) {
+					projectValue = "unknown-" + missionType + "-generated";
+				}
 
-			// Select weather
-			Object[] weatherTypes = mSimData.weatherTypes;
-			String selectedWeather = (String)JOptionPane.showInputDialog(
-					null,
-					"Choose a weather profile:",
-					"Conversion",
-					JOptionPane.INFORMATION_MESSAGE,
-					null,
-					weatherTypes,
-					weatherTypes[0]);
-
-			String weatherType = (String)weatherTypes[0];
-			if (selectedWeather != null && selectedWeather.length() > 0) {
-				weatherType = selectedWeather;
-			}
-			int sep = weatherType.indexOf(" - ");
-			if (sep>=0) {
-				weatherType = weatherType.substring(0, sep);
-			}
-
-			if (!headingSet) {
-				String headingValue = null;
-				String defaultHeading = "0";
-				while (true) {
-					headingValue = JOptionPane.showInputDialog(null, "Leave empty for 0 degrees.", "Enter a start heading", JOptionPane.INFORMATION_MESSAGE);
-					if (headingValue == null || headingValue.isEmpty()) {
-						headingValue = defaultHeading;
+				String locationValue = values.get("location");
+				if (locationValue.isEmpty()) {
+					String location = "World";
+					if (departureName != null && destinationName != null) {
+						location = departureName + " to " + destinationName;
 					}
+					locationValue = location;
+				}
 
-					// Must be a number
-					Pattern pattern = Pattern.compile("^[\\d]+$");
-					Matcher matcher = pattern.matcher(headingValue);
-					if (!matcher.find()) {
-						JOptionPane.showMessageDialog(null,
-								"Headings must only consist of digits.",
-								"Heading value error",
-								JOptionPane.ERROR_MESSAGE);
+				String headingValue = values.get("heading");
+				if (headingValue.isEmpty()) {
+					headingValue = "0";
+				}
+
+				String introValue = values.get("intro");
+				if (introValue.isEmpty()) {
+					introValue = "Welcome!";
+				}
+
+				String description = titleValue;
+				if (departureName != null && destinationName != null) {
+					description = departureName + " to " + destinationName;
+				}
+				String descriptionValue = description.trim();
+
+				String planeValue = values.get("plane");
+
+				String weatherValue = values.get("weather");
+				int sep = weatherValue.indexOf(" - ");
+				if (sep>=0) {
+					weatherValue = weatherValue.substring(0, sep);
+				}
+
+				// Create output file
+				StringBuffer sb1 = new StringBuffer();
+
+				sb1.append("# Input file for BushMissonGen").append(System.lineSeparator());
+				sb1.append("#").append(System.lineSeparator());
+				sb1.append("# Auto-generated in v").append(VERSION).append(System.lineSeparator());
+				sb1.append(System.lineSeparator());
+				sb1.append("author=unknown").append(System.lineSeparator());
+				sb1.append("title=" + titleValue).append(System.lineSeparator());
+				sb1.append("project=" + projectValue).append(System.lineSeparator());
+				sb1.append("version=1.0.0").append(System.lineSeparator());
+				sb1.append("location=" + locationValue).append(System.lineSeparator());
+				sb1.append("plane=" + planeValue).append(System.lineSeparator());
+				sb1.append("tailNumber=").append(System.lineSeparator());
+				sb1.append("airlineCallSign=").append(System.lineSeparator());
+				sb1.append("flightNumber=").append(System.lineSeparator());
+				sb1.append("introSpeech=").append(System.lineSeparator());
+				if (missionType.equals("bush")) {
+					sb1.append("simFile=runway.FLT").append(System.lineSeparator());
+				} else {
+					sb1.append("simFile=approach.FLT").append(System.lineSeparator());
+				}
+				if (!SimData.airliners.contains(planeValue)) {
+					sb1.append("fuelPercentage=" + (missionType.equals("bush") ? "100" : "50")).append(System.lineSeparator());
+				}
+				sb1.append("parkingBrake=100.00").append(System.lineSeparator());
+				sb1.append("description=" + descriptionValue).append(System.lineSeparator());
+				sb1.append("loadingTip=Generated by BushMissionGen.").append(System.lineSeparator());
+				sb1.append("intro=" + introValue).append(System.lineSeparator());
+				sb1.append("latitude=" + metaEntry.lat).append(System.lineSeparator());
+				sb1.append("longitude=" + metaEntry.lon).append(System.lineSeparator());
+				sb1.append("altitude=" + metaEntry.alt).append(System.lineSeparator());
+				sb1.append("pitch=0").append(System.lineSeparator());
+				sb1.append("bank=0").append(System.lineSeparator());
+				sb1.append("heading=" + metaEntry.heading).append(System.lineSeparator());
+				sb1.append("weather=" + weatherValue).append(System.lineSeparator());
+				sb1.append("season=Summer").append(System.lineSeparator());
+				sb1.append("year=2018").append(System.lineSeparator());
+				sb1.append("day=167").append(System.lineSeparator());
+				sb1.append("hours=9").append(System.lineSeparator());
+				sb1.append("minutes=35").append(System.lineSeparator());
+				sb1.append("seconds=0").append(System.lineSeparator());
+
+				if (missionType.equals("land")) {
+					sb1.append("missionType=landing").append(System.lineSeparator());
+					sb1.append("challengeType=" + challengeType).append(System.lineSeparator());
+					if (SimData.airliners.contains(planeValue)) {
+						sb1.append("velocity=270").append(System.lineSeparator());
 					} else {
-						break;
+						sb1.append("velocity=100").append(System.lineSeparator());
+					}
+				} else {
+					// Check if airports are present more than once
+					List<String> airportICAOs = new ArrayList<>();
+					for (MissionEntry me : list) {
+						if (me.type.equals(WpType.AIRPORT)) {
+							airportICAOs.add(me.id);
+						}
+					}
+					Set<String> checkSet = new HashSet<>();
+					checkSet.addAll(airportICAOs);
+					if (airportICAOs.size() != checkSet.size()) {
+						sb1.append("requireEnginesOff=True").append(System.lineSeparator());
 					}
 				}
-				metaEntry.heading = headingValue;				
-			}
 
-			// Location
-			String location = "World";
-			if (departureName != null && destinationName != null) {
-				location = departureName + " to " + destinationName;
-			}
+				sb1.append(System.lineSeparator());
 
-			// Title
-			String title = list.get(0).id + " to " + list.get(list.size()-1).id;
-			title = title.trim();
+				StringBuffer sb2WpHeader = new StringBuffer();
+				StringBuffer sb3WpHeader = new StringBuffer();
 
-			// Description
-			String description = title;
-			if (departureName != null && destinationName != null) {
-				description = departureName + " to " + destinationName;
-			}
-			description = description.trim();
-
-			// Create output file
-			StringBuffer sb1 = new StringBuffer();
-
-			sb1.append("# Input file for BushMissonGen").append(System.lineSeparator());
-			sb1.append("#").append(System.lineSeparator());
-			sb1.append("# Auto-generated in v").append(VERSION).append(System.lineSeparator());
-			sb1.append(System.lineSeparator());
-			sb1.append("author=unknown").append(System.lineSeparator());
-			sb1.append("title=" + title).append(System.lineSeparator());
-			sb1.append("project=" + projectName).append(System.lineSeparator());
-			sb1.append("version=1.0.0").append(System.lineSeparator());
-			sb1.append("location=" + location).append(System.lineSeparator());
-			sb1.append("plane=" + plane).append(System.lineSeparator());
-			sb1.append("tailNumber=").append(System.lineSeparator());
-			sb1.append("airlineCallSign=").append(System.lineSeparator());
-			sb1.append("flightNumber=").append(System.lineSeparator());
-			sb1.append("introSpeech=").append(System.lineSeparator());
-			sb1.append("simFile=runway.FLT").append(System.lineSeparator());
-			if (!mSimData.airliners.contains(plane)) {
-				sb1.append("fuelPercentage=" + (missionType.equals("bush") ? "100" : "50")).append(System.lineSeparator());
-			}
-			sb1.append("parkingBrake=100.00").append(System.lineSeparator());
-			sb1.append("description=" + description).append(System.lineSeparator());
-			sb1.append("loadingTip=Generated by BushMissionGen.").append(System.lineSeparator());
-			sb1.append("intro=Welcome!").append(System.lineSeparator());
-			sb1.append("latitude=" + metaEntry.lat).append(System.lineSeparator());
-			sb1.append("longitude=" + metaEntry.lon).append(System.lineSeparator());
-			sb1.append("altitude=" + metaEntry.alt).append(System.lineSeparator());
-			sb1.append("pitch=0").append(System.lineSeparator());
-			sb1.append("bank=0").append(System.lineSeparator());
-			sb1.append("heading=" + metaEntry.heading).append(System.lineSeparator());
-			sb1.append("weather=" + weatherType).append(System.lineSeparator());
-			sb1.append("season=Summer").append(System.lineSeparator());
-			sb1.append("year=2018").append(System.lineSeparator());
-			sb1.append("day=167").append(System.lineSeparator());
-			sb1.append("hours=9").append(System.lineSeparator());
-			sb1.append("minutes=35").append(System.lineSeparator());
-			sb1.append("seconds=0").append(System.lineSeparator());
-
-			if (missionType.equals("land")) {
-				sb1.append("missionType=landing").append(System.lineSeparator());
-				sb1.append("challengeType=" + challengeType).append(System.lineSeparator());
-				if (mSimData.airliners.contains(plane)) {
-					sb1.append("velocity=270").append(System.lineSeparator());
+				if (missionType.equals("bush")) {
+					sb2WpHeader.append("#icao rw    name        type            LL                   alt             WpInfo                legtext               sublegtext").append(System.lineSeparator());
+					sb3WpHeader.append("#icao|runway|name|type|latitude,longitude|altitude|estimated knots|actual knots|height in meters|actual time enroute|estimated time of arrival|fuel remaining when arrived|estimate of fuel required for the leg|actual fuel used for the leg|leg text|subleg text");
 				} else {
-					sb1.append("velocity=100").append(System.lineSeparator());
+					sb2WpHeader.append("#icao rw    name        type            LL                   alt").append(System.lineSeparator());
+					sb3WpHeader.append("#icao|runway|name|type|latitude,longitude|altitude");
 				}
-			} else {
-				// Check if airports are present more than once
-				List<String> airportICAOs = new ArrayList<>();
+
+				StringBuffer sb2 = new StringBuffer();
+				List<String[]> sb3 = new ArrayList<String[]>();
+				int count_ENTRIES = 0;
+				int count_SUBLEG = 0;
 				for (MissionEntry me : list) {
-					if (me.type.equals(WpType.AIRPORT)) {
-						airportICAOs.add(me.id);
+					String v1 = me.type.equals(WpType.AIRPORT) ? me.id : "";
+					sb2.append(v1).append("|");
+
+					String v2 = me.runway;
+					sb2.append(v2).append("|");
+
+					String v3 = me.name;
+					sb2.append(v3).append("|");
+
+					String v4 = me.type.equals(WpType.USER) ? "U" : "A";
+					sb2.append(v4).append("|");
+
+					String v5 = me.latlon;
+					sb2.append(v5).append("|");
+
+					String v6 = me.alt;
+					String v7 = "126, 0, 304, 0, 0, 0.0, 0.0, 0.0";
+
+					String v8 = "";
+					String v9 = "-";
+
+					// Counts
+					if (!me.type.equals(WpType.AIRPORT)) {
+						count_SUBLEG++;
 					}
-				}
-				Set<String> checkSet = new HashSet<>();
-				checkSet.addAll(airportICAOs);
-				if (airportICAOs.size() != checkSet.size()) {
-					sb1.append("requireEnginesOff=True").append(System.lineSeparator());
-				}
-			}
 
-			sb1.append(System.lineSeparator());
-
-			StringBuffer sb2WpHeader = new StringBuffer();
-			StringBuffer sb3WpHeader = new StringBuffer();
-
-			if (missionType.equals("bush")) {
-				sb2WpHeader.append("#icao rw    name        type            LL                   alt             WpInfo                legtext               sublegtext").append(System.lineSeparator());
-				sb3WpHeader.append("#icao|runway|name|type|latitude,longitude|altitude|estimated knots|actual knots|height in meters|actual time enroute|estimated time of arrival|fuel remaining when arrived|estimate of fuel required for the leg|actual fuel used for the leg|leg text|subleg text");
-			} else {
-				sb2WpHeader.append("#icao rw    name        type            LL                   alt").append(System.lineSeparator());
-				sb3WpHeader.append("#icao|runway|name|type|latitude,longitude|altitude");
-			}
-
-			StringBuffer sb2 = new StringBuffer();
-			List<String[]> sb3 = new ArrayList<String[]>();
-			int count_ENTRIES = 0;
-			int count_SUBLEG = 0;
-			for (MissionEntry me : list) {
-				String v1 = me.type.equals(WpType.AIRPORT) ? me.id : "";
-				sb2.append(v1).append("|");
-
-				String v2 = me.runway;
-				sb2.append(v2).append("|");
-
-				String v3 = me.name;
-				sb2.append(v3).append("|");
-
-				String v4 = me.type.equals(WpType.USER) ? "U" : "A";
-				sb2.append(v4).append("|");
-
-				String v5 = me.latlon;
-				sb2.append(v5).append("|");
-
-				String v6 = me.alt;
-				String v7 = "126, 0, 304, 0, 0, 0.0, 0.0, 0.0";
-
-				String v8 = "";
-				String v9 = "-";
-
-				// Counts
-				if (!me.type.equals(WpType.AIRPORT)) {
-					count_SUBLEG++;
-				}
-
-				// Row 1 is special
-				if (count_ENTRIES == 0 && me.type.equals(WpType.AIRPORT)) {
-					v8 = "Flying from " + me.id;
-				}
-				// Mid part
-				else if (count_ENTRIES > 0 && count_ENTRIES < list.size()-1) {
-					if (me.type.equals(WpType.AIRPORT)) {
+					// Row 1 is special
+					if (count_ENTRIES == 0 && me.type.equals(WpType.AIRPORT)) {
 						v8 = "Flying from " + me.id;
-						v9 = "How to get to airport " + me.id + " and nice info about it.";
-					} else {
-						v9 = "How to fly to POI" + multiCount(count_SUBLEG, 0) + " and some facts about it.";
 					}
+					// Mid part
+					else if (count_ENTRIES > 0 && count_ENTRIES < list.size()-1) {
+						if (me.type.equals(WpType.AIRPORT)) {
+							v8 = "Flying from " + me.id;
+							v9 = "How to get to airport " + me.id + " and nice info about it.";
+						} else {
+							v9 = "How to fly to POI" + multiCount(count_SUBLEG, 0) + " and some facts about it.";
+						}
+					}
+
+					// Last row
+					else if (count_ENTRIES == list.size()-1 && me.type.equals(WpType.AIRPORT)) {
+						v9 = "How to get to airport " + me.id + " and nice info about it.";
+					}
+
+					if (missionType.equals("bush")) {
+						sb2.append(v6).append("|");
+						sb2.append(v7).append("|");
+						sb2.append(v8).append("|");
+						sb2.append(v9);
+					} else {
+						sb2.append(v6);
+					}
+
+					sb2.append(System.lineSeparator());
+
+					if (missionType.equals("bush")) {
+						sb3.add(new String[] {v1,v2,v3,v4,v5,v6,v7,v8,v9});
+					} else {
+						sb3.add(new String[] {v1,v2,v3,v4,v5,v6});
+					}
+
+					count_ENTRIES++;
 				}
 
-				// Last row
-				else if (count_ENTRIES == list.size()-1 && me.type.equals(WpType.AIRPORT)) {
-					v9 = "How to get to airport " + me.id + " and nice info about it.";
-				}
-
-				if (missionType.equals("bush")) {
-					sb2.append(v6).append("|");
-					sb2.append(v7).append("|");
-					sb2.append(v8).append("|");
-					sb2.append(v9);
+				// Filename
+				String filename = null;
+				String filename1 = file.getName().substring(0, file.getName().length()-4);
+				String filename2 = projectValue;
+				Object[] filenameList = {filename1, filename2};
+				int nFN = JOptionPane.showOptionDialog(mGUI,
+						"Which filename to use?",
+						"Filename selector",
+						JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.QUESTION_MESSAGE,
+						null,
+						filenameList,
+						filenameList[0]);
+				if (nFN >= 0) {
+					filename = (String)filenameList[nFN];
 				} else {
-					sb2.append(v6);
+					filename = (String)filenameList[0];
 				}
 
-				sb2.append(System.lineSeparator());
-
-				if (missionType.equals("bush")) {
-					sb3.add(new String[] {v1,v2,v3,v4,v5,v6,v7,v8,v9});
-				} else {
-					sb3.add(new String[] {v1,v2,v3,v4,v5,v6});
+				// Save file
+				File plnPath = file.getParentFile();
+				Object[] options = {"Text file",
+				"XLSX file"};
+				int nOPT = JOptionPane.showOptionDialog(mGUI,
+						"Which output format?",
+						"Save converted PLN data",
+						JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.QUESTION_MESSAGE,
+						null,
+						options,
+						options[0]);
+				if (nOPT <= 0) {
+					String outFile = plnPath + File.separator + filename + ".txt";
+					Message msg = mFileHandling.writeStringToFile(outFile, sb1, sb2WpHeader, sb2, cs);
+					if (msg != null) {
+						return msg;
+					}
+					mGUI.mInputPathField.setText(outFile);
+					mPOIs = null;
+					mSounds = null;
+					mCopiedSounds = null;
+					mGUI.showFileContents(outFile);
+					JOptionPane.showMessageDialog(mGUI, "Input file generated!\n\n" + outFile, "Convert", JOptionPane.INFORMATION_MESSAGE);
+				} else if (nOPT == 1) {
+					String outFileXLS = plnPath + File.separator + filename + ".xlsx";
+					Message msg = mFileHandling.writeToXLS(outFileXLS, sb1, sb3WpHeader, sb3);
+					if (msg != null) {
+						return msg;
+					}
+					mGUI.mInputPathField.setText(outFileXLS);
+					mPOIs = null;
+					mSounds = null;
+					mCopiedSounds = null;
+					String contents = String.join(System.lineSeparator(), mFileHandling.readFromXLS(outFileXLS));
+					mGUI.mTextArea.setText(contents);
+					mGUI.mTextArea.setCaretPosition(0);
+					JOptionPane.showMessageDialog(mGUI, "Input file generated!\n\n" + outFileXLS, "Convert", JOptionPane.INFORMATION_MESSAGE);
 				}
-
-				count_ENTRIES++;
-			}
-
-			// Filename
-			String filename = null;
-			String filename1 = file.getName().substring(0, file.getName().length()-4);
-			String filename2 = projectName;
-			Object[] filenameList = {filename1, filename2};
-			int nFN = JOptionPane.showOptionDialog(mGUI,
-					"Which filename to use?",
-					"Filename selector",
-					JOptionPane.YES_NO_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE,
-					null,
-					filenameList,
-					filenameList[0]);
-			if (nFN >= 0) {
-				filename = (String)filenameList[nFN];
-			} else {
-				filename = (String)filenameList[0];
-			}
-
-			// Save file
-			File plnPath = file.getParentFile();
-			Object[] options = {"Text file",
-			"XLSX file"};
-			int nOPT = JOptionPane.showOptionDialog(mGUI,
-					"Which output format?",
-					"Save converted PLN data",
-					JOptionPane.YES_NO_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE,
-					null,
-					options,
-					options[0]);
-			if (nOPT <= 0) {
-				String outFile = plnPath + File.separator + filename + ".txt";
-				Message msg = mFileHandling.writeStringToFile(outFile, sb1, sb2WpHeader, sb2, cs);
-				if (msg != null) {
-					return msg;
-				}
-				mGUI.mInputPathField.setText(outFile);
-				mPOIs = null;
-				mSounds = null;
-				mCopiedSounds = null;
-				mGUI.showFileContents(outFile);
-				JOptionPane.showMessageDialog(mGUI, "Input file generated!\n\n" + outFile, "Convert", JOptionPane.INFORMATION_MESSAGE);
-			} else if (nOPT == 1) {
-				String outFileXLS = plnPath + File.separator + filename + ".xlsx";
-				Message msg = mFileHandling.writeToXLS(outFileXLS, sb1, sb3WpHeader, sb3);
-				if (msg != null) {
-					return msg;
-				}
-				mGUI.mInputPathField.setText(outFileXLS);
-				mPOIs = null;
-				mSounds = null;
-				mCopiedSounds = null;
-				String contents = String.join(System.lineSeparator(), mFileHandling.readFromXLS(outFileXLS));
-				mGUI.mTextArea.setText(contents);
-				mGUI.mTextArea.setCaretPosition(0);
-				JOptionPane.showMessageDialog(mGUI, "Input file generated!\n\n" + outFileXLS, "Convert", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 		return null;

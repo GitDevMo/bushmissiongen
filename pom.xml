@@ -79,7 +79,7 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
-							<outputFile>BushMissionGen/BushMissionGen.jar</outputFile> 
+							<outputFile>BushMissionGen/BushMissionGen.jar</outputFile>
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<transformers>
 								<transformer
@@ -106,7 +106,7 @@
 							<descriptors>
 								<descriptor>assembly.xml</descriptor>
 							</descriptors>
-							 <finalName>BushMissionGenV${project.version}</finalName>
+							<finalName>BushMissionGenV${project.version}</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 						</configuration>
 					</execution>
