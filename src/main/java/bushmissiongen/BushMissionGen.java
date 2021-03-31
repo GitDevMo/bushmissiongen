@@ -77,7 +77,9 @@ public class BushMissionGen {
 	private static final int META_SPLIT_LEN = 2;
 
 	public static final int WP_SPLIT_LEN = 9;
+	public static final int WP_INCL_IMAGE_SPLIT_LEN = 11;
 	public static final int WP_EXTRA_SPLIT_LEN = 16;
+	public static final int WP_EXTRA_INCL_IMAGE_SPLIT_LEN = 18;
 	public static final int WP_LANDING_LEN = 6;
 	public static final int WP_LOCALIZATION_LEN = 5;
 
@@ -168,7 +170,8 @@ public class BushMissionGen {
 
 	public Message generate(String recept_file, int mode) {
 		// Pre-check!
-		int[] lengthArray = new int[] {WP_SPLIT_LEN, WP_EXTRA_SPLIT_LEN, WP_LANDING_LEN, WP_LOCALIZATION_LEN};
+		int[] lengthArray = new int[] {WP_SPLIT_LEN, WP_INCL_IMAGE_SPLIT_LEN, WP_EXTRA_SPLIT_LEN,
+				WP_EXTRA_INCL_IMAGE_SPLIT_LEN, WP_LANDING_LEN, WP_LOCALIZATION_LEN};
 		Set<Integer> lengthSet = new HashSet<>();
 		for (int length : lengthArray) {
 			if (lengthSet.add(length) == false) {
@@ -752,7 +755,7 @@ public class BushMissionGen {
 						String val = metaString.trim().toLowerCase();
 						metaEntry.forceAirliner = val.equals("true") ? "True" : "";
 					}
-				} else if (split.length == WP_SPLIT_LEN) {
+				} else if (split.length == WP_SPLIT_LEN || split.length == WP_INCL_IMAGE_SPLIT_LEN) {
 					MissionEntry entry = new MissionEntry();				
 
 					entry.id = split[0].trim();
@@ -808,8 +811,17 @@ public class BushMissionGen {
 					}
 
 					entry.wpInfo = split[6].trim();
-					entry.legText = split[7].trim();
-					entry.subLegText = split[8].trim();
+
+					// Handle the variant with image information too
+					if (split.length == WP_SPLIT_LEN) {
+						entry.legText = split[7].trim();
+						entry.subLegText = split[8].trim();
+					} else {
+						entry.navlogImage = split[7].trim();
+						entry.navlogImageSize = split[8].trim();
+						entry.legText = split[9].trim();
+						entry.subLegText = split[10].trim();
+					}
 
 					// Replace bad chars in legText and subLegText
 					entry.legText = entry.legText.replace("–", "-");
@@ -831,7 +843,7 @@ public class BushMissionGen {
 					entry.subLegText = entry.subLegText.replace("\n", "<br>");
 
 					entries.add(entry);
-				} else if (split.length == WP_EXTRA_SPLIT_LEN) {
+				} else if (split.length == WP_EXTRA_SPLIT_LEN || split.length == WP_EXTRA_INCL_IMAGE_SPLIT_LEN) {
 					MissionEntry entry = new MissionEntry();				
 
 					entry.id = split[0].trim();
@@ -898,8 +910,16 @@ public class BushMissionGen {
 						if (i<13)  entry.wpInfo += ", ";
 					}
 
-					entry.legText = split[14].trim();
-					entry.subLegText = split[15].trim();
+					// Handle the variant with image information too
+					if (split.length == WP_EXTRA_SPLIT_LEN) {
+						entry.legText = split[14].trim();
+						entry.subLegText = split[15].trim();
+					} else {
+						entry.navlogImage = split[14].trim();
+						entry.navlogImageSize = split[15].trim();
+						entry.legText = split[16].trim();
+						entry.subLegText = split[17].trim();
+					}
 
 					// Replace bad chars in legText and subLegText
 					entry.legText = entry.legText.replace("–", "-");
@@ -1447,6 +1467,23 @@ public class BushMissionGen {
 						}
 					}
 					count_ENTRY++;
+				} else {
+					if (!entry.navlogImage.isEmpty()) {
+						if (!entry.navlogImageSize.isEmpty()) {
+							Pattern pattern = Pattern.compile("^(\\d+)x(\\d+)$");
+							Matcher matcher = pattern.matcher(entry.navlogImageSize);
+							if (matcher.find()) {
+								pngWidth = Integer.parseInt(matcher.group(1));
+								pngHeight = Integer.parseInt(matcher.group(2));
+							}
+						}
+
+						String imageFile = imagesPath + File.separator + entry.navlogImage;
+						Message msgPNG = mImageHandling.generateImage(new File(imageFile + ".png"), pngWidth, pngHeight, "png", entry.id, Font.PLAIN, 1.0d);
+						if (msgPNG != null) {
+							return msgPNG;
+						}
+					}
 				}
 			}
 		} else {
@@ -1976,13 +2013,19 @@ public class BushMissionGen {
 				String ss = XML_SUBLEG;
 				ss = ss.replace("##SUBLEG_DESCR##", entry.subLegTextID);
 
-				// Add subleg image if an image exists!
-				String imageName = "POI" + multiCount(++count_POI, 0);
-				if (new File(imagesPath + File.separator + imageName + ".png").exists()) {
+				String imageName = "";
+				if (!entry.navlogImage.isEmpty()) {
+					imageName = entry.navlogImage;
 					ss = ss.replace("##IMAGEPATH##", XML_IMAGEPATH.replace("##AIRPORT_ID##", imageName));
-					mPOIs++;
 				} else {
-					ss = ss.replace("##IMAGEPATH##", "");
+					// Add subleg image if an image exists!
+					imageName = "POI" + multiCount(++count_POI, 0);
+					if (new File(imagesPath + File.separator + imageName + ".png").exists()) {
+						ss = ss.replace("##IMAGEPATH##", XML_IMAGEPATH.replace("##AIRPORT_ID##", imageName));
+						mPOIs++;
+					} else {
+						ss = ss.replace("##IMAGEPATH##", "");
+					}
 				}
 
 				ss = ss.replace("##FROM_ID##", lastEntry.id);

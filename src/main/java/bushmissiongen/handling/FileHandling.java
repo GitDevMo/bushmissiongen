@@ -37,7 +37,7 @@ import bushmissiongen.messages.Message;
 
 public class FileHandling {
 	public FileHandling() {}
-	
+
 	public List<String> readFromXLS(String recept_file) {
 		List<String> list = new ArrayList<>();
 		try {
@@ -53,15 +53,16 @@ public class FileHandling {
 
 			boolean foundMeta = false;
 			boolean foundWps = false;
-			boolean foundLoc = false;
 			boolean landing = false;
+
+			// Initial column count. Changes dynamically when waypoints or localizations are found.
+			int lastColumn = landing ? BushMissionGen.WP_LANDING_LEN : BushMissionGen.WP_EXTRA_SPLIT_LEN;
 
 			for (int rowNum = rowStart; rowNum < rowEnd; rowNum++) {
 				Row r = firstSheet.getRow(rowNum);
 				if (r==null) {
 					continue;
 				}
-				int lastColumn = foundLoc ? BushMissionGen.WP_LOCALIZATION_LEN : (landing ? BushMissionGen.WP_LANDING_LEN : BushMissionGen.WP_EXTRA_SPLIT_LEN);
 				StringBuffer sb = new StringBuffer();
 
 				boolean firstCell = true;
@@ -83,12 +84,12 @@ public class FileHandling {
 						}
 
 						if (foundMeta && foundWps && cell.getStringCellValue().trim().equalsIgnoreCase("meta")) {
-							foundLoc = true;
 							lastColumn = BushMissionGen.WP_LOCALIZATION_LEN;
 						}
 
 						if (foundMeta && !foundWps && cell.getStringCellValue().trim().length()>0 && cell.getStringCellValue().contains("#icao")) {
 							foundWps = true;
+							lastColumn = getWpColumnsCount(firstSheet, rowNum);
 						}
 
 						if (!foundMeta && !foundWps && cell.getStringCellValue().contains("=")) {
@@ -114,6 +115,22 @@ public class FileHandling {
 		}
 
 		return list;
+	}
+
+	private int getWpColumnsCount(Sheet firstSheet, int rowNum) {
+		Row r = firstSheet.getRow(rowNum);
+		if (r==null) {
+			return 0;
+		}
+
+		int cn = 0;
+		while (true) {
+			Cell cell = r.getCell(cn, MissingCellPolicy.RETURN_BLANK_AS_NULL);
+			if (cell == null) {
+				return cn;
+			}
+			cn++;
+		}
 	}
 
 	public Message writeToXLS(String filename, StringBuffer sb1, StringBuffer sb3WpHeader, List<String[]> listWps) {
@@ -197,7 +214,7 @@ public class FileHandling {
 
 		return null;
 	}
-	
+
 	public String readUrlToString(String url, Charset cs) {
 		ClassLoader loader = BushMissionGen.class.getClassLoader();
 		InputStream in = loader.getResourceAsStream(url);
@@ -257,7 +274,7 @@ public class FileHandling {
 
 		return null;
 	}
-	
+
 	public boolean copyDirectoryRecursively(String source, String destination) {
 		Path sourceDir = Paths.get(source);
 		Path destinationDir = Paths.get(destination);

@@ -24,6 +24,9 @@ public class MissionEntry extends GenericEntry {
 	public String legText = "";
 	public String subLegText = "";
 
+	public String navlogImage = "";
+	public String navlogImageSize = "";
+
 	public String uniqueId = "";
 
 	public List<Localization> localizations = new ArrayList<Localization>();
